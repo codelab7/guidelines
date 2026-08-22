@@ -10,7 +10,7 @@ The full rules. These are written for AI assistants to follow, not as a tutorial
 |----------|---------|
 | [GENERAL_GUIDELINE.md](GENERAL_GUIDELINE.md) | Global agent behaviour: communication style, planning, handling ambiguity, error correction. |
 | [PHP_LARAVEL_GUIDELINE.md](PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP: the layer responsibilities, plus an index of which `laravel/` folder file owns each rule. |
-| [REACT_GUIDELINE.md](REACT_GUIDELINE.md) | React + TypeScript rules: folder layout, components, forms, Inertia integration. |
+| [REACT_GUIDELINE.md](REACT_GUIDELINE.md) | React + TypeScript: the component roles, plus an index of which `react/` and `laravel-react/` folder file owns each rule. |
 
 The general guideline is the base spec. The framework guidelines build on it, so an agent always follows the general one plus the framework one matching the code it is editing.
 
@@ -43,9 +43,9 @@ To pull a shared document into a file, use an import line instead of copying the
 
 ## Status
 
-The `laravel/` template is complete: every folder file is written, and `PHP_LARAVEL_GUIDELINE.md`
-is now an index pointing at them. Open questions are tracked as a checklist at the bottom of
-[laravel/README.md](laravel/README.md).
+All three templates are complete: every folder file is written, and both
+`PHP_LARAVEL_GUIDELINE.md` and `REACT_GUIDELINE.md` are now indexes pointing at them.
 
-`react/` and `laravel-react/` are still blank folder trees. Fill them in as the conventions for
-each folder settle, then shrink `REACT_GUIDELINE.md` the same way.
+Open questions are tracked as a checklist at the bottom of each template's `README.md`:
+[laravel/](laravel/README.md), [react/](react/README.md), and
+[laravel-react/](laravel-react/README.md).
