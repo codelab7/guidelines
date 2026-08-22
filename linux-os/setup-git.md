@@ -197,3 +197,14 @@ Reload:
 ```bash
 source ~/.zshrc
 ```
+
+---
+
+## What you have now
+
+- Git installed and configured with your identity
+- An SSH key connected to GitHub
+- The GitHub CLI, logged in
+- Short aliases for pull requests and issues
+
+Next, follow [setup-docker.md](setup-docker.md) to install Docker and Docker Compose.

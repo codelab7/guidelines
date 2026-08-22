@@ -26,6 +26,8 @@ Step-by-step guides for setting up a Linux development machine, in [`linux-os/`]
 |-------|----------------|
 | [setup-zsh.md](linux-os/setup-zsh.md) | Base tools, Zsh, Oh My Zsh, Powerlevel10k, plugins, and aliases. |
 | [setup-git.md](linux-os/setup-git.md) | Git identity, SSH keys for GitHub, and the GitHub CLI. |
+| [setup-docker.md](linux-os/setup-docker.md) | Docker engine and Docker Compose, plus running Docker without `sudo`. |
+| [setup-node.md](linux-os/setup-node.md) | Node.js LTS and pnpm. |
 | [connect-server-ssh.md](linux-os/connect-server-ssh.md) | Connecting to a remote server by password or SSH key, plus file transfer. |
 
 ## Adding a Guideline
