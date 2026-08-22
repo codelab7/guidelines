@@ -1,165 +1,195 @@
-# Git
+# Setting up Git
 
-## 1️⃣ Install Git (engine room)
-Most Ubuntu installs already have it, but let’s be sure.
+A step-by-step guide to install Git, connect it to GitHub over SSH, and set up the GitHub CLI on Ubuntu or Debian.
 
-```sql
+---
+
+## 1. Install Git
+
+Most Ubuntu installs already have Git, but make sure:
+
+```bash
 sudo apt update
 sudo apt install git -y
 ```
 
 Verify:
 
-```haskell
+```bash
 git --version
 ```
 
-* * *
-## 2️⃣ Configure Git identity (mandatory)
-This name + email go into every commit.
+---
 
-```verilog
+## 2. Configure your Git identity
+
+This is mandatory. The name and email go into every commit.
+
+```bash
 git config --global user.name "Your Name"
 git config --global user.email "your@email.com"
 ```
 
 Check:
 
-```verilog
+```bash
 git config --global --list
 ```
 
-* * *
-## 3️⃣ Set better Git defaults (recommended)
+---
 
-```verilog
+## 3. Set better defaults
+
+Recommended:
+
+```bash
 git config --global init.defaultBranch main
 git config --global pull.rebase false
 git config --global core.editor nano
 git config --global color.ui auto
 ```
 
-* * *
-## 4️⃣ Generate SSH key (secure GitHub access 🔐)
-### Create key
+---
 
-```perl
+## 4. Generate an SSH key
+
+Create the key:
+
+```bash
 ssh-keygen -t ed25519 -C "your@email.com"
 ```
 
-Just press **Enter** for all questions.
-* * *
-### Start SSH agent
+Press **Enter** for every question to accept the defaults.
 
-```javascript
+Start the SSH agent and add the key:
+
+```bash
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ```
 
-* * *
-### Copy public key
+Print the public key:
 
-```javascript
+```bash
 cat ~/.ssh/id_ed25519.pub
 ```
 
 Copy the full output.
-* * *
-## 5️⃣ Add SSH key to GitHub
-1. Go to **GitHub → Settings**
-2. **SSH and GPG keys**
-3. **New SSH key**
+
+---
+
+## 5. Add the SSH key to GitHub
+
+1. Go to **GitHub > Settings**
+2. Open **SSH and GPG keys**
+3. Click **New SSH key**
 4. Paste the key
 5. Save
-* * *
-### Test connection
 
-```css
+Test the connection:
+
+```bash
 ssh -T git@github.com
 ```
 
-Expected:
+You should see:
 
-```erlang
+```text
 Hi username! You've successfully authenticated.
 ```
 
-* * *
-## 6️⃣ Install GitHub CLI (`gh`) 🧠
-This makes GitHub feel local.
+---
 
-```plain
+## 6. Install the GitHub CLI
+
+The `gh` command lets you work with GitHub from the terminal.
+
+```bash
 sudo apt install gh -y
 ```
 
 Verify:
 
-```haskell
+```bash
 gh --version
 ```
 
-* * *
-## 7️⃣ Login GitHub via CLI (very important)
+---
 
-```plain
+## 7. Log in to GitHub
+
+```bash
 gh auth login
 ```
 
 Choose:
-*   [GitHub.com](http://GitHub.com)
-*   HTTPS or SSH → **SSH**
-*   Authenticate via browser → **Yes**
-Once done:
 
-```plain
+- GitHub.com
+- HTTPS or SSH: **SSH**
+- Authenticate via browser: **Yes**
+
+When it finishes, check the status:
+
+```bash
 gh auth status
 ```
 
-* * *
-## 8️⃣ Integrate Git + GitHub (real workflow)
-### Clone repo
+---
+
+## 8. Everyday workflow
+
+Clone a repo:
 
 ```bash
 gh repo clone owner/repo
 ```
 
-### Create repo from local folder
+Create a repo from a local folder:
 
-```perl
+```bash
 gh repo create my-project --private --source=. --push
 ```
 
-### Create branch
+Create a branch:
 
-```css
+```bash
 git checkout -b feature/login
 ```
 
-### Commit
+Commit:
 
-```sql
+```bash
 git add .
 git commit -m "Add login UI"
 ```
 
-### Push
+Push:
 
-```perl
+```bash
 git push -u origin feature/login
 ```
 
-### Create PR (no browser needed 😎)
+Create a pull request, no browser needed:
 
-```sql
+```bash
 gh pr create
 ```
 
-* * *
-## 9️⃣ Add productivity aliases (GitHub-aware)
-Add to `~/.zshrc`:
+---
 
-```verilog
-# GitHub CLIalias pr="gh pr create"alias prs="gh pr list"alias prc="gh pr checkout"alias issue="gh issue create"alias issues="gh issue list"
+## 9. Add aliases
+
+Add this block to `~/.zshrc`:
+
+```bash
+# =========================
+# GitHub CLI aliases
+# =========================
+alias pr="gh pr create"
+alias prs="gh pr list"
+alias prc="gh pr checkout"
+alias issue="gh issue create"
+alias issues="gh issue list"
 ```
 
 Reload:

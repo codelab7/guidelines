@@ -1,13 +1,21 @@
-# Setting up zsh
+# Setting up Zsh
 
-## 0️⃣ Update system (always first)
+A step-by-step guide to set up Zsh with Oh My Zsh on Ubuntu or Debian.
+
+---
+
+## 1. Update the system
+
+Always do this first.
 
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 
-* * *
-## 1️⃣ Install **mandatory base tools** 🔧
+---
+
+## 2. Install the base tools
+
 These are required for almost everything else.
 
 ```bash
@@ -24,151 +32,187 @@ sudo apt install -y \
   build-essential
 ```
 
-#### What these give you
-*   **curl / wget** → download installers & scripts
-*   **git** → version control
-*   **ca-certificates** → HTTPS downloads won’t fail
-*   **gnupg** → verify packages
-*   **lsb-release** → OS detection
-*   **build-essential** → compile native modules
-*   **zip/unzip** → archives
-* * *
-#### 2️⃣ Verify installations (quick check)
+What these give you:
 
-```haskell
+- **curl / wget** - download installers and scripts
+- **git** - version control
+- **ca-certificates** - HTTPS downloads will not fail
+- **gnupg** - verify packages
+- **lsb-release** - OS detection
+- **build-essential** - compile native modules
+- **zip / unzip** - archives
+
+---
+
+## 3. Verify the install
+
+```bash
 curl --version
 git --version
 wget --version
 ```
 
-If these print versions, you’re good ✅
-* * *
-## 3️⃣ Install Zsh (shell)
+If these print versions, you are good.
 
-```plain
+---
+
+## 4. Install Zsh
+
+```bash
 sudo apt install zsh -y
 ```
 
 Verify:
 
-```haskell
+```bash
 zsh --version
 ```
 
-Make it default:
+Make it your default shell:
 
 ```bash
 chsh -s $(which zsh)
 ```
 
-➡️ Log out & log back in.
-* * *
-### 4️⃣ Prevent Zsh welcome screen (important)
+Now log out and log back in.
 
-```plain
+---
+
+## 5. Create the Zsh config file
+
+```bash
 touch ~/.zshrc
 ```
 
-This avoids the new-user prompt you saw earlier.
-* * *
-## 5️⃣ Install Oh My Zsh 🚀
-Now that `curl` exists:
+This stops the new-user setup prompt from showing.
+
+---
+
+## 6. Install Oh My Zsh
+
+`curl` is already installed, so run:
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-Terminal will restart automatically.
-* * *
-#### 6️⃣ Recommended fonts (avoid broken theme symbols)
+The terminal restarts automatically.
 
-```plain
+---
+
+## 7. Install Powerline fonts
+
+These stop theme symbols from showing as broken boxes.
+
+```bash
 sudo apt install fonts-powerline -y
 ```
 
-Then:
-**Terminal → Preferences → Text → Font**
-Choose a Powerline font.
-### 1️⃣ Powerlevel10k (the best Zsh prompt)
-Install theme
+Then open **Terminal > Preferences > Text > Font** and choose a Powerline font.
+
+---
+
+## 8. Install the Powerlevel10k theme
+
+Powerlevel10k is the recommended Zsh prompt.
+
+Install it:
 
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
-Enable it
+Open the config file:
 
-```plain
+```bash
 nano ~/.zshrc
 ```
 
-Change:
+Change this line:
 
 ```bash
 ZSH_THEME="robbyrussell"
 ```
 
-To:
+To this:
 
 ```bash
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
 
-Apply:
+Apply the change:
 
 ```bash
 source ~/.zshrc
 ```
 
-👉 You’ll see a **configuration wizard**.
-Recommended answers for devs:
-*   Prompt style: **Lean**
-*   Icons: **Yes**
-*   Show time: **No**
-*   Git status: **Yes**
-*   Transient prompt: **Yes**
-If icons look broken:
+A configuration wizard opens. Recommended answers for developers:
 
-```plain
-sudo apt install fonts-powerline -y
-```
+- Prompt style: **Lean**
+- Icons: **Yes**
+- Show time: **No**
+- Git status: **Yes**
+- Transient prompt: **Yes**
 
-Then change terminal font to a Powerline font.
-Re-run wizard anytime:
+You can run the wizard again at any time:
 
-```plain
+```bash
 p10k configure
 ```
 
-* * *
-## 7️⃣ (Optional) but highly recommended dev tools 🧠
-Install these when ready:
+---
+
+## 9. Install plugins
+
+Install autosuggestions and syntax highlighting:
 
 ```bash
-sudo apt install -y \
-  htop \
-  tree \
-  neovim \
-  net-tools \
-  jq \
-  ripgrep
+git clone https://github.com/zsh-users/zsh-autosuggestions \
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-### What you have now 🧰
-✔ Secure downloads
-✔ Git ready
-✔ Zsh + Oh My Zsh
-✔ Fonts fixed
-✔ Developer-friendly CLI
-Your terminal is no longer bare metal. It’s a tuned engine ⚙️
-After Installing zsh
+Then open `~/.zshrc` and set the plugin list:
+
+```bash
+plugins=(
+  git
+  z
+  docker
+  docker-compose
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+```
+
+What each plugin does:
+
+- **git** - aliases and completions for git
+- **z** - jump to folders you use often
+- **docker / docker-compose** - completions for Docker commands
+- **zsh-autosuggestions** - suggests commands as you type
+- **zsh-syntax-highlighting** - colours valid and invalid commands
+
+Reload:
+
+```bash
+source ~/.zshrc
+```
+
+---
+
+## 10. Add aliases
+
+Open the config file:
 
 ```bash
 nano ~/.zshrc
 ```
 
-& Add **this entire block at the bottom**:
+Add this block at the bottom:
 
 ```bash
 # =========================
@@ -196,37 +240,36 @@ alias dps="docker ps"
 alias dex="docker exec -it"
 ```
 
-### Zsh (Oh my zash) plugins
-*   `git` — aliases and completions for git
-*   `z` — jump to frequently used directories
-*   `autosuggestions` — suggests commands as you type (needs separate install)
-*   `syntax-highlighting` — colorizes valid/invalid commands (needs separate install)
-
-### Autosuggestions + syntax highlighting
-
-```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions \
-  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-```
-
-Enable plugins:
-
-```plain
-plugins=(
-  git
-  z
-  docker
-  docker-compose
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-)
-```
-
 Reload:
 
 ```bash
 source ~/.zshrc
 ```
+
+---
+
+## 11. Optional developer tools
+
+Install these when you are ready:
+
+```bash
+sudo apt install -y \
+  htop \
+  tree \
+  neovim \
+  net-tools \
+  jq \
+  ripgrep
+```
+
+---
+
+## What you have now
+
+- Secure downloads
+- Git ready
+- Zsh with Oh My Zsh
+- Working fonts and prompt
+- A developer-friendly CLI
+
+Next, follow [setup-git.md](setup-git.md) to configure Git and GitHub.
