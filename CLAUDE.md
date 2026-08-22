@@ -12,6 +12,7 @@ Important: the guideline files are consumed by AI assistants working in *other* 
 
 - `AI/code-guideline/` — the AI agent specs plus starter folder structures. `GENERAL_GUIDELINE.md` is the global agent-behaviour spec (communication style, planning, ambiguity handling, error correction). `PHP_LARAVEL_GUIDELINE.md` and `REACT_GUIDELINE.md` are framework-specific specs that explicitly build on it. Alongside them, `laravel/`, `react/`, and `laravel-react/` are empty folder trees showing where code belongs in each stack; every folder in them holds a blank `CLAUDE.md` placeholder for folder-scoped rules. Keep a scaffold's folders and the spec that documents them in sync — if one gains a folder, the other needs updating.
 - `AI/.claude/` — Claude CLI skills, agents, commands, and output styles meant to be copied into a user's `~/.claude`. `AI/README.md` explains that setup for humans.
+- `code-decisions/` — settled technology choices (e.g. `preferred-libraries.md`), kept separate from the guideline specs because they record *what we picked*, not *how an agent should behave*.
 - `linux-os/` — machine setup guides for Ubuntu/Debian: one `setup-<tool>.md` per tool (Zsh, Git, Docker, Node), plus `connect-server-ssh.md`. Keep one tool per guide.
 
 New guidelines follow that layering: cross-cutting agent behaviour goes in the general spec; stack-specific rules go in a new `*_GUIDELINE.md`.

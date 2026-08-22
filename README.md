@@ -20,6 +20,14 @@ To use them, reference these documents from your AI assistant's instruction file
 
 See [`AI/README.md`](AI/README.md) for how to set up the Claude CLI skills, agents, and commands in [`AI/.claude/`](AI/.claude/).
 
+## Code Decisions
+
+Choices we have already made, so nobody has to re-argue them per project, in [`code-decisions/`](code-decisions/):
+
+| Document | Purpose |
+|----------|---------|
+| [preferred-libraries.md](code-decisions/preferred-libraries.md) | Which library to reach for by default, per stack. |
+
 ## Linux Setup
 
 Step-by-step guides for setting up a Linux development machine, in [`linux-os/`](linux-os/):
