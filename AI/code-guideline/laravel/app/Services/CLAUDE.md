@@ -1,7 +1,7 @@
-# app/Services — Writing Services
+# app/Services - Writing Services
 
 Service-specific rules only. These sit on top of the project's general PHP/Laravel conventions
-and the root `CLAUDE.md` — don't restate those here.
+and the root `CLAUDE.md` - don't restate those here.
 
 - One service = one domain's purpose. No domain overlap; logic for another domain goes behind
   that domain's service.
@@ -24,4 +24,4 @@ and the root `CLAUDE.md` — don't restate those here.
 - Two-tier errors: `throw \RuntimeException` for whole-operation failures; collect per-row
   failures into the Result and keep going.
 - Multi-model writes go through `DB::transaction()`.
-- No `request()` inside services — pass plain values in. Inject via the container; don't `new`.
+- No `request()` inside services - pass plain values in. Inject via the container; don't `new`.

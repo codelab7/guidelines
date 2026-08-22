@@ -9,12 +9,12 @@ Markdown specs in [`AI/code-guideline/`](AI/code-guideline/) that define how an 
 | Document | Purpose |
 |----------|---------|
 | [GENERAL_GUIDELINE.md](AI/code-guideline/GENERAL_GUIDELINE.md) | Global agent behaviour: communication style, planning, handling ambiguity, error correction. |
-| [PHP_LARAVEL_GUIDELINE.md](AI/code-guideline/PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP rules: layer responsibilities (controllers, requests, services, models), enums, migrations. |
+| [PHP_LARAVEL_GUIDELINE.md](AI/code-guideline/PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP: layer responsibilities (controllers, requests, services, models), plus an index of which `laravel/` folder file owns each rule. |
 | [REACT_GUIDELINE.md](AI/code-guideline/REACT_GUIDELINE.md) | React + TypeScript rules: folder layout, components, forms, Inertia integration. |
 
 The general guideline is the base spec. The framework guidelines build on it, so an agent follows the general one plus whichever framework guideline matches the code it is editing.
 
-The same folder holds starter folder structures to copy into a new project, one per stack: [`laravel/`](AI/code-guideline/laravel/), [`react/`](AI/code-guideline/react/), and [`laravel-react/`](AI/code-guideline/laravel-react/). See [`AI/code-guideline/README.md`](AI/code-guideline/README.md) for how they fit together.
+The same folder holds starter folder structures to copy into a new project, one per stack: [`laravel/`](AI/code-guideline/laravel/), [`react/`](AI/code-guideline/react/), and [`laravel-react/`](AI/code-guideline/laravel-react/). Each folder in them carries a `CLAUDE.md` with the rules for that folder, so an agent picks up the right rules from where it is working. The `laravel/` tree is filled in; the other two are still blank. See [`AI/code-guideline/README.md`](AI/code-guideline/README.md) for how they fit together.
 
 To use them, reference these documents from your AI assistant's instruction file in the consumer project (for example a `CLAUDE.md`, `.cursorrules`, or `AGENTS.md` that points to or includes them). The agent then follows the general guideline for behaviour and the framework guideline matching the code it is working on.
 

@@ -9,7 +9,7 @@ The full rules. These are written for AI assistants to follow, not as a tutorial
 | Document | Purpose |
 |----------|---------|
 | [GENERAL_GUIDELINE.md](GENERAL_GUIDELINE.md) | Global agent behaviour: communication style, planning, handling ambiguity, error correction. |
-| [PHP_LARAVEL_GUIDELINE.md](PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP rules: layer responsibilities, enums, traits, migrations. |
+| [PHP_LARAVEL_GUIDELINE.md](PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP: the layer responsibilities, plus an index of which `laravel/` folder file owns each rule. |
 | [REACT_GUIDELINE.md](REACT_GUIDELINE.md) | React + TypeScript rules: folder layout, components, forms, Inertia integration. |
 
 The general guideline is the base spec. The framework guidelines build on it, so an agent always follows the general one plus the framework one matching the code it is editing.
@@ -35,18 +35,17 @@ Claude Code reads the `CLAUDE.md` in a folder when it works on files inside that
 
 A folder file should not repeat the root file. Write only what is specific to that folder, and let the root file and the guideline specs cover the rest.
 
-To pull a whole spec into a file, use an import line instead of copying the text:
+To pull a shared document into a file, use an import line instead of copying the text:
 
 ```text
-@../docs/PHP_LARAVEL_GUIDELINE.md
+@docs/PROJECT_GUIDELINES.md
 ```
 
 ## Status
 
-Most of these files are still blank. Written so far:
+The `laravel/` template is complete: every folder file is written, and `PHP_LARAVEL_GUIDELINE.md`
+is now an index pointing at them. Open questions are tracked as a checklist at the bottom of
+[laravel/README.md](laravel/README.md).
 
-- `laravel/CLAUDE.md` - project-wide agent rules
-- `laravel/app/CLAUDE.md` - imports the PHP/Laravel spec
-- `laravel/app/Services/CLAUDE.md` - how to write a service
-
-Fill in the rest as the conventions for each folder settle.
+`react/` and `laravel-react/` are still blank folder trees. Fill them in as the conventions for
+each folder settle, then shrink `REACT_GUIDELINE.md` the same way.

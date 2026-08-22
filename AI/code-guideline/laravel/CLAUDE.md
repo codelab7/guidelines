@@ -52,8 +52,8 @@
 - Consult [PROJECT_ARCHITECTURE.md](docs/PROJECT_ARCHITECTURE.md) for full-system understanding or cross-module planning. Skip it for small, local tasks.
 
 ## Task-specific Guidelines
-- [PROJECT_GUIDELINES.md](docs/PROJECT_GUIDELINES.md) — read when relevant for project-specific patterns.
+- [PROJECT_GUIDELINES.md](docs/PROJECT_GUIDELINES.md) - read when relevant for project-specific patterns.
 
 ## MCP Servers
-- **Laravel Boost** — prefer its tools for Laravel ecosystem work: `search-docs` for version-specific docs, `database-query` / `database-schema` for DB reads, `tinker` for PHP execution, `browser-logs` for frontend errors, `list-artisan-commands` before running Artisan, `get-absolute-url` for project URLs.
-- **Shadcn MCP** — prefer for shadcn/ui component lookup, examples, and install commands.
+- **Laravel Boost** - prefer its tools for Laravel ecosystem work: `search-docs` for version-specific docs, `database-query` / `database-schema` for DB reads, `tinker` for PHP execution, `browser-logs` for frontend errors, `list-artisan-commands` before running Artisan, `get-absolute-url` for project URLs.
+- **Shadcn MCP** - prefer for shadcn/ui component lookup, examples, and install commands.
