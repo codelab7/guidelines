@@ -66,21 +66,21 @@ Base path: `resources/js/components/`
 
 ### 2.2 Layouts
 
-Base path: `resources/js/layout/`
+Base path: `resources/js/layouts/`
 
-- `layout/`
+- `layouts/`
   - Layouts / shells for pages.
   - Examples:
     - `auth-layout.tsx`
-    - `UserLayout.tsx`
-- `layout/sections/`
+    - `user-layout.tsx`
+- `layouts/sections/`
   - Layout sections used inside layouts.
   - Examples:
     - `side-bar.tsx`
     - `header.tsx`
-- `layout/widgets/`
-  - hold slave small widget component
-  - example:
+- `layouts/widgets/`
+  - Small widget components used inside layouts and layout sections.
+  - Examples:
     - `user-menu.tsx`
 
 ### 2.3 Hooks
