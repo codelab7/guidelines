@@ -1,8 +1,13 @@
-# Instructions for Human
-This guideline is for Human about How to handle everything.
+# Instructions for Humans
 
-## For Claude CLI setup
-There are skills and agents and command available for better coding with Claude CLI.  which are inside `AI/.claude/` which should be pasted in your root `/.claude` folder.
+This guide is for humans. It explains how to set up and use everything in this repository.
 
-### Tools
-1. [**RKT**](https://github.com/rtk-ai/rtk) : For Token saving on Linux AI CLI.
+## Claude CLI Setup
+
+The `AI/.claude/` folder contains skills, agents, commands, and output styles for better coding with the Claude CLI.
+
+To use them, copy the contents of `/AI/.claude/` into your root `.claude` folder (usually `~/.claude`).
+
+## Tools
+
+1. [**RTK**](https://github.com/rtk-ai/rtk) — saves tokens when using AI CLI tools on Linux.
