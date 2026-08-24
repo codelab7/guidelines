@@ -1,17 +1,55 @@
-# src/components/ — Rules
+# src/components - Components
 
-## What this is
+Everything that renders UI below the route level. A screen lives in `app/`; everything it is built
+from lives here.
 
-Everything that renders UI below the route level: app-wide primitives in `ui/`, and one feature-scoped folder per domain holding the components only that feature uses. Ported components follow this app's native-first idioms (root `CLAUDE.md` → "Native-first UI"), not the web's.
+## Where a Component Goes
 
-## Rules
+- `ui/` - library primitives and thin wrappers around them.
+- `shared/` - generic project UI with no domain knowledge.
+- `specific/` - domain-aware components used by more than one feature.
+- `{feature}/` - anything used by a single feature. This is where most components start.
 
-- **Folder split:** a feature folder splits into `sections/` (larger composed blocks), `widgets/` (small reusable pieces), and sometimes `forms/` — the same split `src/layouts/` uses. Add a subfolder only once more than one file belongs in it.
-- **`ui/` purity:** `ui/` holds primitives with no feature knowledge (a button doesn't know about chat or wallet) — a component that reads a specific domain's API/hooks belongs in that feature's folder. `ui/icons/` and `ui/motion/` are barrel-backed subfolders; import through their `index.ts`.
-- **Ported components:** the top-of-file counterpart comment (root rule) also calls out deliberate native-vs-web UX deviations — never silently diverge from the web component.
-- **`profile/` vs `profiles/`:** deliberately separate — the signed-in user's own account/settings vs saved family-and-friend subject profiles. Don't merge them.
-- **New feature folders:** before adding one, check the component doesn't belong in an existing folder — most new screens extend `dashboard/`, `chart/`, `chat/`, `wallet/`, etc.
+Promote a component out of its feature folder on its *second* use, not in anticipation of one.
 
-## Structure
+## Inside a Feature Folder
 
-`ui/` — app-wide primitives (button, avatar, bottom-sheet, text-field, snackbar, …) plus the `icons/` and `motion/` barrel subfolders. One feature folder per domain (`auth/`, `chart/`, `chat/`, `dashboard/`, `match/`, `onboarding/`, `panchang/`, `paywall/`, `profile/`, `profiles/`, `reports/`, `wallet/`, …) — check the folder listing for the current set. `reports/` holds the shared report scaffolding (`coming-soon.tsx`, `report-glyph.tsx`, `widgets/`) plus one subfolder per shipped report (`mangal-dosha/`).
+```
+components/sale/sections/    the feature's logic
+components/sale/widgets/     small pieces used only by this feature
+components/sale/forms/       the feature's forms, when it has more than one
+```
+
+- **Section** - holds most of the feature's logic, state, and data handling. A section may call
+  other sections to break up a large flow.
+- **Widget** - props in, callbacks out. Renders and handles small local state. No business rules.
+- Add a subfolder only once more than one file belongs in it. A feature with two files keeps them
+  flat.
+- Push logic upwards into sections and data downwards as props. A widget never reaches for global
+  state on its own.
+
+## Design
+
+- Minimum props, maximum flexibility. Expose only what the caller must control.
+- Prefer composition - children, nested components, callback props - over adding another prop.
+- Never pass a whole object or global state when a single field is enough.
+- Never bind a reusable component to one screen's logic.
+
+## Native UI
+
+Build for the platform, not for the web. This is the rule most often broken when porting a web
+component.
+
+- Use a native sheet or a platform alert. Never a centered web-style modal.
+- An action is a button with a real hit area. Never link-styled text.
+- Use the platform date and time pickers, not a hand-built calendar.
+- Use pull-to-refresh and swipe actions where the platform expects them.
+- When porting from a web app, port the *logic*. Leave its web UI patterns behind.
+
+## Changing a Component
+
+- Update every place it is used, not just the file in front of you.
+- Check all usage points before editing a form or a shared component. If a form is shared between
+  create and edit, a new field goes into both flows unless the user says otherwise.
+- A component full of `if (isEdit)` branches is two components. Split it and pick the right one a
+  level up.

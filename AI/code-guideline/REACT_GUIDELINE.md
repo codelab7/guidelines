@@ -20,6 +20,10 @@ Pick the template that matches the project:
 - [react/](react/) - a standalone React app such as Vite. Copy the whole tree, including its root
   `CLAUDE.md`.
 
+For a React Native app, use [REACT_NATIVE_GUIDELINE.md](REACT_NATIVE_GUIDELINE.md) and the
+[react-native/](react-native/) template instead. It keeps the same three component roles, but the
+router owns the screen folder, so sections and widgets sit elsewhere.
+
 Both trees carry the same rules; only the integration layer differs. The table below gives the
 path inside each tree - prefix it with `laravel-react/resources/js/` or `react/src/`.
 

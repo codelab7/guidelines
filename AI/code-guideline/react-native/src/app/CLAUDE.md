@@ -1,25 +1,40 @@
-# src/app/ — Rules
+# src/app - Routes and Screens
 
-## What this is
+`expo-router` owns this folder. Every file in it becomes a route. Never put a helper, a hook, or a
+plain component here - it would turn into a screen the user can navigate to.
 
-The expo-router route tree — every screen and navigator in the app.
+```
+app/_layout.tsx           the root navigator, providers, and gating
+app/(auth)/sign-in.tsx    a screen inside the auth group
+app/(app)/(tabs)/         the tab bar and its screens
+app/sale/[saleId].tsx     a dynamic route
+```
 
-## Rules
+## The Screen
 
-- **Routes stay thin:** a route file default-exports its screen, composes UI from `src/components/`/`src/layouts/` and data from `@/hooks`, and holds no business logic — no `fetch`, no calculations inline.
-- **Gating lives in the layouts, not in screens:** auth/onboarding guards are `Stack.Protected` groups in `_layout.tsx` files; a screen never redirects itself based on session state.
-- **Naming:** dynamic segments are camelCase (`[conversationId]`, `[profileId]`); group folders use parentheses (`(app)`, `(auth)`, `(tabs)`).
+- A route file default-exports its screen. This is the only default export in the project.
+- The screen provides the page structure, wires sections together, and owns the top-level data
+  call. Keep logic to a minimum.
+- Everything below it lives in `components/{feature}/`. See `components/CLAUDE.md`.
+- No `fetch`, no calculation, and no business rule inside a route file.
 
-## Project constraints (deliberate — don't "simplify" these away)
+## Navigation
 
-- **Root gate:** `_layout.tsx` mounts the provider tree (see the file for the order) and keeps the splash up until language, theme, animation preference, and the stored auth session have all resolved. There is deliberately no `src/app/index.tsx`: three `Stack.Protected` groups gate the tree — `(app)` (`hasLanguage && isSignedIn`), `(auth)` (`hasLanguage && !isSignedIn`) and `language-select` (`!hasLanguage`) for first launch.
-- **Session latch:** `hasResolvedSession` is latched once, during render — not an effect, and never re-armed. Better Auth sets `isPending` on *every* session refetch (including mid-sign-in), so gating on the raw flag unmounts the navigator mid-flow.
-- **Birth-details gate:** `(app)/_layout.tsx` adds `Stack.Protected guard={hasCompleteBirthDetails(user)}`, anchoring at `complete-signup` until birth details are saved; it also runs `useIapRecovery()`. Its stack uses `animation: 'none'` deliberately — screens arrive the way a tab does; don't add push transitions.
-- **Tabs layout:** `(tabs)/_layout.tsx` is the headless `expo-router/ui` tabs — **never** convert to `NativeTabs`/`unstable-native-tabs` (canonical rule in `src/layouts/CLAUDE.md`). `TabTrigger`s must stay direct children of `TabList`; triggers are generated from `NAV_ITEMS`, and off-bar routes register via `HiddenNavItem` triggers. Account is not a tab — it opens from the header avatar menu.
-- **Headers:** native headers stay hidden in `(app)`; screens render `AppHeader` (+ `AppNavBar` / `PageHeading` for non-tab routes) themselves. `(auth)` is the inverse: its index is headerless, and pushed screens keep a title-less native header purely for the back button/gesture.
-- **Language switcher:** deliberately **not** a route — it's a native sheet rendered from `AppHeader` (`layouts/widgets/language-sheet`); a sheet on the stack re-focuses the screen underneath on dismiss.
-- **New report:** copy the shipped mangal-dosha pattern — a route file in `reports/`, UI in `src/components/reports/<group>/`, a `use-<group>-report` hook, data via `src/api/reports.ts`, and the matching entry in `src/lib/reports/report-groups.ts`. The other nine routes still render the shared `ComingSoonReport`.
+- Group folders use parentheses: `(auth)`, `(app)`, `(tabs)`. They organise routes without adding
+  a URL segment.
+- Dynamic segments are `camelCase` and say what they hold: `[saleId]`, not `[id]`.
+- `_layout.tsx` files hold the navigators. A screen never builds its own navigator.
+- Navigate with the typed router. Never build a path string by hand.
 
-## Structure
+## Gating
 
-Route groups: root (`_layout.tsx`, `language-select`), `(auth)/` (sign-in/up plus email-verification and password-recovery flows), and `(app)/` — `(tabs)/` (dashboard, chat, kundli, match, panchang) plus stack routes (chat thread, profiles, reports, wallet, preferences, account, edit-profile, complete-signup).
+- Auth checks and onboarding checks belong in a `_layout.tsx`, not in a screen.
+- A screen never redirects itself based on session state. If it did, the user would see the screen
+  flash before being pushed away.
+- Hold the splash screen until everything the first render depends on has resolved - the stored
+  session, the language, the theme. A gate that runs on a half-loaded state will bounce the user.
+
+## Headers
+
+- Decide once, in the layout, whether screens use the native header or render their own.
+- Don't mix the two inside one navigator.

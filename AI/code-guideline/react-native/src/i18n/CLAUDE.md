@@ -1,18 +1,19 @@
-# src/i18n/ — Rules
+# src/i18n - Translations
 
-## What this is
+- This folder is only used when the project supports translations.
+- Never introduce i18n on your own initiative. If a string needs translating and there is no setup
+  yet, ask the user first.
+- When a setup exists, follow it. Don't add a second translation mechanism alongside it.
+- Every user-facing string goes through the translation function. No literal text in a screen.
+- Keys are grouped by module and named for meaning, not for the English text.
+- A new key lands in the default language first, then in every other language. A test that fails
+  on a missing key is worth having - without one, a whole namespace can go missing quietly.
 
-i18next setup and the 15-language string resources — a v1 requirement, not a stretch goal. Resources are statically bundled (Metro has no lazy-chunking equivalent to the web's Vite setup), namespaced `common`/`chat`/`onboarding` for web parity. The every-string-through-`t()` rule is in the root `CLAUDE.md`.
+## Translations Break Layouts
 
-## Rules
+Translated text is the most common cause of a broken mobile layout. A word that is short in
+English is often a long phrase in another language.
 
-- **New keys:** a new key lands in `locales/en/<namespace>.json` first, then all 14 other locales — `tests/locale-parity.test.ts` fails a key missing from any locale, across all three namespaces. A new namespace joins that list the day it is created: the check was `common`-only for a while, and four `onboarding` keys went missing from every non-English bundle without a test failing.
-- **Long translations are the layout constraint:** a label that is one short word in English is often a wide phrase in Tamil, Malayalam or Kannada. A heading beside an action needs `flexShrink: 1` (and the action `flexShrink: 0`), and anything given `numberOfLines={1}` must be something that reads when clipped — check a screen in `ta` before calling it done.
-- **Language list parity:** `SUPPORTED_LANGUAGES` (in `index.ts`) must stay in sync with `kgpt-app-ui/src/i18n/index.ts` — same codes, same endonyms.
-- **RTL:** `ur`/`fa`/`ar` are RTL *scripts* rendered in LTR layout for v1 (matches web) — don't wire up `I18nManager.forceRTL` or mirrored layouts for them.
-- **Persistence:** persist the selected language with `storage.ts`'s `'selectedLanguage'` AsyncStorage key — the same key name the web app uses in localStorage — not a new key.
-- **Adding a language:** a new `locales/<code>/` folder, its three JSON files wired into the static imports in `resources.ts`, and entries in both `SUPPORTED_LANGUAGES` and `LANGUAGE_ENGLISH_NAMES` in `index.ts`.
-
-## Structure
-
-`index.ts` (i18next init, `SUPPORTED_LANGUAGES`, `LANGUAGE_ENGLISH_NAMES`, `isSupportedLanguage()`), `resources.ts` (static imports assembling all locale JSON), `storage.ts` (AsyncStorage persistence). `locales/` holds one folder per language code (`ar, as, bn, en, fa, gu, hi, kn, ml, mr, or, pa, ta, te, ur`), each with `common.json`/`chat.json`/`onboarding.json`.
+- A heading next to an action needs to shrink, and the action needs to keep its size.
+- Anything limited to one line must still make sense when it is cut off.
+- Check a screen in the longest language the project supports before calling it done.
