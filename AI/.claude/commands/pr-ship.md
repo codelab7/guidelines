@@ -99,6 +99,7 @@ Generate a PR title (50-70 chars, imperative mood) and description following the
 - What behavior changed or was added?
 - Never include a file-list section in the PR body
 	- Describe the 'what' and 'why' of changes, assuming I'll see the 'how' in the diff
+	- Keep description short and to the point.  it should be easy and quick for human reviwer.
 
 
 ## Testing Checklist
