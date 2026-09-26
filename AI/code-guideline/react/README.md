@@ -18,24 +18,24 @@ Use [laravel-react/](../laravel-react/) instead if the React code lives inside a
 | `CLAUDE.md` | Project-wide agent rules: communication, planning, code output, debugging, MCP servers. |
 | `src/CLAUDE.md` | Rules for all frontend code: TypeScript, naming, Tailwind, responsiveness, libraries. |
 | `src/api/CLAUDE.md` | Calls to the backend, grouped by domain. |
-| `src/components/CLAUDE.md` | Where a component goes, minimum props, composition, updating every usage. |
+| `src/components/CLAUDE.md` | Where a component goes, the import direction, minimum props, composition, updating every usage. |
 | `src/components/ui/CLAUDE.md` | Library primitives and shadcn/ui wrappers. |
-| `src/components/shared/CLAUDE.md` | Generic project UI with no domain knowledge. |
-| `src/components/specific/CLAUDE.md` | Domain components used by more than one module. |
+| `src/components/shared/CLAUDE.md` | Components reused by two or more features. |
+| `src/components/features/CLAUDE.md` | One folder per feature: section and widget roles, feature-only helpers and hooks, form rules. |
 | `src/hooks/CLAUDE.md` | Custom hooks reusable across the app, for example `use-debounce.ts`. |
 | `src/i18n/CLAUDE.md` | Translation files. Only used if the project supports translations. |
 | `src/layouts/CLAUDE.md` | Page shells. |
 | `src/layouts/sections/CLAUDE.md` | Large parts of a shell, such as the sidebar and header. |
 | `src/layouts/widgets/CLAUDE.md` | Small pieces inside a shell. |
-| `src/pages/CLAUDE.md` | One folder per module, the page/section/widget roles, and form rules. |
+| `src/pages/CLAUDE.md` | One folder per feature. The page role only: route params, layout, placing sections. |
 | `src/stores/CLAUDE.md` | Client state with Zustand. |
 | `src/styles/CLAUDE.md` | Global stylesheet and Tailwind setup. |
 | `src/types/CLAUDE.md` | Shared types. `api.interface.ts` holds backend response types, `general.enum.ts` holds shared enums. |
 | `src/utils/CLAUDE.md` | Shared helper functions. Check here before writing a new helper. |
 
-This is not the whole tree. It only covers folders that need their own rules. A module's own
-`sections/` and `widgets/` folders are created per module under `pages/{module}/`, and their rules
-live in `pages/CLAUDE.md`.
+This is not the whole tree. It only covers folders that need their own rules. A feature's own
+`sections/` and `widgets/` folders are created per feature under `components/features/{feature}/`,
+and their rules live in `components/features/CLAUDE.md`.
 
 ## Naming
 
@@ -64,7 +64,7 @@ Decisions we haven't settled yet. Work through these and add the answer to the m
 - [ ] Frontend testing: there are no rules at all today. Decide on Vitest, Testing Library, or
       Playwright, and what must be covered.
 - [ ] ESLint and Prettier: which preset is enforced, and whether typecheck and lint run in CI.
-- [ ] Module-level types: whether a module keeps a `{module}-types.ts` or everything lands in
+- [ ] Feature-level types: whether a feature keeps a `{feature}-types.ts` or everything lands in
       `types/`.
 - [ ] `api/`: the error shape, loading state, and retry policy.
 - [ ] `stores/`: what is allowed in a store, and where the line sits against the data cache.
@@ -75,3 +75,5 @@ Decisions we haven't settled yet. Work through these and add the answer to the m
 - [ ] Data fetching: TanStack Query or plain calls in `api/`, and where the cache config lives.
 - [ ] Form library, since there is no Inertia `useForm` here.
 - [ ] Auth and session handling, plus how env config is read and typed.
+- [ ] `react-native/` still uses `components/{feature}/` and `components/specific/`. Decide whether
+      to align it with `components/features/{feature}/` and the merged `shared/`.

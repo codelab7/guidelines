@@ -1,6 +1,7 @@
 # src/hooks - Custom Hooks
 
-- Only hooks reusable across modules live here. A hook used by one module stays in that module.
+- Only hooks reusable across features live here. A hook used by one feature stays in its folder
+  under `components/features/{feature}/`.
 - One hook per file. File in `kebab-case`, hook in `camelCase`: `use-debounce.ts` exports
   `useDebounce`.
 - Name starts with `use`.

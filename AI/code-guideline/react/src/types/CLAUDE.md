@@ -14,9 +14,9 @@
 ## Naming
 
 - A component's props type is named `Props`.
-- A form's field type is `{Module}Fillable` - `ContactFillable`, `InvoiceFillable`.
+- A form's field type is `{Feature}Fillable` - `ContactFillable`, `InvoiceFillable`.
 
 ## Data Shape
 
-- A page holds only the data it actually uses. Map an API response to what the page needs instead
-  of passing the raw payload down.
+- A section holds only the data it actually uses. Map an API response to what the section needs
+  instead of passing the raw payload down.

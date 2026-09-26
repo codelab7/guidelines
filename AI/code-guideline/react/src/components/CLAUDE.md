@@ -1,18 +1,23 @@
-# src/components - Reusable Components
+# src/components - Components
 
-Rules for components shared across modules. A component used by one module only belongs in that
-module's `widgets/` folder, not here.
+Every component below the page level lives here. A page only places them.
 
 ## Where a Component Goes
 
+- `features/{feature}/` - anything used by a single feature. This is where most components start.
+- `shared/` - any component reused by two or more features.
 - `ui/` - library primitives and thin wrappers around them.
-- `shared/` - generic project UI with no domain knowledge.
-- `specific/` - domain-aware components used by more than one module.
-- `pages/{module}/widgets/` - anything used by a single module.
-- `components/` itself - a shared widget or helper component that fits none of the three,
-  for example `notification-toast.tsx`. Use it as the exception, not the first choice.
 
-Promote a component here on its *second* use, not in anticipation of one.
+No loose component files in `components/` itself. Every component goes in one of the three
+folders.
+
+Promote a component from its feature folder to `shared/` on its *second* use by another feature,
+not in anticipation of one.
+
+## Import Direction
+
+- Imports run one way: `pages/` -> `features/` -> `shared/` -> `ui/`. Never the other way.
+- One feature never imports another feature's internals. Promote the piece to `shared/` instead.
 
 ## Design
 
@@ -32,7 +37,7 @@ Promote a component here on its *second* use, not in anticipation of one.
 
 ## Changing a Component
 
-- Update every place it is used - page, sections, widgets, and other modules. Not just the file in
+- Update every place it is used - page, sections, widgets, and other features. Not just the file in
   front of you.
 - Check all usage points before editing a form or a shared component. If a form is shared between
   create and edit, a new field goes into both flows unless the user says otherwise.

@@ -1,7 +1,7 @@
-# src/components/shared - Shared Project UI
+# src/components/shared - Shared Components
 
-- General-purpose UI that any module can use: `delete-confirmation.tsx`, `phone-input.tsx`.
+- Any component reused by two or more features: `delete-confirmation.tsx`, `phone-input.tsx`,
+  `team-members-list.tsx`, `notification-toast.tsx`.
 - Built from `ui/` primitives.
-- No domain vocabulary and no imports from `pages/`. A component that knows about invoices or
-  contacts belongs in `specific/`.
-- Controlled by props and callbacks. No data fetching here.
+- May use domain types from `types/`.
+- Data comes in through props, callbacks go out. No data fetching here.

@@ -49,7 +49,7 @@
 ---
 
 ## Codebase Architecture
-- Consult [PROJECT_ARCHITECTURE.md](docs/PROJECT_ARCHITECTURE.md) for full-system understanding or cross-module planning. Skip it for small, local tasks.
+- Consult [PROJECT_ARCHITECTURE.md](docs/PROJECT_ARCHITECTURE.md) for full-system understanding or cross-feature planning. Skip it for small, local tasks.
 
 ## Task-specific Guidelines
 - [PROJECT_GUIDELINES.md](docs/PROJECT_GUIDELINES.md) - read when relevant for project-specific patterns.
