@@ -1,24 +1,27 @@
 # src/components/features - Feature Folders
 
 One folder per feature. Everything the feature is built from lives here. Its page in `pages/`
-only places the sections.
+only places the sections. The one exception is `app-shell/`, the sidebar, header, and other shell
+parts, whose sections are placed by a layout in `layouts/` instead.
 
 ```
-components/features/sale/sections/          the feature's logic, state, data, and forms
-components/features/sale/widgets/           small pieces used only by this feature
-components/features/sale/sale-utils.ts      helpers used only by this feature
-components/features/sale/use-sale-*.ts      hooks used only by this feature
+components/features/sale/sale-summary.tsx     a section: the feature's logic, state, data, forms
+components/features/sale/sale-lines.tsx       another section
+components/features/sale/widgets/             small pieces used only by this feature
+components/features/sale/sale-utils.ts        helpers used only by this feature
+components/features/sale/use-sale-*.ts        hooks used only by this feature
 ```
 
-- Add a subfolder only once more than one file belongs in it. A feature with two files keeps them
-  flat.
+- Sections sit directly in the feature folder. There is no `sections/` subfolder.
+- Every widget goes in `widgets/`, even when there is only one. The folder is what marks a
+  component as a widget, so any component at the feature root is a section.
 - Feature-only helpers go in `{feature}-utils.ts` inside the feature, not in `utils/`.
 
 ## The Two Roles
 
-1. **Section** - `sections/`. Holds the feature's logic, state, data handling, and forms. Sections
-   own the data calls, made through `api/`. A section may call other sections to break up a large
-   flow.
+1. **Section** - a component at the feature root. Holds the feature's logic, state, data
+   handling, and forms. Sections own the data calls, made through `api/`. A section may call other
+   sections to break up a large flow.
 2. **Widget** - `widgets/`. Props in, callbacks out. Renders and handles small local state. No
    business rules.
 

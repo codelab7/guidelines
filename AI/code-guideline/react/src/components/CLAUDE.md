@@ -16,7 +16,8 @@ not in anticipation of one.
 
 ## Import Direction
 
-- Imports run one way: `pages/` -> `features/` -> `shared/` -> `ui/`. Never the other way.
+- Imports run one way: `pages/` -> `layouts/` -> `features/` -> `shared/` -> `ui/`. Never the
+  other way.
 - One feature never imports another feature's internals. Promote the piece to `shared/` instead.
 
 ## Design

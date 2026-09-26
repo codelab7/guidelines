@@ -38,8 +38,8 @@ tree - prefix it with `laravel-react/resources/js/` or `react/src/`.
 | Feature folders: sections, widgets, helpers, hooks, forms (standalone tree only) | `components/features/CLAUDE.md` |
 | Domain components shared by several modules (Laravel tree only) | `components/specific/CLAUDE.md` |
 | Page shells | `layouts/CLAUDE.md` |
-| Shell sections such as the sidebar and header | `layouts/sections/CLAUDE.md` |
-| Small pieces inside a shell | `layouts/widgets/CLAUDE.md` |
+| Shell sections such as the sidebar and header (Laravel tree only) | `layouts/sections/CLAUDE.md` |
+| Small pieces inside a shell (Laravel tree only) | `layouts/widgets/CLAUDE.md` |
 | The page role (Laravel tree: also module layout, sections, widgets, forms) | `pages/CLAUDE.md` |
 | Custom hooks | `hooks/CLAUDE.md` |
 | Shared types, `api.interface.ts`, `general.enum.ts` | `types/CLAUDE.md` |
@@ -63,7 +63,7 @@ different places.
 | Role | `react/` | `laravel-react/` |
 |------|----------|------------------|
 | Page | `pages/{feature}/index.tsx` | `pages/{module}/index.tsx` |
-| Section | `components/features/{feature}/sections/` | `pages/{module}/sections/` |
+| Section | `components/features/{feature}/` | `pages/{module}/sections/` |
 | Widget | `components/features/{feature}/widgets/` | `pages/{module}/widgets/` |
 
 1. **Page** - one file per route. In `react/` it is layout and core structure only: it reads the
@@ -78,8 +78,9 @@ different places.
    `laravel-react/`.
 
 Push logic upwards into sections and data downwards as props. A widget never reaches for global
-state on its own. In `react/`, imports also run one way: `pages/` -> `features/` -> `shared/` ->
-`ui/`, and one feature never imports another feature's internals.
+state on its own. In `react/`, imports also run one way: `pages/` -> `layouts/` -> `features/` ->
+`shared/` -> `ui/`, and one feature never imports another feature's internals. The shell's parts
+are a feature too, `features/app-shell/`, placed by a layout instead of a page.
 
 ---
 

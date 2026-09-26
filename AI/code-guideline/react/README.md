@@ -24,17 +24,15 @@ Use [laravel-react/](../laravel-react/) instead if the React code lives inside a
 | `src/components/features/CLAUDE.md` | One folder per feature: section and widget roles, feature-only helpers and hooks, form rules. |
 | `src/hooks/CLAUDE.md` | Custom hooks reusable across the app, for example `use-debounce.ts`. |
 | `src/i18n/CLAUDE.md` | Translation files. Only used if the project supports translations. |
-| `src/layouts/CLAUDE.md` | Page shells. |
-| `src/layouts/sections/CLAUDE.md` | Large parts of a shell, such as the sidebar and header. |
-| `src/layouts/widgets/CLAUDE.md` | Small pieces inside a shell. |
+| `src/layouts/CLAUDE.md` | Page shells. The shell's parts, such as the sidebar and header, live in `components/features/app-shell/`. |
 | `src/pages/CLAUDE.md` | One folder per feature. The page role only: route params, layout, placing sections. |
 | `src/stores/CLAUDE.md` | Client state with Zustand. |
 | `src/styles/CLAUDE.md` | Global stylesheet and Tailwind setup. |
 | `src/types/CLAUDE.md` | Shared types. `api.interface.ts` holds backend response types, `general.enum.ts` holds shared enums. |
 | `src/utils/CLAUDE.md` | Shared helper functions. Check here before writing a new helper. |
 
-This is not the whole tree. It only covers folders that need their own rules. A feature's own
-`sections/` and `widgets/` folders are created per feature under `components/features/{feature}/`,
+This is not the whole tree. It only covers folders that need their own rules. A feature's
+sections and its `widgets/` folder are created per feature under `components/features/{feature}/`,
 and their rules live in `components/features/CLAUDE.md`.
 
 ## Naming
