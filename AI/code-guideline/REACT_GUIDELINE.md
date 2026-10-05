@@ -31,13 +31,13 @@ tree - prefix it with `laravel-react/resources/js/` or `react/src/`.
 
 | Rule area | File |
 |-----------|------|
-| Language, naming, styling, responsiveness, libraries, output checks | `CLAUDE.md` |
-| Where a component goes, minimum props, composition, refactoring | `components/CLAUDE.md` |
-| Library primitives and shadcn/ui | `components/ui/CLAUDE.md` |
+| Language, naming, styling, responsiveness, libraries, output checks (standalone tree: also security and the import table) | `CLAUDE.md` |
+| Where a component goes, props types, minimum props, composition, refactoring | `components/CLAUDE.md` |
+| Library primitives and UI library wrappers | `components/ui/CLAUDE.md` |
 | Components reused by more than one feature (Laravel tree: generic UI only) | `components/shared/CLAUDE.md` |
 | Feature folders: sections, widgets, helpers, hooks, forms (standalone tree only) | `components/features/CLAUDE.md` |
 | Domain components shared by several modules (Laravel tree only) | `components/specific/CLAUDE.md` |
-| Page shells | `layouts/CLAUDE.md` |
+| Page shells (standalone tree: layout routes) | `layouts/CLAUDE.md` |
 | Shell parts such as the sidebar and header (standalone tree only) | `components/layouts/CLAUDE.md` |
 | Shell sections such as the sidebar and header (Laravel tree only) | `layouts/sections/CLAUDE.md` |
 | Small pieces inside a shell (Laravel tree only) | `layouts/widgets/CLAUDE.md` |
@@ -45,10 +45,10 @@ tree - prefix it with `laravel-react/resources/js/` or `react/src/`.
 | Custom hooks | `hooks/CLAUDE.md` |
 | Shared types, `api.interface.ts`, `general.enum.ts` | `types/CLAUDE.md` |
 | Shared helpers and validation utilities | `utils/CLAUDE.md` |
-| Direct backend calls | `api/CLAUDE.md` |
+| Direct backend calls (standalone tree: also the TanStack Query hooks) | `api/CLAUDE.md` |
 | Client state | `stores/CLAUDE.md` |
 | Translations (standalone tree only) | `i18n/CLAUDE.md` |
-| Global stylesheet and Tailwind entry (standalone tree only) | `styles/CLAUDE.md` |
+| Global stylesheet and the UI library's theme (standalone tree only) | `styles/CLAUDE.md` |
 
 A rule belongs in exactly one of those files per tree. When a rule changes, change it there, not
 here. Open questions are tracked as a checklist at the bottom of each template's `README.md`.
@@ -63,25 +63,26 @@ different places.
 
 | Role | `react/` | `laravel-react/` |
 |------|----------|------------------|
-| Page | `pages/{page}.tsx`, or `pages/{domain}/{page}.tsx` | `pages/{module}/index.tsx` |
+| Page | `pages/{page}.tsx`, or `pages/{feature}/{page}.tsx` | `pages/{module}/index.tsx` |
 | Section | `components/features/{feature}/` | `pages/{module}/sections/` |
 | Widget | `components/features/{feature}/widgets/` | `pages/{module}/widgets/` |
 
-1. **Page** - one file per route. In `react/`, a domain with more than one page groups them in a
-   folder named for the domain. The page is layout and core structure only: it reads the
-   route params, picks the layout, and places the feature's sections. No state and no data
-   fetching. In `laravel-react/` it is the component the Laravel controller renders: it provides
+1. **Page** - one file per route. In `react/`, a feature with more than one page groups them in
+   a folder named like the feature's folder. The page is layout and core structure only: it
+   reads the route params, sets the title, and places the feature's sections. The router picks
+   the layout. No state and no data fetching. In `laravel-react/` it is the component the Laravel controller renders: it provides
    the page structure and wires sections together. Logic stays minimal.
 2. **Section** - holds most of the feature's logic, state, and data handling. May call other
    sections to break up a large flow. In `react/`, sections also own the data calls, through
-   `api/`.
-3. **Widget** - props in, callbacks out, rendering and small local state only. Once a second
+   the query hooks in `api/`.
+3. **Widget** - props in, callbacks out, rendering and small local state only. Once a different
    feature needs it, it moves to `components/shared/` in `react/`, or to `components/` in
    `laravel-react/`.
 
 Push logic upwards into sections and data downwards as props. A widget never reaches for global
-state on its own. In `react/`, one feature never imports another feature's internals, and each
-folder's `CLAUDE.md` lists what its files may import. The shell's parts are not a feature. They
+state on its own. In `react/`, one feature imports another only in the single case that
+`components/features/CLAUDE.md` allows, and `src/CLAUDE.md` holds a table of what each folder may
+import. The shell's parts are not a feature. They
 live in `components/layouts/` and are placed by a layout.
 
 ---
@@ -93,7 +94,8 @@ When working on React code, the AI coding agent must:
 1. Read the `CLAUDE.md` of the folder it is editing before writing code in that folder.
 2. Respect the directory structure and keep each feature self-contained.
 3. Use TypeScript, functional components, and hooks as the default.
-4. Build UIs from Tailwind and existing components before inventing a new primitive.
+4. Build UIs from the project's UI library and existing components before inventing a new
+   primitive.
 5. Keep page components thin, with the logic in sections, hooks, or utils.
 6. Centralize types, enums, and utilities instead of duplicating them.
 7. Confirm TypeScript passes and no unused code is left before finishing.

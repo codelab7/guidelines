@@ -78,7 +78,7 @@ and the Laravel tree says "module". The agent cannot tell whether `pages/sale/` 
 
 Recommended: A.
 
-**Decision:**
+**Decision:** A
 
 ### FEAT-2. Question - Singular or plural folder names
 
@@ -89,7 +89,7 @@ Examples use `sale`, but nothing fixes it. Agents will create `sales/` and `sale
 
 Recommended: A.
 
-**Decision:**
+**Decision:** B
 
 ### FEAT-3. Question - Feature-level types
 
@@ -102,7 +102,7 @@ Open in the README checklist: does a feature keep its own types file, or does ev
 
 Recommended: A.
 
-**Decision:**
+**Decision:** Feature only and private types like props should be inside components. and shared or DTO Level interfaces should goes to `types/` folder.
 
 ### FEAT-4. Question - Subfolders in a large feature
 
@@ -116,7 +116,7 @@ A feature with 20 sections has no rule for grouping. Can it have sub-feature fol
 
 Recommended: A.
 
-**Decision:**
+**Decision:** B. We can use folder `forms` for forms. Update rules accordinly.
 
 ### FEAT-5. Question - Many helpers or hooks in one feature
 
@@ -129,7 +129,7 @@ root gets crowded and the sections become hard to spot.
 
 Recommended: B.
 
-**Decision:**
+**Decision:** A
 
 ### FEAT-6. Missing - Form rules
 
@@ -143,7 +143,7 @@ errors map to fields, and the submit button state.
 
 Recommended: Adopt, or name your form library.
 
-**Decision:**
+**Decision:** If mantine is used, use their libraries. otherwise none in-built found, then use React Hook Form + Zod.  And when Zod used, create schema folder at root level. adopt the rest of rules.
 
 ### FEAT-7. Confusing - Two sections that need the same data
 
@@ -155,7 +155,7 @@ need the same data, which one fetches? The answer depends on API-1.
 
 Recommended: Follows API-1.
 
-**Decision:**
+**Decision:** Follows API-1.
 
 ### FEAT-8. Decision aid - What counts as a business rule
 
@@ -168,4 +168,4 @@ formatting a price or hiding a button is one.
 
 Recommended: Adopt.
 
-**Decision:**
+**Decision:** Adopt.

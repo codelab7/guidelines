@@ -8,6 +8,14 @@ Use these by default. If a project needs something else, confirm it first.
 
 1. [**Zustand**](https://zustand.docs.pmnd.rs/learn/getting-started/introduction) - Local state management. We prefer it over full Redux because it is simpler and faster to write.
 2. [**Phosphor Icons**](https://phosphoricons.com/) - System icons.
+3. [**es-toolkit**](https://es-toolkit.dev/) - Collection, object, and math helpers. Replaces Lodash. Prefer it over hand-written code.
+4. [**date-fns**](https://date-fns.org/) - Dates.
+5. [**TanStack Query**](https://tanstack.com/query/latest) - Server data: fetching, caching, retries.
+6. [**TanStack Router**](https://tanstack.com/router/latest) - Routing for a new standalone React app, with code-based routes. Existing apps may keep React Router.
+7. [**React Hook Form**](https://react-hook-form.com/) with [**Zod**](https://zod.dev/) - Forms and validation, when the UI library has no form package of its own.
+8. [**react-i18next**](https://react.i18next.com/) - Translations, only when a project needs them.
+
+The UI library (for example Mantine or MUI) is chosen per project.
 
 ## Laravel Libraries
 

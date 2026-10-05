@@ -15,26 +15,26 @@ Use [laravel-react/](../laravel-react/) instead if the React code lives inside a
 
 | File | Covers |
 |------|--------|
-| `CLAUDE.md` | Project-wide agent rules: communication, planning, code output, debugging, MCP servers. |
-| `src/CLAUDE.md` | Rules for all frontend code: TypeScript, naming, Tailwind, responsiveness, libraries. |
-| `src/api/CLAUDE.md` | Calls to the backend, grouped by domain. |
-| `src/components/CLAUDE.md` | Where a component goes, the import direction, minimum props, composition, updating every usage. |
-| `src/components/ui/CLAUDE.md` | Library primitives and shadcn/ui wrappers. |
-| `src/components/shared/CLAUDE.md` | Components reused by two or more features. |
-| `src/components/features/CLAUDE.md` | One folder per feature: section and widget roles, feature-only helpers and hooks, form rules. |
+| `CLAUDE.md` | Project-wide agent rules: stack, commands, communication, planning, code output, debugging, MCP servers. |
+| `src/CLAUDE.md` | Rules for all frontend code: TypeScript, naming, imports, styling, responsiveness, libraries, security, and the import table. |
+| `src/api/CLAUDE.md` | Calls to the backend and their TanStack Query hooks, one file per resource. Error shape, auth, cache. |
+| `src/components/CLAUDE.md` | Where a component goes, promoting to `shared/`, file layout, props types, composition, updating every usage. |
+| `src/components/ui/CLAUDE.md` | Thin wrappers around the UI library's components. |
+| `src/components/shared/CLAUDE.md` | Components reused by two or more features, including `<Can>`. |
+| `src/components/features/CLAUDE.md` | One folder per feature: section and widget roles, `forms/`, `schemas/`, feature-only helpers and hooks, form rules. |
 | `src/components/layouts/CLAUDE.md` | The parts a layout is built from, such as the sidebar and header. |
 | `src/hooks/CLAUDE.md` | Custom hooks reusable across the app, for example `use-debounce.ts`. |
 | `src/i18n/CLAUDE.md` | Translation files. Only used if the project supports translations. |
-| `src/layouts/CLAUDE.md` | Page shells. The shell's parts, such as the sidebar and header, live in `components/layouts/`. |
-| `src/pages/CLAUDE.md` | One file per route page, grouped in a domain folder when a domain has more than one. The page role only: route params, layout, placing sections. |
-| `src/stores/CLAUDE.md` | Client state with Zustand. |
-| `src/styles/CLAUDE.md` | Global stylesheet and Tailwind setup. |
+| `src/layouts/CLAUDE.md` | Layout routes. The shell's parts, such as the sidebar and header, live in `components/layouts/`. |
+| `src/pages/CLAUDE.md` | One file per route page, grouped in a feature folder when a feature has more than one. The page role only: route params, title, placing sections. |
+| `src/stores/CLAUDE.md` | Client state with Zustand, and where each kind of state goes. |
+| `src/styles/CLAUDE.md` | Global stylesheet and the UI library's theme. |
 | `src/types/CLAUDE.md` | Shared types. `api.interface.ts` holds backend response types, `general.enum.ts` holds shared enums. |
 | `src/utils/CLAUDE.md` | Shared helper functions. Check here before writing a new helper. |
 
 This is not the whole tree. It only covers folders that need their own rules. A feature's
-sections and its `widgets/` folder are created per feature under `components/features/{feature}/`,
-and their rules live in `components/features/CLAUDE.md`.
+sections and its `forms/`, `schemas/`, and `widgets/` folders are created per feature under
+`components/features/{feature}/`, and their rules live in `components/features/CLAUDE.md`.
 
 ## Folder File Layout
 
@@ -55,7 +55,8 @@ The root `CLAUDE.md` holds agent behaviour, not folder rules, so it keeps its ow
 
 ## Naming
 
-- Files: `kebab-case`, for example `contact-list.tsx`
+- Files and folders: `kebab-case`, for example `contact-list.tsx`
+- Feature folders: plural, for example `components/features/sales/`
 - Components: `PascalCase`, for example `ContactList`
 - Variables and functions: `camelCase`
 - Constants: `UPPER_SNAKE_CASE`
@@ -66,30 +67,21 @@ The root `CLAUDE.md` points at `docs/PROJECT_ARCHITECTURE.md` and `docs/PROJECT_
 Those paths are relative to the project you copy into, not to this repository. Create that `docs/`
 folder, or edit the paths, or the links will not resolve.
 
+Then fill in the `Stack` and `Commands` sections of the root `CLAUDE.md` for the project. The
+agent runs those commands before it finishes, so they must be the project's real scripts.
+
 ## Checklist - Rules Still Missing
 
 Decisions we haven't settled yet. Work through these and add the answer to the matching
 `CLAUDE.md`, or create the file if there isn't one.
 
-- [ ] Icons: the old spec named `lucide-react` and we settled on Phosphor, following
-      `code-decisions/preferred-libraries.md`. Confirm the existing projects match, or record the
-      exception.
-- [ ] Utils file suffix: formatting helpers are named `number.enums.ts` and `date.enums.ts` while
-      validation helpers are `validation.utils.ts`. The `.enums.ts` suffix on a file holding no
-      enum looks like a leftover. Pick one suffix and correct `utils/CLAUDE.md`.
-- [ ] Frontend testing: there are no rules at all today. Decide on Vitest, Testing Library, or
-      Playwright, and what must be covered.
+- [ ] Rule wording: many rules start with "Prefer", which an agent reads as optional. Decide
+      which are hard rules and rewrite those as commands, for example "Use pnpm".
+- [ ] Git and commit rules: whether the agent may commit or push, branch names, and the commit
+      message format. Decided to write them in `GENERAL_GUIDELINE.md`, not here.
+- [ ] Global stylesheet: pick one file name, so `styles/CLAUDE.md` can name it.
 - [ ] ESLint and Prettier: which preset is enforced, and whether typecheck and lint run in CI.
-- [ ] Feature-level types: whether a feature keeps a `{feature}-types.ts` or everything lands in
-      `types/`.
-- [ ] `api/`: the error shape, loading state, and retry policy.
-- [ ] `stores/`: what is allowed in a store, and where the line sits against the data cache.
-- [ ] Permissions: how the UI is gated, and whether a shared `<Can>` component exists.
-- [ ] Shared patterns with no home yet: toasts, modals, confirm dialogs, data tables, pagination,
-      and file upload.
-- [ ] Router: React Router or TanStack Router, and where the route definitions live.
-- [ ] Data fetching: TanStack Query or plain calls in `api/`, and where the cache config lives.
-- [ ] Form library, since there is no Inertia `useForm` here.
-- [ ] Auth and session handling, plus how env config is read and typed.
+- [ ] Frontend testing: there are no tests for now, and the agent must not add a test setup.
+      Revisit when a project needs tests.
 - [ ] `react-native/` still uses `components/{feature}/` and `components/specific/`. Decide whether
       to align it with `components/features/{feature}/` and the merged `shared/`.
