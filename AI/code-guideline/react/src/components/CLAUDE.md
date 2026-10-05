@@ -1,22 +1,29 @@
 # src/components - Components
 
-Every component below the page level lives here. A page only places them.
+Every component below the page level lives here. A page or a layout only places them.
 
-## Where a Component Goes
+## Structure
 
-- `features/{feature}/` - anything used by a single feature. This is where most components start.
-- `layouts/` - the parts a layout is built from: sidebar, header, and the pieces inside them.
-- `shared/` - any component reused by two or more features (**features**, Not pages).
-- `ui/` - library primitives and thin wrappers around them.
+```text
+components/
+  features/{feature}/   anything used by a single feature. Most components start here.
+  layouts/              the parts a layout is built from: sidebar, header, the pieces inside them
+  shared/               components reused by two or more features (features, not pages)
+  ui/                   library primitives and thin wrappers around them
+```
 
-## Common Rules
+- No loose component files in `components/` itself. Every component goes in one of the four
+  folders.
 
-- No loose component files in `components/` itself. Every component goes in one of the four folders.
-- Promote a widget from its feature folder to `shared/` on its *second* use by another feature, not in anticipation of one.
-- Imports run one way: `pages/` -> `layouts/` -> `features/` -> `shared/` -> `ui/`. Never the other way.
+## Rules
 
+### Placement
 
-### Component design philosophy
+- A new component starts in its feature folder unless it is a library primitive or a shell part.
+- Promote a widget from its feature folder to `shared/` on its *second* use by another feature,
+  not in anticipation of one.
+
+### Component Design
 
 - Minimum props, maximum flexibility. Expose only what the caller must control.
 - Prefer composition - children, nested components, callback props - over adding another prop.
@@ -31,10 +38,18 @@ Every component below the page level lives here. A page only places them.
   ```
 
 - Never bind a reusable component to one page's logic.
-- Component should be designed simple and moduler way.
-- A component full of `if (Bool)` branches is two components. Split it and pick the right one a level up.
+- Keep a component simple and modular.
+- A component full of `if (Bool)` branches is two components. Split it and pick the right one a
+  level up.
 
 ### Changing a Component
 
-- Before make edit single file, check hirarchy (up and down for page, widgets etc used affected by that change.)
-- Make sure you understand the use-case of change and inspect and make change to all nessesory touchpoints. (E.g.- Adding field into create field in edit if not specified.)
+- Before you edit a single file, check the hierarchy up and down: the pages, sections, and
+  widgets that use it, and the ones it uses. Know what the change affects.
+- Understand the use case behind the change, then update every touchpoint it needs. For example,
+  a field added to the create form usually belongs in the edit form too, even when the request
+  doesn't say so.
+
+## Boundaries
+
+- Each subfolder's `CLAUDE.md` lists what its files may import, in its `Boundaries` section.

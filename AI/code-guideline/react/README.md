@@ -26,7 +26,7 @@ Use [laravel-react/](../laravel-react/) instead if the React code lives inside a
 | `src/hooks/CLAUDE.md` | Custom hooks reusable across the app, for example `use-debounce.ts`. |
 | `src/i18n/CLAUDE.md` | Translation files. Only used if the project supports translations. |
 | `src/layouts/CLAUDE.md` | Page shells. The shell's parts, such as the sidebar and header, live in `components/layouts/`. |
-| `src/pages/CLAUDE.md` | One folder per feature. The page role only: route params, layout, placing sections. |
+| `src/pages/CLAUDE.md` | One file per route page, grouped in a domain folder when a domain has more than one. The page role only: route params, layout, placing sections. |
 | `src/stores/CLAUDE.md` | Client state with Zustand. |
 | `src/styles/CLAUDE.md` | Global stylesheet and Tailwind setup. |
 | `src/types/CLAUDE.md` | Shared types. `api.interface.ts` holds backend response types, `general.enum.ts` holds shared enums. |
@@ -35,6 +35,23 @@ Use [laravel-react/](../laravel-react/) instead if the React code lives inside a
 This is not the whole tree. It only covers folders that need their own rules. A feature's
 sections and its `widgets/` folder are created per feature under `components/features/{feature}/`,
 and their rules live in `components/features/CLAUDE.md`.
+
+## Folder File Layout
+
+Every `CLAUDE.md` under `src/` uses the same sections, in this order. Keep new files to it.
+
+1. Intro - what the folder holds, in one or two sentences.
+2. `Structure` - how files and subfolders are laid out and what role each one plays.
+3. `Rules` - what to follow while working in the folder.
+4. `Boundaries` - what the folder may import, and what belongs somewhere else. Skip it when the
+   folder has neither.
+5. `Before You Finish` - checks to run before the work is done. Only where needed.
+6. `Existing ...` - a table of what the folder already holds, so the agent can check for an
+   existing hook, helper, or component without opening every file. The agent must update it in
+   the same change whenever it adds, renames, or removes a file there. The tables start empty -
+   fill them in when you copy the template into a project.
+
+The root `CLAUDE.md` holds agent behaviour, not folder rules, so it keeps its own layout.
 
 ## Naming
 

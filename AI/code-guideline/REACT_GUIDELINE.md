@@ -63,11 +63,12 @@ different places.
 
 | Role | `react/` | `laravel-react/` |
 |------|----------|------------------|
-| Page | `pages/{feature}/index.tsx` | `pages/{module}/index.tsx` |
+| Page | `pages/{page}.tsx`, or `pages/{domain}/{page}.tsx` | `pages/{module}/index.tsx` |
 | Section | `components/features/{feature}/` | `pages/{module}/sections/` |
 | Widget | `components/features/{feature}/widgets/` | `pages/{module}/widgets/` |
 
-1. **Page** - one file per route. In `react/` it is layout and core structure only: it reads the
+1. **Page** - one file per route. In `react/`, a domain with more than one page groups them in a
+   folder named for the domain. The page is layout and core structure only: it reads the
    route params, picks the layout, and places the feature's sections. No state and no data
    fetching. In `laravel-react/` it is the component the Laravel controller renders: it provides
    the page structure and wires sections together. Logic stays minimal.
@@ -79,9 +80,9 @@ different places.
    `laravel-react/`.
 
 Push logic upwards into sections and data downwards as props. A widget never reaches for global
-state on its own. In `react/`, imports also run one way: `pages/` -> `layouts/` -> `features/` ->
-`shared/` -> `ui/`, and one feature never imports another feature's internals. The shell's parts
-are not a feature. They live in `components/layouts/` and are placed by a layout.
+state on its own. In `react/`, one feature never imports another feature's internals, and each
+folder's `CLAUDE.md` lists what its files may import. The shell's parts are not a feature. They
+live in `components/layouts/` and are placed by a layout.
 
 ---
 
