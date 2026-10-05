@@ -1,7 +1,6 @@
 # src/components - Components
 
-Everything that renders UI below the route level. A screen lives in `app/`; everything it is built
-from lives here.
+Everything that renders UI below the route level. A screen lives in `app/`; everything it is built from lives here.
 
 ## Where a Component Goes
 
@@ -20,13 +19,10 @@ components/sale/widgets/     small pieces used only by this feature
 components/sale/forms/       the feature's forms, when it has more than one
 ```
 
-- **Section** - holds most of the feature's logic, state, and data handling. A section may call
-  other sections to break up a large flow.
+- **Section** - holds most of the feature's logic, state, and data handling. A section may call other sections to break up a large flow.
 - **Widget** - props in, callbacks out. Renders and handles small local state. No business rules.
-- Add a subfolder only once more than one file belongs in it. A feature with two files keeps them
-  flat.
-- Push logic upwards into sections and data downwards as props. A widget never reaches for global
-  state on its own.
+- Add a subfolder only once more than one file belongs in it. A feature with two files keeps them flat.
+- Push logic upwards into sections and data downwards as props. A widget never reaches for global state on its own.
 
 ## Design
 
@@ -37,8 +33,7 @@ components/sale/forms/       the feature's forms, when it has more than one
 
 ## Native UI
 
-Build for the platform, not for the web. This is the rule most often broken when porting a web
-component.
+Build for the platform, not for the web. This is the rule most often broken when porting a web component.
 
 - Use a native sheet or a platform alert. Never a centered web-style modal.
 - An action is a button with a real hit area. Never link-styled text.
@@ -49,7 +44,5 @@ component.
 ## Changing a Component
 
 - Update every place it is used, not just the file in front of you.
-- Check all usage points before editing a form or a shared component. If a form is shared between
-  create and edit, a new field goes into both flows unless the user says otherwise.
-- A component full of `if (isEdit)` branches is two components. Split it and pick the right one a
-  level up.
+- Check all usage points before editing a form or a shared component. If a form is shared between create and edit, a new field goes into both flows unless the user says otherwise.
+- A component full of `if (isEdit)` branches is two components. Split it and pick the right one a level up.

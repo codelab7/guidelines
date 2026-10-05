@@ -14,8 +14,7 @@
 - Break a long method into private methods on the same controller. A private method:
   - Takes its inputs as arguments and returns a value.
   - Never reads `request()` or `$this->request`.
-- Return whatever the project uses: an Inertia response, a Blade view, a redirect, or a JSON
-  resource. Stay consistent with the controllers already in the project.
+- Return whatever the project uses: an Inertia response, a Blade view, a redirect, or a JSON resource. Stay consistent with the controllers already in the project.
 - After a successful POST, the default is a redirect back with a flash message:
 
   ```php

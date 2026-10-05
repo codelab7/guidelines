@@ -18,5 +18,4 @@
 
 ## Data Shape
 
-- A page receives only the data it actually uses. Map it in the Laravel resource; don't ship the
-  whole model and pick fields in the component.
+- A page receives only the data it actually uses. Map it in the Laravel resource; don't ship the whole model and pick fields in the component.

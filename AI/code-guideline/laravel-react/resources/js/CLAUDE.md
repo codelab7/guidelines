@@ -1,7 +1,6 @@
 # resources/js - Frontend Rules
 
-Rules for every file under `resources/js`. They sit on top of the project's root `CLAUDE.md` -
-don't restate that here. Folder-specific rules live in each subfolder's `CLAUDE.md`.
+Rules for every file under `resources/js`. They sit on top of the project's root `CLAUDE.md` - don't restate that here. Folder-specific rules live in each subfolder's `CLAUDE.md`.
 
 ## Language and Components
 
@@ -11,8 +10,7 @@ don't restate that here. Folder-specific rules live in each subfolder's `CLAUDE.
 - No deep JSX nesting. Use early returns and small helpers instead.
 - Prefer a clear long name over a short clever one.
 - Never duplicate logic. Extract it to a hook, a util, or a shared component.
-- Reach for `memo`, `useMemo`, or `useCallback` only when there is a real performance reason you
-  can name. Default to none of them.
+- Reach for `memo`, `useMemo`, or `useCallback` only when there is a real performance reason you can name. Default to none of them.
 
 ## Naming
 
@@ -23,8 +21,7 @@ don't restate that here. Folder-specific rules live in each subfolder's `CLAUDE.
 
 ## Styling
 
-- TailwindCSS. Use an existing primitive from `components/ui` or `components/shared` before
-  writing anything custom.
+- TailwindCSS. Use an existing primitive from `components/ui` or `components/shared` before writing anything custom.
 - Never add custom styling when an existing component or pattern already does the job.
 - Stay minimal unless the user asks for more.
 - Keep spacing, typography, and icons consistent with what the project already uses.
@@ -35,20 +32,16 @@ don't restate that here. Folder-specific rules live in each subfolder's `CLAUDE.
 
 - Design down to 360px wide. Use standard Tailwind breakpoints.
 - Use `dvh` over `vh` where the mobile keyboard can cover the layout.
-- When *behaviour* differs by device, use the `useIsMobile` hook. Don't drive behaviour with CSS
-  hide/show.
-- Every click, navigation, tab change, and submit either responds immediately or shows feedback -
-  a spinner, a disabled button, a loading state.
+- When *behaviour* differs by device, use the `useIsMobile` hook. Don't drive behaviour with CSS hide/show.
+- Every click, navigation, tab change, and submit either responds immediately or shows feedback - a spinner, a disabled button, a loading state.
 - Avoid heavy or decorative animation.
 
 ## Inertia
 
-- Page data arrives as Inertia props. Prefer an Inertia response over JSON; JSON is for real API
-  endpoints only.
+- Page data arrives as Inertia props. Prefer an Inertia response over JSON; JSON is for real API endpoints only.
 - Navigate with the Inertia `Link` component and the Inertia router. No full page loads.
 - Generate URLs with Ziggy or WayFinder, whichever the project uses. Never hardcode a path.
-- `HandleInertiaRequests` supplies the shared props: `auth`, `companies`, `permissions`,
-  `notifications`, `flash`. Read them from the page props rather than refetching.
+- `HandleInertiaRequests` supplies the shared props: `auth`, `companies`, `permissions`, `notifications`, `flash`. Read them from the page props rather than refetching.
 
 ## Libraries
 
@@ -65,8 +58,7 @@ don't restate that here. Folder-specific rules live in each subfolder's `CLAUDE.
 ## Before You Finish
 
 - TypeScript passes.
-- Formatting and lint follow the project's own Prettier and ESLint config. Don't override a rule
-  locally or reformat a file to a different style.
+- Formatting and lint follow the project's own Prettier and ESLint config. Don't override a rule locally or reformat a file to a different style.
 - No unused imports and no dead code.
 - No extra type check on a parameter that is already typed and validated.
 - No conversion where the type is already stable.

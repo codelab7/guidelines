@@ -1,7 +1,6 @@
 # src/components/features - Feature Folders
 
-One folder per feature. A feature is one business area of the app, such as sales or contacts.
-Everything the feature is built from lives here. Its page in `pages/` only places the sections.
+One folder per feature. A feature is one business area of the app, such as sales or contacts. Everything the feature is built from lives here. Its page in `pages/` only places the sections.
 
 ## Structure
 
@@ -56,8 +55,7 @@ components/features/sales/
 
 ## Existing Features
 
-Read this list before opening feature folders. When you add, rename, or remove a feature folder,
-or change what it covers, update this list in the same change.
+Read this list before opening feature folders. When you add, rename, or remove a feature folder, or change what it covers, update this list in the same change.
 
 | Folder | Covers | Page |
 |--------|--------|------|

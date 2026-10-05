@@ -19,5 +19,4 @@
 
 ## Data Shape
 
-- A screen holds only the data it actually uses. Map an API response to what the screen needs
-  instead of passing the raw payload down.
+- A screen holds only the data it actually uses. Map an API response to what the screen needs instead of passing the raw payload down.

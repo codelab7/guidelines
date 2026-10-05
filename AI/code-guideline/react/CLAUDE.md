@@ -9,13 +9,11 @@
 Fill this in for the project. The defaults below are for a new project.
 
 - React and TypeScript in strict mode, built with Vite.
-- Router: TanStack Router with code-based routes for a new project. Keep React Router in an
-  existing project that already uses it.
+- Router: TanStack Router with code-based routes for a new project. Keep React Router in an existing project that already uses it.
 - Server data: TanStack Query.
 - Client state: Zustand.
 - UI library: chosen per project, for example Mantine or MUI.
-- Forms: the UI library's form package when it has one, for example `@mantine/form`. Otherwise
-  React Hook Form with Zod.
+- Forms: the UI library's form package when it has one, for example `@mantine/form`. Otherwise React Hook Form with Zod.
 - Icons: chosen per project. Default: Phosphor (`@phosphor-icons/react`).
 - Helpers: es-toolkit and date-fns.
 - Translations: react-i18next, only if the project needs them.
@@ -41,8 +39,7 @@ pnpm lint        # ESLint
 - When intent is unclear, ask specific clarifying questions before you write code.
 - Give one recommended path, not a list of options.
 - For small, localized, low-risk changes: proceed directly.
-- For changes that go beyond the current structure: share a short plan and confirm first. A
-  change goes beyond the structure when it:
+- For changes that go beyond the current structure: share a short plan and confirm first. A change goes beyond the structure when it:
   - adds a folder or a library,
   - adds a shared component, hook, or store,
   - changes the props of a shared component,

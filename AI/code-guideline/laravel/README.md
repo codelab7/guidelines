@@ -1,12 +1,8 @@
 # Laravel Template
 
-`CLAUDE.md` files for a Laravel project. Copy them into your project, keeping the same folder
-paths, so each folder carries its own rules. Claude Code reads the `CLAUDE.md` of the folder it is
-working in, so the rules for a layer load only while you are in that layer.
+`CLAUDE.md` files for a Laravel project. Copy them into your project, keeping the same folder paths, so each folder carries its own rules. Claude Code reads the `CLAUDE.md` of the folder it is working in, so the rules for a layer load only while you are in that layer.
 
-These files are the rules. [PHP_LARAVEL_GUIDELINE.md](../PHP_LARAVEL_GUIDELINE.md) is now an index
-that points at them, and [GENERAL_GUIDELINE.md](../GENERAL_GUIDELINE.md) covers agent behaviour
-that isn't Laravel-specific.
+These files are the rules. [PHP_LARAVEL_GUIDELINE.md](../PHP_LARAVEL_GUIDELINE.md) is now an index that points at them, and [GENERAL_GUIDELINE.md](../GENERAL_GUIDELINE.md) covers agent behaviour that isn't Laravel-specific.
 
 ## Files
 
@@ -30,8 +26,7 @@ that isn't Laravel-specific.
 | `routes/CLAUDE.md` | URLs in kebab-case, route names in camelCase, tuple notation. |
 | `tests/CLAUDE.md` | Pest, feature tests first, factories for data. |
 
-This is not the whole Laravel tree. It only covers folders that need their own rules; everything
-else keeps the default Laravel layout.
+This is not the whole Laravel tree. It only covers folders that need their own rules; everything else keeps the default Laravel layout.
 
 ## Layer Responsibilities
 
@@ -46,32 +41,20 @@ See section 2 of the [Laravel guideline](../PHP_LARAVEL_GUIDELINE.md) for the de
 
 ## Before You Copy
 
-The root `CLAUDE.md` points at `docs/PROJECT_ARCHITECTURE.md` and `docs/PROJECT_GUIDELINES.md`.
-Those paths are relative to the project you copy into, not to this repository. Create that `docs/`
-folder, or edit the paths, or the links will not resolve.
+The root `CLAUDE.md` points at `docs/PROJECT_ARCHITECTURE.md` and `docs/PROJECT_GUIDELINES.md`. Those paths are relative to the project you copy into, not to this repository. Create that `docs/` folder, or edit the paths, or the links will not resolve.
 
 ## Checklist - Rules Still Missing
 
-Decisions we haven't settled yet. Work through these and add the answer to the matching
-`CLAUDE.md`, or create the file if there isn't one.
+Decisions we haven't settled yet. Work through these and add the answer to the matching `CLAUDE.md`, or create the file if there isn't one.
 
-- [ ] `single` vs `show` for the controller method that renders one resource. Our spec says
-      `single`; Laravel convention is `show`. Pick one and make `app/Http/Controllers/CLAUDE.md`
-      match.
-- [ ] Helpers: global functions or static classes, how they are autoloaded, and when a helper is
-      allowed instead of a service.
-- [ ] Factories and seeders: confirm the starting rules match how we actually seed, especially
-      whether demo data ships outside local, and how it is gated per environment.
-- [ ] Routes: splitting `web.php` and `api.php`, route model binding, how hashed IDs interact with
-      binding, and how middleware groups are organised.
-- [ ] Authorization: policy naming, where gates are defined, and whether `app/Policies/` needs its
-      own `CLAUDE.md`.
-- [ ] API responses: when to use an API Resource, the JSON envelope shape, the error format, and
-      pagination.
+- [ ] `single` vs `show` for the controller method that renders one resource. Our spec says `single`; Laravel convention is `show`. Pick one and make `app/Http/Controllers/CLAUDE.md` match.
+- [ ] Helpers: global functions or static classes, how they are autoloaded, and when a helper is allowed instead of a service.
+- [ ] Factories and seeders: confirm the starting rules match how we actually seed, especially whether demo data ships outside local, and how it is gated per environment.
+- [ ] Routes: splitting `web.php` and `api.php`, route model binding, how hashed IDs interact with binding, and how middleware groups are organised.
+- [ ] Authorization: policy naming, where gates are defined, and whether `app/Policies/` needs its own `CLAUDE.md`.
+- [ ] API responses: when to use an API Resource, the JSON envelope shape, the error format, and pagination.
 - [ ] Where service Result objects and DTOs live, and how they are named.
-- [ ] Jobs and queues, console commands, events, listeners, observers, notifications, and
-      mailables: decide which of these folders need their own `CLAUDE.md`.
+- [ ] Jobs and queues, console commands, events, listeners, observers, notifications, and mailables: decide which of these folders need their own `CLAUDE.md`.
 - [ ] Exception handling: custom exception classes and which layer catches them.
 - [ ] Static analysis: whether Larastan or a specific Pint preset is required, and at what level.
-- [ ] `config/` conventions: kebab-case file names, snake_case keys, and where service credentials
-      go.
+- [ ] `config/` conventions: kebab-case file names, snake_case keys, and where service credentials go.

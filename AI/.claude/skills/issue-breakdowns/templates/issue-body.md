@@ -11,8 +11,7 @@
 ## What Needs to Happen
 
 <!-- Plain-language description of the change. Focus on WHAT and WHY, not step-by-step HOW.
-     Give the implementer freedom to choose the approach.
-     Think: "If I handed this to a developer, would they understand the goal without reading the codebase first?" -->
+     Give the implementer freedom to choose the approach. Think: "If I handed this to a developer, would they understand the goal without reading the codebase first?" -->
 
 ## Acceptance Criteria
 

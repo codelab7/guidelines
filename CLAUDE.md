@@ -25,4 +25,5 @@ New guidelines follow that layering: cross-cutting agent behaviour goes in the g
 - Framework-specific guidelines end with an "Agent Behaviour Summary" section that condenses the rules.
 - Each top-level folder, and each starter structure, has a `README.md` that indexes its contents. Update it when adding or renaming a file, and update the root `README.md` too - both list the guides.
 - The `linux-os/` guides follow their own format: plain numbered `## 1.` sections separated by `---`, copy-paste `bash` code fences (`text` for command output), simple English written for a non-native speaker, and a short "What you have now" summary ending in a link to the next guide.
+- Do not hard-wrap prose. Keep each paragraph and each list item on one line; editors soft-wrap it.
 - Use plain ASCII in all documents - no smart quotes, em-dashes, emoji step numbers, or raw HTML. These files were converted from HTML once and carried those artifacts; do not reintroduce them.

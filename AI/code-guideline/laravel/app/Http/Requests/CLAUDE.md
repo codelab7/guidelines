@@ -1,9 +1,7 @@
 # app/Http/Requests - Form Requests
 
-- One form request per intent: `StoreContactRequest`, `UpdateContactRequest`. Don't share one class
-  between store and update.
-- A form request holds three things: validation rules, validation messages, and a simple
-  `authorize()` check.
+- One form request per intent: `StoreContactRequest`, `UpdateContactRequest`. Don't share one class between store and update.
+- A form request holds three things: validation rules, validation messages, and a simple `authorize()` check.
 - Write rules in array notation so a custom rule class drops in cleanly:
 
   ```php

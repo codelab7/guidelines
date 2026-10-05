@@ -26,8 +26,7 @@ schemas/
 
 ## Existing Schemas
 
-Read this list before writing a schema - the form may already have one. When you add, rename, or
-remove a schema, or change its fields, update this list in the same change.
+Read this list before writing a schema - the form may already have one. When you add, rename, or remove a schema, or change its fields, update this list in the same change.
 
 | File | Schema | Used by |
 |------|--------|---------|

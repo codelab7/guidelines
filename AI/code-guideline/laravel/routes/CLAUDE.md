@@ -10,7 +10,6 @@
       ->name('errorOccurrences.index');
   ```
 
-- Keep nesting shallow. Prefer `/error-occurrences/1` and `/errors/1/occurrences` over anything
-  deeper.
+- Keep nesting shallow. Prefer `/error-occurrences/1` and `/errors/1/occurrences` over anything deeper.
 - No closures in route files. Every route resolves to a controller method.
 - No logic in a route file beyond grouping by prefix, middleware, or name.

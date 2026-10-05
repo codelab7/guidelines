@@ -45,10 +45,6 @@ To pull a shared document into a file, use an import line instead of copying the
 
 ## Status
 
-All four templates are complete: every folder file is written, and the three framework specs
-(`PHP_LARAVEL_GUIDELINE.md`, `REACT_GUIDELINE.md`, `REACT_NATIVE_GUIDELINE.md`) are indexes
-pointing at them.
+All four templates are complete: every folder file is written, and the three framework specs (`PHP_LARAVEL_GUIDELINE.md`, `REACT_GUIDELINE.md`, `REACT_NATIVE_GUIDELINE.md`) are indexes pointing at them.
 
-Open questions are tracked as a checklist at the bottom of each template's `README.md`:
-[laravel/](laravel/README.md), [react/](react/README.md),
-[laravel-react/](laravel-react/README.md), and [react-native/](react-native/README.md).
+Open questions are tracked as a checklist at the bottom of each template's `README.md`: [laravel/](laravel/README.md), [react/](react/README.md), [laravel-react/](laravel-react/README.md), and [react-native/](react-native/README.md).

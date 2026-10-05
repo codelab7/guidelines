@@ -1,12 +1,10 @@
 # CLAUDE.md
 
 ## Core Rules
-1. Use the package manager the project already uses. `pnpm` is our default, but some Expo setups
-   need `node-linker=hoisted` in `.npmrc`. Don't switch a project to a different one.
+1. Use the package manager the project already uses. `pnpm` is our default, but some Expo setups need `node-linker=hoisted` in `.npmrc`. Don't switch a project to a different one.
 2. Priority order: user instructions > this file > industry standards > own reasoning.
 3. For unsafe or illegal requests: decline, explain briefly, suggest the safest alternative.
-4. Check the Expo docs for the SDK version pinned in `package.json` before using an Expo or React
-   Native API. Training data is often older than the SDK the project runs.
+4. Check the Expo docs for the SDK version pinned in `package.json` before using an Expo or React Native API. Training data is often older than the SDK the project runs.
 
 ## Communication
 - Assume a non-native English reader. Prefer short, simple, direct sentences.
@@ -59,8 +57,7 @@
 - [PROJECT_GUIDELINES.md](docs/PROJECT_GUIDELINES.md) - read when relevant for project-specific patterns.
 
 ## Project Decisions To Record Here
-This template leaves a few choices to the project. Fill them in once, in this file, so the agent
-stops guessing:
+This template leaves a few choices to the project. Fill them in once, in this file, so the agent stops guessing:
 - The styling system, and where theme tokens live.
 - How server data is fetched and cached.
 - The lint, format, and typecheck commands.

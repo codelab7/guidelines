@@ -1,7 +1,6 @@
 # src - Frontend Rules
 
-Rules for every file under `src`. They sit on top of the root `CLAUDE.md` - don't restate that
-here. Each subfolder's `CLAUDE.md` adds the rules for that folder only.
+Rules for every file under `src`. They sit on top of the root `CLAUDE.md` - don't restate that here. Each subfolder's `CLAUDE.md` adds the rules for that folder only.
 
 ## Structure
 
@@ -41,27 +40,21 @@ Every folder `CLAUDE.md` uses the same sections, in this order:
 
 ### Folder Docs
 
-- A folder's `CLAUDE.md` loads only when you open a file in that folder. Rules that govern code
-  in other folders therefore live here or in `components/CLAUDE.md`.
-- Before you write a hook, helper, constant, shared component, store, API call, or schema, read
-  the `Existing ...` list in the `CLAUDE.md` of `hooks/`, `utils/`, `components/shared/`, `stores/`, `api/`, or `schemas/`. Open it on purpose - it does not load on its own, and the code you need often  exists already.
-- When you add, rename, or remove a file in a folder with an `Existing ...` list, or change what a
-  file exports or does, update that list in the same change. A stale list is worse than no list.
+- A folder's `CLAUDE.md` loads only when you open a file in that folder. Rules that govern code in other folders therefore live here or in `components/CLAUDE.md`.
+- Before you write a hook, helper, constant, shared component, store, API call, or schema, read the `Existing ...` list in the `CLAUDE.md` of `hooks/`, `utils/`, `components/shared/`, `stores/`, `api/`, or `schemas/`. Open it on purpose - it does not load on its own, and the code you need often  exists already.
+- When you add, rename, or remove a file in a folder with an `Existing ...` list, or change what a file exports or does, update that list in the same change. A stale list is worse than no list.
 - When a folder gains a subfolder, add it to the `Structure` section of the parent's `CLAUDE.md`.
 
 ### Language and Components
 
 - TypeScript only. `.tsx` for components, `.ts` for everything else.
 - Functional components and hooks. Never a class component.
-- Keep a component small. Split it when the file passes about 150 lines, when it does more than
-  one job, or when it holds more than 3 `useState` / `useEffect` calls. Pull the piece out into a section or a widget.
+- Keep a component small. Split it when the file passes about 150 lines, when it does more than one job, or when it holds more than 3 `useState` / `useEffect` calls. Pull the piece out into a section or a widget.
 - No deep JSX nesting. Use early returns and small helpers instead.
 - Use a clear name, even when it gets long. No clever abbreviations.
 - Never duplicate logic. Extract it to a hook, a util, or a shared component.
-- Reach for `memo`, `useMemo`, or `useCallback` only when there is a real performance reason you
-  can name. Default to none of them.
-- Comment the *why*, never the *what*. No commented-out code. Give every export of `hooks/` and
-  `utils/` a short doc comment.
+- Reach for `memo`, `useMemo`, or `useCallback` only when there is a real performance reason you can name. Default to none of them.
+- Comment the *why*, never the *what*. No commented-out code. Give every export of `hooks/` and `utils/` a short doc comment.
 
 ### Naming
 
@@ -72,36 +65,27 @@ Every folder `CLAUDE.md` uses the same sections, in this order:
 
 ### Imports and Exports
 
-- Always import through the `@/` alias, even from the same folder:
-  `@/components/features/sales/sale-summary`. Never a relative path.
-- A component file uses a default export. Everything else - hooks, helpers, types, constants,
-  API functions - uses named exports.
+- Always import through the `@/` alias, even from the same folder: `@/components/features/sales/sale-summary`. Never a relative path.
+- A component file uses a default export. Everything else - hooks, helpers, types, constants, API functions - uses named exports.
 
 ### UI and Styling
 
-- Build from the project's UI library. Use an existing component from `components/ui` or
-  `components/shared` before writing anything custom.
+- Build from the project's UI library. Use an existing component from `components/ui` or `components/shared` before writing anything custom.
 - Never add custom styling when an existing component or pattern already does the job.
 - Stay minimal unless the user asks for more.
-- Use the theme's values for colors, spacing, radius, and fonts. Never a raw color or hex value in
-  a component. Hardcode a size only when no theme value fits.
+- Use the theme's values for colors, spacing, radius, and fonts. Never a raw color or hex value in a component. Hardcode a size only when no theme value fits.
 - Every new UI works in both light and dark mode.
 - Keep spacing, typography, and icons consistent with what the project already uses.
-- Icons come from the icon library named in the root `CLAUDE.md` Stack. Never mix two icon
-  libraries.
+- Icons come from the icon library named in the root `CLAUDE.md` Stack. Never mix two icon libraries.
 - Toasts, modals, and confirm dialogs: use what the UI library provides. Don't build your own.
-- Use semantic elements: `button`, `a`, `label`, `form`. Keep the accessibility the UI library's
-  components provide. Don't add extra `aria-*` attributes unless the project asks for them.
+- Use semantic elements: `button`, `a`, `label`, `form`. Keep the accessibility the UI library's components provide. Don't add extra `aria-*` attributes unless the project asks for them.
 
 ### Responsiveness and Feedback
 
-- Design down to 360px wide. Write mobile-first: base styles for mobile, the UI library's
-  breakpoints for larger screens.
+- Design down to 360px wide. Write mobile-first: base styles for mobile, the UI library's breakpoints for larger screens.
 - Use `dvh` over `vh` where the mobile keyboard can cover the layout.
-- When *behaviour* differs by device, use the `useIsMobile` hook. It is true below the `md`
-  breakpoint (768px). Don't drive behaviour with CSS hide/show.
-- Every click, navigation, tab change, and submit either responds immediately or shows feedback -
-  a spinner, a disabled button, a loading state.
+- When *behaviour* differs by device, use the `useIsMobile` hook. It is true below the `md` breakpoint (768px). Don't drive behaviour with CSS hide/show.
+- Every click, navigation, tab change, and submit either responds immediately or shows feedback - a spinner, a disabled button, a loading state.
 - Every view that loads data handles three states: loading, empty, and error.
 - No heavy or decorative animation.
 
@@ -113,10 +97,8 @@ Every folder `CLAUDE.md` uses the same sections, in this order:
 
 ### Config and Security
 
-- Read env variables only through `src/config.ts`. No other file reads `import.meta.env`. Type
-  every variable in `src/vite-env.d.ts`.
-- Vite puts every `VITE_` variable into the client bundle, so it is public. Never put a secret in
-  one.
+- Read env variables only through `src/config.ts`. No other file reads `import.meta.env`. Type every variable in `src/vite-env.d.ts`.
+- Vite puts every `VITE_` variable into the client bundle, so it is public. Never put a secret in one.
 - Never commit a secret. Never log a token or personal data.
 
 ### Other
@@ -151,8 +133,7 @@ What each kind of code may import. Each folder's `CLAUDE.md` names its own row.
 ## Before You Finish
 
 - Run the typecheck and lint commands from the root `CLAUDE.md`. Both pass.
-- Formatting and lint follow the project's own Prettier and ESLint config. Don't override a rule
-  locally or reformat a file to a different style.
+- Formatting and lint follow the project's own Prettier and ESLint config. Don't override a rule locally or reformat a file to a different style.
 - No unused imports and no dead code. Remove every `console.log` you added.
 - No extra type check on a parameter that is already typed and validated.
 - No conversion where the type is already stable.

@@ -27,12 +27,10 @@ types/
 
 ### Changing a Backend Type
 
-- Change `api.interface.ts` only when the user says the backend changed, or a real response shows
-  the mismatch. Never edit a backend type to make a TypeScript error go away.
+- Change `api.interface.ts` only when the user says the backend changed, or a real response shows the mismatch. Never edit a backend type to make a TypeScript error go away.
 - Extend `general.enum.ts` only when the backend introduces a new enum.
 
 ## Boundaries
 
 - Follow the `types/` row in the import table in `src/CLAUDE.md`.
-- Not here: a props type, or a type used only inside one feature. It stays in the file that uses
-  it.
+- Not here: a props type, or a type used only inside one feature. It stays in the file that uses it.

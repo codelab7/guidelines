@@ -1,7 +1,6 @@
 # app/ - PHP and Laravel Rules
 
-Rules for all PHP code under `app/`. Each subfolder has its own `CLAUDE.md` with the rules for
-that layer. Don't restate the root `CLAUDE.md` here.
+Rules for all PHP code under `app/`. Each subfolder has its own `CLAUDE.md` with the rules for that layer. Don't restate the root `CLAUDE.md` here.
 
 ## PHP Style
 
@@ -11,8 +10,7 @@ that layer. Don't restate the root `CLAUDE.md` here.
 - Short nullable notation: `?string`, never `string|null`.
 - Use constructor property promotion when every property can be promoted.
 - One trait per line in a `use` statement.
-- Skip docblocks on fully type-hinted methods. Add one only for a description or a generic, and
-  import the class names instead of writing them fully qualified:
+- Skip docblocks on fully type-hinted methods. Add one only for a description or a generic, and import the class names instead of writing them fully qualified:
 
   ```php
   /** @return Collection<int, User> */

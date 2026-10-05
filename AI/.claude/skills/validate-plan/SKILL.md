@@ -120,8 +120,7 @@ Do not nitpick cosmetic preferences. Do flag things that would cause rework, mer
 
 ### Markdown File
 
-After printing the terminal output, also save the same validation report as a markdown file at:
-`./validation-report-[timestamp].md`
+After printing the terminal output, also save the same validation report as a markdown file at: `./validation-report-[timestamp].md`
 
 Inform the user of the file location.
 

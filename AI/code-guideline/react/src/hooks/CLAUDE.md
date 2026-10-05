@@ -15,15 +15,12 @@ hooks/
 
 ## Rules
 
-- Before you write a hook, check the UI library's hooks (for example `@mantine/hooks`) and
-  es-toolkit. Write one only when none covers it.
-- If it uses React state, effects, context, or another hook, it is a hook. Otherwise it is a util
-  and goes in `utils/`.
+- Before you write a hook, check the UI library's hooks (for example `@mantine/hooks`) and es-toolkit. Write one only when none covers it.
+- If it uses React state, effects, context, or another hook, it is a hook. Otherwise it is a util and goes in `utils/`.
 - A hook here may call the query hooks in `api/` when several features need the combined result.
 - No JSX in a hook.
 - Return a typed object or tuple, never an untyped one.
-- Every effect that subscribes, sets a timer, or starts a request returns a cleanup: remove the
-  listener, clear the timer, abort the request.
+- Every effect that subscribes, sets a timer, or starts a request returns a cleanup: remove the listener, clear the timer, abort the request.
 
 ## Boundaries
 
@@ -33,9 +30,7 @@ hooks/
 
 ## Existing Hooks
 
-Read this list before writing a hook - the one you need may already be here. When you add,
-rename, or remove a hook, or change its arguments or return value, update this list in the same
-change.
+Read this list before writing a hook - the one you need may already be here. When you add, rename, or remove a hook, or change its arguments or return value, update this list in the same change.
 
 | File | Hook | What it does |
 |------|------|--------------|

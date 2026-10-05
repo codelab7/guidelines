@@ -11,8 +11,7 @@ The global stylesheet and the UI library's theme.
 
 - Add a global rule only when it genuinely cannot be a theme value or a component style.
 - Define every theme color for both light and dark mode.
-- The rules for styling a component - theme values, no raw colors, dark mode - are in
-  `src/CLAUDE.md`, because they apply where components are written.
+- The rules for styling a component - theme values, no raw colors, dark mode - are in `src/CLAUDE.md`, because they apply where components are written.
 
 ## Boundaries
 

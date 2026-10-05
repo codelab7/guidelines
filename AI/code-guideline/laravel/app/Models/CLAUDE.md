@@ -1,10 +1,8 @@
 # app/Models - Eloquent Models
 
-- Define default attribute values on the model with `$attributes` or an accessor. Never set a
-  default in the migration.
+- Define default attribute values on the model with `$attributes` or an accessor. Never set a default in the migration.
 - Use soft deletes unless the project forbids them.
-- Cast every attribute that isn't a plain string: JSON to array, backed enums, dates and datetimes,
-  booleans, decimals.
+- Cast every attribute that isn't a plain string: JSON to array, backed enums, dates and datetimes, booleans, decimals.
 
   ```php
   protected $casts = [

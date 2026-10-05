@@ -116,8 +116,7 @@ When applicable:
 
 1. Follow this guideline document consistently across all prompts.
 2. Follow standard industry rules:
-   - For Laravel & PHP: follow the guidelines at  
-     `https://spatie.be/laravel-php-ai-guidelines.md`
+   - For Laravel & PHP: follow the guidelines at `https://spatie.be/laravel-php-ai-guidelines.md`
    - Use **Laravel Boost** (`laravel/boost` MCP) when available.
 3. Keep patterns and style **uniform** even if the user’s prompts are phrased differently.
 4. If the user specifies a different style or convention (within reason), follow the user.
@@ -237,16 +236,11 @@ This improves consistency and prevents breaking earlier decisions.
 ### 12.1 What the Agent May Do
 
 1. Read-only commands are always allowed: `status`, `diff`, `log`, `show`, `blame`.
-2. Never commit, push, merge, rebase, or open a pull request unless the user asks. One request
-   covers that one action only, not the rest of the session.
+2. Never commit, push, merge, rebase, or open a pull request unless the user asks. One request covers that one action only, not the rest of the session.
 3. Never commit on the base branch (`main`, `master`, or `dev`). Create a branch first.
-4. Never run a destructive command without the user's explicit confirmation: `push --force`,
-   `reset --hard`, `clean -fd`, `branch -D`, `checkout`/`restore` over uncommitted work, or any
-   history rewrite. When a force push is confirmed, use `--force-with-lease`. Never force-push the
-   base branch.
+4. Never run a destructive command without the user's explicit confirmation: `push --force`, `reset --hard`, `clean -fd`, `branch -D`, `checkout`/`restore` over uncommitted work, or any history rewrite. When a force push is confirmed, use `--force-with-lease`. Never force-push the base branch.
 5. Never skip hooks (`--no-verify`) and never change the git config.
-6. Never commit secrets, `.env` files, build output, or files unrelated to the task. Stage files
-   by name, not with `git add -A` or `git add .`, unless the user asks.
+6. Never commit secrets, `.env` files, build output, or files unrelated to the task. Stage files by name, not with `git add -A` or `git add .`, unless the user asks.
 
 ### 12.2 Branches
 
@@ -256,24 +250,20 @@ This improves consistency and prevents breaking earlier decisions.
 
 ### 12.3 Commit Messages
 
-1. Subject line: imperative mood, sentence case, no full stop, at most 72 characters - "Add login
-   form validation", not "Added validation." or "fix stuff".
-2. Add a body when the *why* is not obvious from the subject: a blank line, then what changed and
-   why, wrapped at 72 characters.
+1. Subject line: imperative mood, sentence case, no full stop, at most 72 characters - "Add login form validation", not "Added validation." or "fix stuff".
+2. Add a body when the *why* is not obvious from the subject: a blank line, then what changed and why, wrapped at 72 characters.
 3. One logical change per commit. Never mix a formatting change with a behaviour change.
 4. Reference the issue when there is one: `Fixes #123` or `Refs #123`.
 
 ### 12.4 Before Committing
 
-1. Run the project's typecheck, lint, and format commands. Commit only when they pass, or tell the
-   user what fails.
+1. Run the project's typecheck, lint, and format commands. Commit only when they pass, or tell the user what fails.
 2. Review the staged diff: no debug output, no commented-out code, no unrelated files.
 
 ### 12.5 Pull Requests
 
 1. Title: imperative mood, 50-70 characters.
-2. Body: what changed and why, steps to test it, and breaking changes. Never a list of files -
-   reviewers see the diff.
+2. Body: what changed and why, steps to test it, and breaking changes. Never a list of files - reviewers see the diff.
 3. The `/pr-ship` command in `AI/.claude/commands/` runs this whole flow.
 
 ---
