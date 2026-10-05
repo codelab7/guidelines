@@ -8,7 +8,7 @@ The full rules. These are written for AI assistants to follow, not as a tutorial
 
 | Document | Purpose |
 |----------|---------|
-| [GENERAL_GUIDELINE.md](GENERAL_GUIDELINE.md) | Global agent behaviour: communication style, planning, handling ambiguity, error correction. |
+| [GENERAL_GUIDELINE.md](GENERAL_GUIDELINE.md) | Global agent behaviour: communication style, planning, handling ambiguity, error correction, git. |
 | [PHP_LARAVEL_GUIDELINE.md](PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP: the layer responsibilities, plus an index of which `laravel/` folder file owns each rule. |
 | [REACT_GUIDELINE.md](REACT_GUIDELINE.md) | React + TypeScript: the component roles, plus an index of which `react/` and `laravel-react/` folder file owns each rule. |
 | [REACT_NATIVE_GUIDELINE.md](REACT_NATIVE_GUIDELINE.md) | React Native on Expo: the screen/section/widget roles, what mobile adds, plus an index of which `react-native/` folder file owns each rule. |

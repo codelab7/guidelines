@@ -46,6 +46,7 @@ tree - prefix it with `laravel-react/resources/js/` or `react/src/`.
 | Shared types, `api.interface.ts`, `general.enum.ts` | `types/CLAUDE.md` |
 | Shared helpers and validation utilities | `utils/CLAUDE.md` |
 | Direct backend calls (standalone tree: also the TanStack Query hooks) | `api/CLAUDE.md` |
+| Zod form schemas (standalone tree only) | `schemas/CLAUDE.md` |
 | Client state | `stores/CLAUDE.md` |
 | Translations (standalone tree only) | `i18n/CLAUDE.md` |
 | Global stylesheet and the UI library's theme (standalone tree only) | `styles/CLAUDE.md` |

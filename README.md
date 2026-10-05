@@ -8,7 +8,7 @@ Markdown specs in [`AI/code-guideline/`](AI/code-guideline/) that define how an 
 
 | Document | Purpose |
 |----------|---------|
-| [GENERAL_GUIDELINE.md](AI/code-guideline/GENERAL_GUIDELINE.md) | Global agent behaviour: communication style, planning, handling ambiguity, error correction. |
+| [GENERAL_GUIDELINE.md](AI/code-guideline/GENERAL_GUIDELINE.md) | Global agent behaviour: communication style, planning, handling ambiguity, error correction, git. |
 | [PHP_LARAVEL_GUIDELINE.md](AI/code-guideline/PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP: layer responsibilities (controllers, requests, services, models), plus an index of which `laravel/` folder file owns each rule. |
 | [REACT_GUIDELINE.md](AI/code-guideline/REACT_GUIDELINE.md) | React + TypeScript: the page/section/widget component roles, plus an index of which folder file owns each rule. |
 | [REACT_NATIVE_GUIDELINE.md](AI/code-guideline/REACT_NATIVE_GUIDELINE.md) | React Native on Expo: the screen/section/widget component roles, what mobile adds on top of React, plus an index of which folder file owns each rule. |

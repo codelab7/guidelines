@@ -46,7 +46,7 @@ components/
 ### Component Design
 
 - Minimum props, maximum flexibility. Expose only what the caller must control.
-- Prefer composition - children, nested components, callback props - over adding another prop.
+- Use composition - children, nested components, callback props - instead of adding another prop.
 - Never pass a whole object or global state when a single field is enough.
 - Build components that nest:
 

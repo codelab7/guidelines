@@ -21,19 +21,20 @@ Use [laravel-react/](../laravel-react/) instead if the React code lives inside a
 | `src/components/CLAUDE.md` | Where a component goes, promoting to `shared/`, file layout, props types, composition, updating every usage. |
 | `src/components/ui/CLAUDE.md` | Thin wrappers around the UI library's components. |
 | `src/components/shared/CLAUDE.md` | Components reused by two or more features, including `<Can>`. |
-| `src/components/features/CLAUDE.md` | One folder per feature: section and widget roles, `forms/`, `schemas/`, feature-only helpers and hooks, form rules. |
+| `src/components/features/CLAUDE.md` | One folder per feature: section and widget roles, `forms/`, feature-only helpers and hooks, form rules. |
 | `src/components/layouts/CLAUDE.md` | The parts a layout is built from, such as the sidebar and header. |
 | `src/hooks/CLAUDE.md` | Custom hooks reusable across the app, for example `use-debounce.ts`. |
 | `src/i18n/CLAUDE.md` | Translation files. Only used if the project supports translations. |
 | `src/layouts/CLAUDE.md` | Layout routes. The shell's parts, such as the sidebar and header, live in `components/layouts/`. |
 | `src/pages/CLAUDE.md` | One file per route page, grouped in a feature folder when a feature has more than one. The page role only: route params, title, placing sections. |
+| `src/schemas/CLAUDE.md` | Zod form schemas. Only used if the project validates forms with Zod. |
 | `src/stores/CLAUDE.md` | Client state with Zustand, and where each kind of state goes. |
 | `src/styles/CLAUDE.md` | Global stylesheet and the UI library's theme. |
 | `src/types/CLAUDE.md` | Shared types. `api.interface.ts` holds backend response types, `general.enum.ts` holds shared enums. |
 | `src/utils/CLAUDE.md` | Shared helper functions. Check here before writing a new helper. |
 
 This is not the whole tree. It only covers folders that need their own rules. A feature's
-sections and its `forms/`, `schemas/`, and `widgets/` folders are created per feature under
+sections and its `forms/` and `widgets/` folders are created per feature under
 `components/features/{feature}/`, and their rules live in `components/features/CLAUDE.md`.
 
 ## Folder File Layout
@@ -75,11 +76,6 @@ agent runs those commands before it finishes, so they must be the project's real
 Decisions we haven't settled yet. Work through these and add the answer to the matching
 `CLAUDE.md`, or create the file if there isn't one.
 
-- [ ] Rule wording: many rules start with "Prefer", which an agent reads as optional. Decide
-      which are hard rules and rewrite those as commands, for example "Use pnpm".
-- [ ] Git and commit rules: whether the agent may commit or push, branch names, and the commit
-      message format. Decided to write them in `GENERAL_GUIDELINE.md`, not here.
-- [ ] Global stylesheet: pick one file name, so `styles/CLAUDE.md` can name it.
 - [ ] ESLint and Prettier: which preset is enforced, and whether typecheck and lint run in CI.
 - [ ] Frontend testing: there are no tests for now, and the agent must not add a test setup.
       Revisit when a project needs tests.

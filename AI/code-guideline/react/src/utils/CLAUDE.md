@@ -17,11 +17,11 @@ utils/
 ## Rules
 
 - Before you write a helper, check es-toolkit, date-fns, and the list below. Write a new one only
-  when none of them covers it. Prefer a library helper over hand-written code. Never lodash.
+  when none of them covers it. A library helper always beats hand-written code. Never lodash.
 - Pure functions only: same input, same output, no side effects.
 - `validation.utils.ts` is the single home for validation helpers. When the project uses Zod, it
-  holds the shared schema pieces - phone, email, money - that form schemas combine. Otherwise
-  each helper is a pure function returning a boolean or a simple typed result.
+  holds the shared schema pieces - phone, email, money - that the schemas in `src/schemas/`
+  combine. Otherwise each helper is a pure function returning a boolean or a simple typed result.
 - Never duplicate a validation rule anywhere else in the codebase.
 
 ## Boundaries

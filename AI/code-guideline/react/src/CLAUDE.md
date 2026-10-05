@@ -17,8 +17,9 @@ src/
   i18n/                 translation files, only if the project supports translations
   layouts/              layout routes: page shells that place the parts from components/layouts/
   pages/                route pages that place a feature's sections
+  schemas/              Zod form schemas, only if the project uses Zod
   stores/               client state with Zustand
-  styles/               global stylesheet and the UI library's theme
+  styles/               globals.css and the UI library's theme
   types/                shared types: api.interface.ts, general.enum.ts
   utils/                shared pure helpers, shared constants, validation helpers
   config.ts             reads import.meta.env once and exports typed values
@@ -42,10 +43,8 @@ Every folder `CLAUDE.md` uses the same sections, in this order:
 
 - A folder's `CLAUDE.md` loads only when you open a file in that folder. Rules that govern code
   in other folders therefore live here or in `components/CLAUDE.md`.
-- Before you write a hook, helper, constant, shared component, store, or API call, read the
-  `Existing ...` list in the `CLAUDE.md` of `hooks/`, `utils/`, `components/shared/`, `stores/`,
-  or `api/`. Open it on purpose - it does not load on its own, and the code you need often
-  exists already.
+- Before you write a hook, helper, constant, shared component, store, API call, or schema, read
+  the `Existing ...` list in the `CLAUDE.md` of `hooks/`, `utils/`, `components/shared/`, `stores/`, `api/`, or `schemas/`. Open it on purpose - it does not load on its own, and the code you need often  exists already.
 - When you add, rename, or remove a file in a folder with an `Existing ...` list, or change what a
   file exports or does, update that list in the same change. A stale list is worse than no list.
 - When a folder gains a subfolder, add it to the `Structure` section of the parent's `CLAUDE.md`.
@@ -55,10 +54,9 @@ Every folder `CLAUDE.md` uses the same sections, in this order:
 - TypeScript only. `.tsx` for components, `.ts` for everything else.
 - Functional components and hooks. Never a class component.
 - Keep a component small. Split it when the file passes about 150 lines, when it does more than
-  one job, or when it holds more than 3 `useState` / `useEffect` calls. Pull the piece out into a
-  section or a widget.
+  one job, or when it holds more than 3 `useState` / `useEffect` calls. Pull the piece out into a section or a widget.
 - No deep JSX nesting. Use early returns and small helpers instead.
-- Prefer a clear long name over a short clever one.
+- Use a clear name, even when it gets long. No clever abbreviations.
 - Never duplicate logic. Extract it to a hook, a util, or a shared component.
 - Reach for `memo`, `useMemo`, or `useCallback` only when there is a real performance reason you
   can name. Default to none of them.
@@ -86,7 +84,7 @@ Every folder `CLAUDE.md` uses the same sections, in this order:
 - Never add custom styling when an existing component or pattern already does the job.
 - Stay minimal unless the user asks for more.
 - Use the theme's values for colors, spacing, radius, and fonts. Never a raw color or hex value in
-  a component. A hardcoded size is fine only when no theme value fits.
+  a component. Hardcode a size only when no theme value fits.
 - Every new UI works in both light and dark mode.
 - Keep spacing, typography, and icons consistent with what the project already uses.
 - Icons come from the icon library named in the root `CLAUDE.md` Stack. Never mix two icon
@@ -105,13 +103,12 @@ Every folder `CLAUDE.md` uses the same sections, in this order:
 - Every click, navigation, tab change, and submit either responds immediately or shows feedback -
   a spinner, a disabled button, a loading state.
 - Every view that loads data handles three states: loading, empty, and error.
-- Avoid heavy or decorative animation.
+- No heavy or decorative animation.
 
 ### Libraries
 
 - Check what is already installed and reuse it before adding anything.
-- Prefer a library helper over hand-written code: es-toolkit for collection, object, and math
-  helpers, date-fns for dates. Never lodash.
+- Use a library helper instead of hand-written code: es-toolkit for collection, object, and math helpers, date-fns for dates. Never lodash.
 - Never install a new library without asking the user first.
 
 ### Config and Security
@@ -143,6 +140,7 @@ What each kind of code may import. Each folder's `CLAUDE.md` names its own row.
 | `hooks/` | `api/`, `stores/`, `utils/`, `types/` |
 | `api/` | `types/`, `config.ts` |
 | `stores/` | `types/`, `utils/` |
+| `schemas/` | `utils/`, `types/` |
 | `utils/` | `types/` |
 | `types/` | nothing |
 

@@ -4,9 +4,8 @@ The global stylesheet and the UI library's theme.
 
 ## Structure
 
-- The global stylesheet, named by the project's setup.
-- The UI library's theme config, for example `theme.ts` with Mantine's or MUI's `createTheme`.
-  Colors, fonts, spacing, radius, breakpoints, and dark mode values go there, not in custom CSS.
+- `globals.css` - the one global stylesheet.
+- The UI library's theme config, for example `theme.ts` with Mantine's or MUI's `createTheme`. Colors, fonts, spacing, radius, breakpoints, and dark mode values go there, not in custom CSS.
 
 ## Rules
 
