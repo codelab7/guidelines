@@ -38,6 +38,7 @@ tree - prefix it with `laravel-react/resources/js/` or `react/src/`.
 | Feature folders: sections, widgets, helpers, hooks, forms (standalone tree only) | `components/features/CLAUDE.md` |
 | Domain components shared by several modules (Laravel tree only) | `components/specific/CLAUDE.md` |
 | Page shells | `layouts/CLAUDE.md` |
+| Shell parts such as the sidebar and header (standalone tree only) | `components/layouts/CLAUDE.md` |
 | Shell sections such as the sidebar and header (Laravel tree only) | `layouts/sections/CLAUDE.md` |
 | Small pieces inside a shell (Laravel tree only) | `layouts/widgets/CLAUDE.md` |
 | The page role (Laravel tree: also module layout, sections, widgets, forms) | `pages/CLAUDE.md` |
@@ -80,7 +81,7 @@ different places.
 Push logic upwards into sections and data downwards as props. A widget never reaches for global
 state on its own. In `react/`, imports also run one way: `pages/` -> `layouts/` -> `features/` ->
 `shared/` -> `ui/`, and one feature never imports another feature's internals. The shell's parts
-are a feature too, `features/app-shell/`, placed by a layout instead of a page.
+are not a feature. They live in `components/layouts/` and are placed by a layout.
 
 ---
 

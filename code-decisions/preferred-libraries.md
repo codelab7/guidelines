@@ -12,3 +12,6 @@ Use these by default. If a project needs something else, confirm it first.
 ## Laravel Libraries
 
 Before the list, one company is worth knowing: [Spatie](https://spatie.be/). They build a large number of [packages](https://spatie.be/open-source/packages) and publish their own [guidelines](https://spatie.be/guidelines). Check their packages first before looking elsewhere.
+
+1. [**Laravel Data**](https://spatie.be/docs/laravel-data/v4/introduction) - DTOs (data transfer objects) when building an API from Laravel. Use it for the objects that carry request input into services and service results back out to API responses, instead of hand-written DTO classes.
+2. [**Laravel One Time Passwords**](https://github.com/spatie/laravel-one-time-passwords) (`spatie/laravel-one-time-passwords`) - One-time passwords (OTP), for example for passwordless login or verification codes.

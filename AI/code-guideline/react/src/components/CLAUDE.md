@@ -5,22 +5,18 @@ Every component below the page level lives here. A page only places them.
 ## Where a Component Goes
 
 - `features/{feature}/` - anything used by a single feature. This is where most components start.
-- `shared/` - any component reused by two or more features.
+- `layouts/` - the parts a layout is built from: sidebar, header, and the pieces inside them.
+- `shared/` - any component reused by two or more features (**features**, Not pages).
 - `ui/` - library primitives and thin wrappers around them.
 
-No loose component files in `components/` itself. Every component goes in one of the three
-folders.
+## Common Rules
 
-Promote a component from its feature folder to `shared/` on its *second* use by another feature,
-not in anticipation of one.
+- No loose component files in `components/` itself. Every component goes in one of the four folders.
+- Promote a widget from its feature folder to `shared/` on its *second* use by another feature, not in anticipation of one.
+- Imports run one way: `pages/` -> `layouts/` -> `features/` -> `shared/` -> `ui/`. Never the other way.
 
-## Import Direction
 
-- Imports run one way: `pages/` -> `layouts/` -> `features/` -> `shared/` -> `ui/`. Never the
-  other way.
-- One feature never imports another feature's internals. Promote the piece to `shared/` instead.
-
-## Design
+### Component design philosophy
 
 - Minimum props, maximum flexibility. Expose only what the caller must control.
 - Prefer composition - children, nested components, callback props - over adding another prop.
@@ -35,12 +31,10 @@ not in anticipation of one.
   ```
 
 - Never bind a reusable component to one page's logic.
+- Component should be designed simple and moduler way.
+- A component full of `if (Bool)` branches is two components. Split it and pick the right one a level up.
 
-## Changing a Component
+### Changing a Component
 
-- Update every place it is used - page, sections, widgets, and other features. Not just the file in
-  front of you.
-- Check all usage points before editing a form or a shared component. If a form is shared between
-  create and edit, a new field goes into both flows unless the user says otherwise.
-- A component full of `if (isEdit)` branches is two components. Split it and pick the right one a
-  level up.
+- Before make edit single file, check hirarchy (up and down for page, widgets etc used affected by that change.)
+- Make sure you understand the use-case of change and inspect and make change to all nessesory touchpoints. (E.g.- Adding field into create field in edit if not specified.)

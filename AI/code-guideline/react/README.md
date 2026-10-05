@@ -22,9 +22,10 @@ Use [laravel-react/](../laravel-react/) instead if the React code lives inside a
 | `src/components/ui/CLAUDE.md` | Library primitives and shadcn/ui wrappers. |
 | `src/components/shared/CLAUDE.md` | Components reused by two or more features. |
 | `src/components/features/CLAUDE.md` | One folder per feature: section and widget roles, feature-only helpers and hooks, form rules. |
+| `src/components/layouts/CLAUDE.md` | The parts a layout is built from, such as the sidebar and header. |
 | `src/hooks/CLAUDE.md` | Custom hooks reusable across the app, for example `use-debounce.ts`. |
 | `src/i18n/CLAUDE.md` | Translation files. Only used if the project supports translations. |
-| `src/layouts/CLAUDE.md` | Page shells. The shell's parts, such as the sidebar and header, live in `components/features/app-shell/`. |
+| `src/layouts/CLAUDE.md` | Page shells. The shell's parts, such as the sidebar and header, live in `components/layouts/`. |
 | `src/pages/CLAUDE.md` | One folder per feature. The page role only: route params, layout, placing sections. |
 | `src/stores/CLAUDE.md` | Client state with Zustand. |
 | `src/styles/CLAUDE.md` | Global stylesheet and Tailwind setup. |

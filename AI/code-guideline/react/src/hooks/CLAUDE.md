@@ -1,11 +1,11 @@
 # src/hooks - Custom Hooks
 
+## Rules
 - Only hooks reusable across features live here. A hook used by one feature stays in its folder
   under `components/features/{feature}/`.
-- One hook per file. File in `kebab-case`, hook in `camelCase`: `use-debounce.ts` exports
-  `useDebounce`.
-- Name starts with `use`.
+- One hook per file. File in `kebab-case`, hook in `camelCase`: `use-debounce.ts` exports `useDebounce`.
 - No JSX in a hook.
 - Return a typed object or tuple, never an untyped one.
-- Read this folder before writing a new hook. `use-is-mobile.ts` and `use-appearance.ts` already
-  exist in most projects.
+- The Existing Hooks part contains what we have already. Keep it up to date in case of change in hooks.
+
+## Existing Hooks
