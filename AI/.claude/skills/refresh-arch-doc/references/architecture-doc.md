@@ -42,7 +42,7 @@ Before writing any line, ask: **"Would a planner make a worse plan without this?
 - it is the **example to copy** in a recipe (section 15),
 - it is where a **risk** lives (section 16).
 
-**Names of code things.** Mention a class or function only when it is part of a pattern the reader must use or follow (the base class every model extends, the one helper every response goes through). Otherwise describe the behaviour, not the name.
+**Names of code things.** Mention a class or function only when it is part of a pattern the reader must use or follow (the base class every model extends, the one helper every response goes through). Otherwise describe the behaviour, not the name. As a rough budget, keep method-style references (`Class::method`, `function()`, namespaced classes) under ~30 for the whole doc; the checker warns above that. Class names in the pattern catalogue's "Example to copy" column are paths, so they don't count.
 
 ## 3. Writing style (works for small models too)
 
@@ -51,7 +51,7 @@ Before writing any line, ask: **"Would a planner make a worse plan without this?
 - **Rules as rules.** Write rules as short imperative rows in a `Rule | Why` table: "Always scope queries to the active company | Tenants must never see each other's data". Not as gotcha paragraphs.
 - **Plain, neutral sentences.** No jokes, no emojis, no marketing words. Repeat the noun instead of "it" when the subject is more than a line away.
 - **Exact identifiers** where the reader needs them (table, column, enum, role, env var), written as in code: `order_status`, not "the order status field".
-- **Stable numbered headings** (`## 6. Data Model`). Never rename or reorder. Only two heading levels inside a section (`###`, and `####` for one table per entity in section 6).
+- **Stable numbered headings** (`## 6. Data Model`). Never rename or reorder. Use the template's subsection numbers; a section with no data for a subsection writes one line saying so (for example "Offline and Platform: none"). Only two heading levels inside a section (`###`, and `####` for one table per entity in section 6).
 - **Say why** in one short line where the reason is not obvious.
 - **Diagrams** in Mermaid, each followed by a one-line caption in words. A diagram never carries meaning alone.
 - **Code snippets** only when words cannot explain a contract (a payload shape, an event schema), under 15 lines. Folder trees go in a ```` ```text ```` block.
@@ -107,7 +107,7 @@ Scale depth to the repo: a tiny CLI gets short sections, a large platform longer
 
 **12. Background Work and Integrations.** Jobs, queues, schedules (cron strings), retries, mail, notifications. Then: Service | Used for | Where in code (folder) | Config needed (env var names). `Not applicable` parts are fine.
 
-**13. Configuration.** Config files and load order. Table of **every** env var: Variable | Required | Purpose | Used in (folder or file). Names only, never values. Feature flags. Differences between environments.
+**13. Configuration.** Config files and load order. Table of **every** env var the app uses: everything in `.env.example` plus any app-specific variable read in code or config. Framework variables the project never sets (cache drivers, mail drivers it doesn't use...) can share one grouped row. Columns: Variable | Required | Purpose | Used in (folder or file). Names only, never values. Feature flags. Differences between environments.
 
 **14. Build, Test, Deploy.** Commands table: Task | Command | Notes (install, dev, build, lint, format, test, migrate, seed, deploy) from real scripts. Test frameworks, test folders, what is covered and what is not. CI. Hosting and release steps.
 
@@ -222,16 +222,39 @@ Copy this structure exactly. Replace every `<...>` with real content.
 
 ## 9. Frontend Wiring
 
+### 9.1 State
+
+### 9.2 Data Flow
+
+### 9.3 Routes
+
+### 9.4 UI System
+
+### 9.5 Offline and Platform
+
 ## 10. API Surface
+
+### 10.1 Resources
 
 | Resource | Base path | Operations | Auth / middleware | Notes |
 |----------|-----------|------------|-------------------|-------|
+
+### 10.2 Conventions
+
+### 10.3 Key Payloads
 
 ## 11. Key Flows
 
 ### 11.1 <Flow name>
 
 ## 12. Background Work and Integrations
+
+### 12.1 Background Work
+
+### 12.2 Integrations
+
+| Service | Used for | Where in code | Config needed |
+|---------|----------|---------------|---------------|
 
 ## 13. Configuration
 

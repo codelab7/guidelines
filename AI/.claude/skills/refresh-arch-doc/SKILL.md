@@ -75,17 +75,19 @@ It prints: repo root, project name guess, branch, HEAD hash and message, today's
 
 If `python3` is missing, try `python`. If both are missing, get the same facts by hand with `git rev-parse`, `git log -1`, `git status --short`, `ls`, and by reading the stamp line of each doc.
 
-Pick a mode **per doc**:
+Pick a mode **per doc**. The scanner suggests a mode but never sees the arguments, so `full` in the arguments always wins over its suggestion.
 
 - **Full generation** when the doc is missing, has no stamp, its stamped commit is not in history, the arguments say `full`, or more than ~40% of tracked files changed since the stamp (a rewrite is cheaper and safer than many patches).
 - **Incremental update** otherwise. Read `references/incremental-update.md` before you start it.
 - **No changes** when the stamped commit equals HEAD and nothing relevant is dirty: only refresh the date in the stamp and the README line.
 
+In any mode, replace an older generator name in the stamps and the README block (for example `update-arch-doc`) with `refresh-arch-doc`.
+
 The README block is always regenerated from the two docs at the end (Step 4).
 
 ### Step 1. Orient (full generation)
 
-- Read root files first: `README*`, every manifest and its **lock file** (for exact versions; if there is no lock file, use the manifest versions, say so once at the top of the Tech Stack section, and flag the missing lock file as a risk), `Dockerfile*`, `docker-compose*`, `Makefile`/`Taskfile`/`justfile`, CI config (`.github/workflows/`, `.gitlab-ci.yml`, etc.), `.env.example` (names only), linter/formatter configs, and existing `docs/`, `ARCHITECTURE*`, `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING*`.
+- Read root files first: `README*`, every manifest and its **lock file** (for exact versions; for a huge lock file, Grep for the package names you need instead of reading it whole; if there is no lock file, use the manifest versions, say so once at the top of the Tech Stack section, and flag the missing lock file as a risk), `Dockerfile*`, `docker-compose*`, `Makefile`/`Taskfile`/`justfile`, CI config (`.github/workflows/`, `.gitlab-ci.yml`, etc.), `.env.example` (names only), linter/formatter configs, and existing `docs/`, `ARCHITECTURE*`, `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING*`.
 - Existing docs are hints. When they disagree with the code, trust the code and note the difference under Open Questions.
 - **Find the hand-written product docs** (any human guide to what the product does and its rules, such as `docs/PROJECT_GUIDELINES.md`, `docs/PRODUCT.md`, a docs wiki). The human doc must cover everything they cover, checked against the code. List them in your notes.
 - **Note what the README already explains** (setup, commands, stack, deploy). The human doc must not repeat it.
@@ -146,12 +148,12 @@ refresh-arch-doc ✅
 
   Commit:    <short hash> - <message>
   Updated:   YYYY-MM-DD
-  Architecture:  docs/PROJECT_ARCHITECTURE.md        created | updated | re-stamped
-  Overview:      docs/PROJECT_OVERVIEW_FOR_HUMAN.md  created | updated | re-stamped
+  Architecture:  docs/PROJECT_ARCHITECTURE.md        created | regenerated | updated | re-stamped
+  Overview:      docs/PROJECT_OVERVIEW_FOR_HUMAN.md  created | regenerated | updated | re-stamped
   README:        README.md                            block added | block updated | created
   Sections:  <n> of 18 filled in the architecture doc
   Changes:   <1-3 lines; what changed and why. "first generation" for new docs>
-  Gaps:      <1-3 lines of unverified or missing items, hand-written docs now fully covered by the human doc, or "none">
+  Gaps:      <1-3 lines: unverified or missing items, hand-written docs now fully covered by the human doc, problems outside the README block (stale pointers, secret-looking values - name the line, never repeat the value), or "none">
   Next:      Review the diff, then commit the three files together.
 ```
 

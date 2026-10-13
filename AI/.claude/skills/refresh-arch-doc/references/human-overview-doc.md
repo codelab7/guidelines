@@ -73,7 +73,7 @@ Many repos already have a human-written guide to the product (for example `docs/
 
 The reader should never see the inside of the code.
 
-- No source code, file paths, folder names, class or function names, API endpoints, database table or column names, env vars, or framework names (Laravel, React, Sanctum...).
+- No source code, file paths, folder names, class or function names, API endpoints, database table or column names, env vars, or framework names (Laravel, React, Sanctum...). Names the **user** sees are fine: labels in the app (even one like "API" as a contact source), and outside products people use (WhatsApp, Zapier, Google Maps).
 - Turn code facts into product words: `phone` must match `^\+` becomes "Phone numbers must start with +". `CompanyScope` becomes "Companies never see each other's data. 🔒"
 - No backticks in this doc. Product words go in **bold**, not `code`.
 - Allowed code blocks: Mermaid diagrams. One exception: if the product **is** a command-line tool, short `bash` blocks showing how a user runs it are fine (they are "how to use it"). Setup and dev commands still belong in the README.
@@ -114,6 +114,7 @@ Mermaid safety: quote labels with spaces or symbols (`A["🧑 Team member"]`), n
 - Never hype. No "blazing fast", "rock solid", "enterprise-grade".
 - Half-built, broken or missing features go in **Good to know**, in user words: "🐞 After you send a form, WhatsApp should open, but today you only see 'Thank you'." No file names.
 - Features that exist in the code but are switched off or have no screen yet are 🚧.
+- **Intended rule vs real behaviour.** Tables like "Who can do what" show the rule the product intends (from the hand-written docs, the UI and most of the code). Where the server doesn't actually enforce it, add a 🐞 line under **Good to know** in plain words ("🐞 Today staff can still add notes to contacts that aren't theirs"). The architecture doc lists it under Risks.
 - If you are not sure, say "we think" and add it to the architecture doc's Open Questions.
 - Never contradict the architecture doc. If they disagree, check the code, fix whichever is wrong.
 
