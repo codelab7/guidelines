@@ -1,0 +1,23 @@
+{
+  "skill_name": "create-improvement-doc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "our marketing site (next.js, app router) basically doesn't show up on google. before we touch anything i want a proper SEO improvement plan in docs. name it seo",
+      "expected_output": "Researches current Google Search Central guidance online, reads /docs and the repo, then writes /docs/PLAN__seo.md with Part 1 (fun, simple checklist, SEO-xx IDs, Must/Should/Could, value stars, Fibonacci effort and risk, file counts, decisions) and Part 2 (research notes with links, repo map, findings with file:line evidence, execution order, one task block per ID, working rules, change log). No code changed. Short chat reply with path, counts, quick wins and decisions.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We want to move all the fetch calls that are scattered across our React components into one API layer and switch to React Query. It's a big change so plan it out first, don't change code yet.",
+      "expected_output": "Treats this as an architecture change/migration. Researches current React Query docs and migration patterns. Plans in safe steps (prepare, migrate area by area, clean up), flags shared/core code as Confirm first: Yes, splits anything that would be 13, asks or records a decision about adding the library. Writes /docs/PLAN__{slug}.md using the template.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "work on A11Y-03 and A11Y-04 from the accessibility plan",
+      "expected_output": "Opens /docs/PLAN__accessibility.md, reads the whole doc first, checks status/dependencies/decisions, does A11Y-03 then A11Y-04 only, pauses for confirmation if either is Confirm first: Yes, stays in listed files, runs How to verify, ticks boxes and updates status, work log and change log, and replies in the short ✅ ID / Result / Impact / Next format.",
+      "files": []
+    }
+  ]
+}
