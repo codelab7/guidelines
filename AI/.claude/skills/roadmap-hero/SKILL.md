@@ -1,5 +1,5 @@
 ---
-name: super-improvement-doc
+name: roadmap-hero
 
 description: Plan big changes before coding, then build them step by step. Researches current best practices online, analyzes the repo, and writes ONE plan at /docs/PLAN__{name}.md — Part 1 a fun, simple checklist for the human (IDs, Must/Should/Could, value stars, Fibonacci effort and risk, decisions), Part 2 detailed vibe-coding instructions for the AI. Also works through an existing PLAN__ doc by task ID, asks before risky work, and ticks items off. Use this whenever the user wants a plan, roadmap, improvement doc, master plan or checklist for a big task, redesign, design shift, architecture change, refactor, migration, or a focused improvement like SEO, accessibility (WCAG), mobile experience, performance or security — even if they don't say "doc". Also use when they say "work on T-003", "do SEO-01 to SEO-04", "next task from the plan", or ask about a PLAN__ file in /docs. Not for small one-file fixes.
 
