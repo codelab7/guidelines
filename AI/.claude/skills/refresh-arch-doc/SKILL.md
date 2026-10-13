@@ -1,6 +1,6 @@
 ---
 
-name: update-arch-doc
+name: refresh-arch-doc
 
 description: Analyze the whole repository and create or refresh three files - docs/PROJECT_ARCHITECTURE.md (a dense, standalone architecture reference written for AI chats, AI projects and coding agents), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (a cheerful, simple-English, top-down guide for new developers) and a small managed section in the root README.md that links both docs. Builds everything from scratch the first time, then updates incrementally from git changes since the commit stamped in each doc. Use when the user runs /update-arch-doc or asks to generate, update, refresh, sync or re-stamp the architecture docs, project overview, onboarding guide, repo map or "context doc for AI", even if they name only one of the three files.
 
