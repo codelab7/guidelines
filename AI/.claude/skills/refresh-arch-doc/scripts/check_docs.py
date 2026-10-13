@@ -95,6 +95,56 @@ def split_code(text):
     return prose, blocks
 
 
+def gh_slug(text, seen):
+    """GitHub-style heading link: drop backticks/tags, lowercase, keep letters/digits/space/-/_, spaces to '-'."""
+    t = re.sub(r"<[^>]+>", "", text.replace("`", "")).strip().lower()
+    t = "".join(c for c in t if c.isalnum() or c in " -_").replace(" ", "-")
+    n = seen.get(t, 0)
+    seen[t] = n + 1
+    return t if n == 0 else f"{t}-{n}"
+
+
+def check_index(rel, prose, index_title, max_level, use_anchors):
+    """Index must exist, every link must land on a heading, every heading must be listed."""
+    heads, seen, anchors, pending = [], {}, set(), None
+    for n, line in prose:
+        a = re.match(r'^\s*<a id="([^"]+)"></a>\s*$', line)
+        if a:
+            anchors.add(a.group(1))
+            pending = a.group(1)
+            continue
+        h = re.match(r"^(#{2,6})\s+(.+?)\s*$", line)
+        if h:
+            heads.append((n, len(h.group(1)), h.group(2), gh_slug(h.group(2), seen), pending))
+            pending = None
+        elif line.strip():
+            pending = None
+    idx = [x for x in heads if x[1] == 2 and index_title in x[2]]
+    if not idx:
+        err(rel, f"missing '## ... {index_title}' section linking every heading")
+        return
+    start = idx[0][0]
+    after = [x[0] for x in heads if x[0] > start and x[1] == 2]
+    end = after[0] if after else 10 ** 9
+    links = [(n, m.group(1)) for n, line in prose if start < n < end
+             for m in re.finditer(r"\]\(#([^)\s]+)\)", line)]
+    targets = {x[3] for x in heads} | anchors
+    bad = [f"#{t} (line {n})" for n, t in links if t not in targets]
+    if bad:
+        err(rel, f"{len(bad)} Index link(s) point nowhere: " + ", ".join(bad[:8]) + (" ..." if len(bad) > 8 else ""))
+    linked = {t for _, t in links}
+    missing = []
+    for n, level, title, slug, anchor in heads:
+        if n == start or level > max_level:
+            continue
+        if use_anchors and not anchor:
+            missing.append(f"'{title[:40]}' has no <a id> anchor line above it (line {n})")
+        elif (anchor if use_anchors else slug) not in linked:
+            missing.append(f"'{title[:40]}' (line {n})")
+    if missing:
+        warn(rel, f"{len(missing)} heading(s) missing from the Index: " + "; ".join(missing[:6]) + (" ..." if len(missing) > 6 else ""))
+
+
 def check_common(root, rel, text, head):
     m = STAMP_RE.search(text)
     if not m:
@@ -129,7 +179,7 @@ def check_common(root, rel, text, head):
             warn(rel, f"line {n}: '...' may be an unfinished list: {line.strip()[:80]}")
 
     # empty sections: a heading followed by a heading of the same or higher level
-    lines = [(n, l) for n, l in prose if l.strip()]
+    lines = [(n, l) for n, l in prose if l.strip() and not re.match(r'^\s*<a id="[^"]+"></a>\s*$', l)]
     code_starts = {b[1] for b in blocks}
     for idx, (n, l) in enumerate(lines):
         h = re.match(r"^(#{2,6})\s+(.*)", l)
@@ -215,14 +265,7 @@ def check_arch(root, head):
             warn(ARCH, f"section {i} has a {longest}-row table; that looks like one row per route. Group routes by resource")
         elif i not in ARCH_BIG_TABLE_OK and i != ARCH_API_SECTION and longest > 60:
             warn(ARCH, f"section {i} has a {longest}-row table; check it is wiring or contracts, not an inventory")
-    toc = re.search(r"^## Table of Contents\s*\n(.+?)(?=\n## )", text, re.M | re.S)
-    if toc:
-        for num, name in re.findall(r"(\d+)\.\s+([^·\n]+)", toc.group(1)):
-            i = int(num)
-            if i in heads and name.strip() != heads[i][1].strip():
-                warn(ARCH, f"Table of Contents says '{num}. {name.strip()}' but the heading is '{heads[i][1].strip()}'")
-    else:
-        warn(ARCH, "missing '## Table of Contents'")
+    check_index(ARCH, prose, "Index", 4, use_anchors=False)
     print(f"INFO  {ARCH}: {filled} of {len(ARCH_SECTIONS)} sections filled; {sum(1 for b in blocks if b[0]=='mermaid')} mermaid diagram(s)")
     if not any(b[0] == "mermaid" for b in blocks):
         warn(ARCH, "no Mermaid diagrams found (expected at least the system and ER diagrams)")
@@ -280,6 +323,7 @@ def check_human(root, head):
             para, words = [], 0
         if not line.lstrip().startswith("|") and len(EMOJI.findall(line)) > 4:
             warn(HUMAN, f"line {n}: more than 4 emojis on one line; keep them meaningful")
+    check_index(HUMAN, prose, "Index", 3, use_anchors=True)
     tables = len(re.findall(r"^\s*\|[\s:|-]*-{3,}[\s:|-]*\|\s*$", text, re.M))
     diagrams = sum(1 for b in blocks if b[0] == "mermaid")
     if diagrams < 3:

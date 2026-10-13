@@ -114,6 +114,8 @@ Don't collect a catalogue of every class, function or route: an agent can search
 
 For big docs, write the skeleton with all headings first, then fill sections with `Edit`, so a long write never fails halfway.
 
+Both docs open with an **Index**: a nested list linking every heading, so a reader can jump anywhere in one click. Write each Index last, from the final headings. The architecture doc links to GitHub-style heading links; the human doc links to `<a id>` anchors placed above its emoji headings. Each guide shows the exact rule.
+
 ### Step 4. Update the README
 
 Follow `references/readme-block.md`. Work only between the `<!-- arch-docs:start -->` and `<!-- arch-docs:end -->` markers: rewrite the block in full generation, patch only changed lines in an incremental update. If the markers do not exist, insert the block (rules in the guide). If `README.md` does not exist, create a short, friendly one.
@@ -124,7 +126,7 @@ Follow `references/readme-block.md`. Work only between the `<!-- arch-docs:start
 python3 "${CLAUDE_SKILL_DIR}/scripts/check_docs.py" .
 ```
 
-It checks: stamps present and matching HEAD, leftover placeholders, empty sections, secret-looking strings, backticked paths that do not exist, the 18 architecture sections, signs of inventory in the architecture doc (long route tables, many function names), code, paths and README-repeated commands in the human doc, too few tables or diagrams in the human doc, README markers and links. Fix every `ERROR`. Read each `WARN` and fix it unless it is a false alarm. Run it again until there are no errors.
+It checks: stamps present and matching HEAD, leftover placeholders, empty sections, secret-looking strings, backticked paths that do not exist, the 18 architecture sections, that each Index links every heading and every link lands, signs of inventory in the architecture doc (long route tables, many function names), code, paths and README-repeated commands in the human doc, too few tables or diagrams in the human doc, README markers and links. Fix every `ERROR`. Read each `WARN` and fix it unless it is a false alarm. Run it again until there are no errors.
 
 Then do the reader tests yourself. Re-read `docs/PROJECT_ARCHITECTURE.md` as a **small AI model that has never seen the repo** and check it can answer:
 

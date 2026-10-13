@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "/refresh-arch-doc",
-      "expected_output": "On a repo with no docs: creates docs/PROJECT_ARCHITECTURE.md (18 numbered sections with 'In short' lines, stamp, wiring and request lifecycle, full data model and enums, business rules table, grouped API surface, Patterns and Recipes with files to copy, no class/function inventory, no emojis), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (stamp, fun emoji-rich 'how it works' guide for anyone, many tables and diagrams, no code, paths or setup commands, ends with a 'For developers' pointer to README and the architecture doc) and inserts the managed block into README.md. check_docs.py passes with 0 errors.",
+      "expected_output": "On a repo with no docs: creates docs/PROJECT_ARCHITECTURE.md (an Index linking every heading, 18 numbered sections with 'In short' lines, stamp, wiring and request lifecycle, full data model and enums, business rules table, grouped API surface, Patterns and Recipes with files to copy, no class/function inventory, no emojis), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (stamp, an Index linking every heading via anchors, fun emoji-rich 'how it works' guide for anyone, many tables and diagrams, no code, paths or setup commands, ends with a 'For developers' pointer to README and the architecture doc) and inserts the managed block into README.md. check_docs.py passes with 0 errors.",
       "files": [],
       "assertions": [
         "check_docs.py reports 0 errors",
@@ -14,7 +14,8 @@
         "Architecture doc section 15 has a pattern catalogue with an 'Example to copy' column and at least one end-to-end recipe",
         "Human doc has no code blocks except Mermaid and no backticks",
         "Human doc has at least 6 Mermaid diagrams and 5 tables",
-        "Human doc links to README.md and PROJECT_ARCHITECTURE.md"
+        "Human doc links to README.md and PROJECT_ARCHITECTURE.md",
+        "Both docs have an Index whose links all resolve and that lists every heading"
       ]
     },
     {

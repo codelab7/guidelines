@@ -49,7 +49,7 @@ Hand-written product docs in `docs/` (the ones the human doc absorbs) count as c
 The human doc changes less often. Update it only when something a **user** would notice changed: a new feature or screen, a changed rule or limit, a new role or permission, a new journey, a fixed or new bug. Pure code changes (refactors, new libraries, CI) never touch it. Otherwise only its stamp changes.
 
 - A new **domain** table or model (something a user or the business would name, like `comments` or `invoices`) always counts for both docs, even if it has no UI yet (in the human doc, mark it 🚧). Join tables, log tables and framework tables only touch section 6.
-- If the Table of Contents wording does not match the headings, fix it while you are there.
+- Whenever a heading is added, removed or renamed (a new table in 6.3, a new flow in 11, a new block or journey in the human doc), update that doc's **Index** in the same edit. In the human doc, give the new heading its `<a id>` anchor line too.
 - While patching, apply the golden rule (architecture guide section 2): don't add inventory, and if a section you touch has drifted into inventory, compress it.
 
 ## 4. Patch
@@ -57,7 +57,7 @@ The human doc changes less often. Update it only when something a **user** would
 - Use `Edit` on the affected sections only. Do not rewrite untouched sections.
 - Keep text a person added by hand. If the code now proves it wrong, fix it and note it in the report.
 - Update Mermaid diagrams when their boxes or relations changed.
-- Update the Table of Contents only if a heading changed (headings are stable, so this should be rare).
+- Keep each Index matching its headings exactly. The checker reports Index links that point nowhere and headings missing from the Index.
 - Always update both stamps (comment line + visible block) to the new HEAD.
 - Add one row to the architecture doc's **Appendix: Update Log**: date, new short hash, `incremental`, a one-line summary. Keep the last ~10 rows.
 - Refresh the README block: update the stamp line every time, and the "At a glance" line only if the stack or shape changed. Leave the rest of the block's wording as it is (see `references/readme-block.md`).
