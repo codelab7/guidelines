@@ -1,0 +1,23 @@
+{
+  "skill_name": "update-arch-doc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/update-arch-doc",
+      "expected_output": "On a repo with no docs: creates docs/PROJECT_ARCHITECTURE.md (21 numbered sections, stamp, real routes/tables/env var names, Mermaid diagrams, no emojis), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (stamp, cheerful top-down guide, simple English, light emojis, only mermaid/text-tree/bash blocks) and inserts the managed block into README.md. check_docs.py passes with 0 errors.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "we just merged the comments feature, can you refresh the architecture docs so I can paste them into my Claude project?",
+      "expected_output": "Incremental update: both stamps move to HEAD, only affected sections change (database, API, flows, dependencies, glossary), a row is added to the Update Log, README block stamp line updated, human edits preserved, no commit made.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "/update-arch-doc full",
+      "expected_output": "Full regeneration of both docs even though they exist and are recent; README block rewritten between markers only; rest of README untouched.",
+      "files": []
+    }
+  ]
+}

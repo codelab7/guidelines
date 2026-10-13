@@ -1,6 +1,9 @@
 ---
-name: project-architecture
+
+name: arch-doc-update
+
 description: Analyze the full current repository and create or update docs/PROJECT_ARCHITECTURE.md, a standalone architecture reference. Creates it from scratch if missing, or incrementally updates it from git changes since the commit recorded in its header. Use when the user runs /project-architecture or asks to generate, update, refresh, document, or map the project architecture so it can be given to another AI or agent as complete context.
+
 ---
 
 # Project Architecture
