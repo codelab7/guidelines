@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Step 5 checker for the update-arch-doc skill.
+"""Step 5 checker for the refresh-arch-doc skill.
 
 Checks the three outputs for stamps, leftover placeholders, empty sections,
 secret-looking strings, missing paths, non-command code in the human doc and

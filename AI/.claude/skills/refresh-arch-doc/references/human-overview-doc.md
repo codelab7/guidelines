@@ -82,10 +82,10 @@ Replace every `<...>`. Keep the heading order. Emojis in headings are part of th
 ````markdown
 # 👋 <Project Name> - Project Overview for Humans
 
-<!-- arch-doc-stamp: commit=<short-hash> branch=<branch> date=<YYYY-MM-DD> generator=update-arch-doc -->
+<!-- arch-doc-stamp: commit=<short-hash> branch=<branch> date=<YYYY-MM-DD> generator=refresh-arch-doc -->
 
 > 🟢 **Fresh as of <YYYY-MM-DD>** · covers commit `<short-hash>` on `<branch>` - "<commit message first line>"
-> If the code has moved on since then, run `/update-arch-doc` to refresh this guide. 🔄
+> If the code has moved on since then, run `/refresh-arch-doc` to refresh this guide. 🔄
 
 ## ⚡ TL;DR
 - <one line: what it is>

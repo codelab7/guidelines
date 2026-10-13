@@ -2,7 +2,7 @@
 
 name: refresh-arch-doc
 
-description: Analyze the whole repository and create or refresh three files - docs/PROJECT_ARCHITECTURE.md (a dense, standalone architecture reference written for AI chats, AI projects and coding agents), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (a cheerful, simple-English, top-down guide for new developers) and a small managed section in the root README.md that links both docs. Builds everything from scratch the first time, then updates incrementally from git changes since the commit stamped in each doc. Use when the user runs /update-arch-doc or asks to generate, update, refresh, sync or re-stamp the architecture docs, project overview, onboarding guide, repo map or "context doc for AI", even if they name only one of the three files.
+description: Analyze the whole repository and create or refresh three files - docs/PROJECT_ARCHITECTURE.md (a dense, standalone architecture reference written for AI chats, AI projects and coding agents), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (a cheerful, simple-English, top-down guide for new developers) and a small managed section in the root README.md that links both docs. Builds everything from scratch the first time, then updates incrementally from git changes since the commit stamped in each doc. Use when the user runs /refresh-arch-doc or asks to generate, update, refresh, sync or re-stamp the architecture docs, project overview, onboarding guide, repo map or "context doc for AI", even if they name only one of the three files.
 
 argument-hint: "[full]"
 
@@ -54,7 +54,7 @@ Both docs start with a **freshness stamp** (see "Freshness stamp" below). The RE
 Put this at the very top of **both** docs, right under the H1 title. The HTML comment is for scripts; the visible lines are for readers. Keep the comment format exact so `scripts/repo_scan.py` can parse it.
 
 ```markdown
-<!-- arch-doc-stamp: commit=<short-hash> branch=<branch> date=<YYYY-MM-DD> generator=update-arch-doc -->
+<!-- arch-doc-stamp: commit=<short-hash> branch=<branch> date=<YYYY-MM-DD> generator=refresh-arch-doc -->
 ```
 
 Then a visible block. The two docs word it differently (see each guide), but both must show: last updated date, branch, short commit hash, commit message (first line, trimmed to ~72 chars), and a freshness rule saying the doc describes the repo exactly as of that commit, so anything committed later is not covered. If the folder is not a git repo, use `commit=none` and say so in the visible block.
@@ -131,7 +131,7 @@ Re-read the human doc as a nervous first-week developer: is it clear, kind, hone
 Print exactly this block and nothing else. Do not paste the documents into the chat.
 
 ```
-update-arch-doc ✅
+refresh-arch-doc ✅
 
   Commit:    <short hash> - <message>
   Updated:   YYYY-MM-DD

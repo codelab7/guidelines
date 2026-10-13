@@ -37,7 +37,7 @@ New here? Start with the friendly guide, then dive deeper when you're ready. �
 
 **At a glance:** <one line: what the project is> · <main stack, e.g. "Laravel 11 + Vue 3 + MySQL 8"> · <shape, e.g. "monolith with a queue worker">
 
-🟢 Docs last refreshed on **<YYYY-MM-DD>** for commit `<short-hash>` (`<branch>`). Code changed since? Run `/update-arch-doc` to refresh them.
+🟢 Docs last refreshed on **<YYYY-MM-DD>** for commit `<short-hash>` (`<branch>`). Code changed since? Run `/refresh-arch-doc` to refresh them.
 <!-- arch-docs:end -->
 ```
 

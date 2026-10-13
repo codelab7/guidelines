@@ -3,7 +3,7 @@ I want to update this skill.  this is old and I haven't gone through full docume
 
 - Use attached document as a reference. it's not the Final rulebook.
 - I need 2 documents (PROJECT_ARCHITECTURE.md and PROJECT_OVERVIEW_FOR_HUMAN.md) Both are describe letter in this document.
-- name should be as it is: `update-arch-doc`
+- name should be as it is: `refresh-arch-doc`
 - Don't just create one file. Create full fledged Skill for claude.
 - This skill should work as a fork and should define model that serve this purpose at best.
 - Along with this document, It should update readme.md file at root as well. So it mention these two document and share up to date information along with it.

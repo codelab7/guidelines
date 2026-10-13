@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Step 0 scanner for the update-arch-doc skill.
+"""Step 0 scanner for the refresh-arch-doc skill.
 
 Prints a plain-text snapshot of the repo so the agent can orient fast and
 pick full vs incremental mode for each doc. Standard library only.
@@ -130,7 +130,7 @@ def main():
     root = top if is_git else os.path.abspath(root_arg)
     today = datetime.date.today().isoformat()
 
-    print("# Repo scan (update-arch-doc)\n")
+    print("# Repo scan (refresh-arch-doc)\n")
     print(f"root:          {root}")
     print(f"project_name:  {project_name(root)}  (guess; confirm from README/manifests)")
     print(f"today:         {today}")
