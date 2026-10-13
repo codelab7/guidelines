@@ -1,530 +1,153 @@
 ---
+
 name: update-arch-doc
-description: Generate or update docs/PROJECT_ARCHITECTURE.md by analyzing the full project structure. Creates the doc if missing, or incrementally updates it based on git changes since the last recorded commit. Use when the user asks to generate, update, or refresh the project architecture documentation.
+
+description: Analyze the whole repository and create or refresh three files - docs/PROJECT_ARCHITECTURE.md (a dense, standalone architecture reference written for AI chats, AI projects and coding agents), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (a cheerful, simple-English, top-down guide for new developers) and a small managed section in the root README.md that links both docs. Builds everything from scratch the first time, then updates incrementally from git changes since the commit stamped in each doc. Use when the user runs /update-arch-doc or asks to generate, update, refresh, sync or re-stamp the architecture docs, project overview, onboarding guide, repo map or "context doc for AI", even if they name only one of the three files.
+
+argument-hint: "[full]"
+
+context: fork
+
+disable-model-invocation: true
+
+agent: general-purpose
+
+model: opus
+
+effort: high
+
+background: false
+
+allowed-tools: Read Glob Grep Write Edit Bash(git rev-parse *) Bash(git log *) Bash(git diff *) Bash(git status *) Bash(git show *) Bash(git rev-list *) Bash(git ls-files *) Bash(git cat-file *) Bash(git merge-base *) Bash(python3 *) Bash(python *) Bash(ls *) Bash(mkdir *) Bash(wc *)
+
 ---
 
-# Update Architecture Doc
+# Update Architecture Docs
 
-You are a senior software architect. Your job is to create or update a `docs/PROJECT_ARCHITECTURE.md` file that serves as a **self-contained, comprehensive reference** for the entire project. This document will be used as context in Claude Chat projects, so it must contain real values everywhere — no placeholders, no TODOs.
+You are running in your own forked context. You cannot see the user's chat, so everything you need is in this file and its `references/`. Work alone from start to finish, then print the short report at the end.
+
+ARGUMENTS: $ARGUMENTS
+If the arguments contain `full`, do a full regeneration even when the docs already exist.
+
+## What you produce
+
+| File | Reader | Style | Read the guide |
+|------|--------|-------|----------------|
+| `docs/PROJECT_ARCHITECTURE.md` | AI chats, AI projects, sometimes coding agents | Dense, exact, neutral, fully standalone. Real values everywhere | `references/architecture-doc.md` |
+| `docs/PROJECT_OVERVIEW_FOR_HUMAN.md` | New and junior developers | Cheerful, funny, simple English, top-down, light emojis, no code | `references/human-overview-doc.md` |
+| `README.md` (repo root) | Anyone landing on the repo | Light, friendly, short. Only the managed block is yours | `references/readme-block.md` |
+
+Both docs start with a **freshness stamp** (see "Freshness stamp" below). The README block repeats the stamp in one line.
+
+## Ground rules (why they matter)
+
+1. **Touch only the three files above.** Create `docs/` if missing. Do not edit code, configs, or any other doc. Do not commit, push, or create branches. The user reviews the diff and commits it.
+2. **Truth over polish.** Write only what you verified by reading code. Mark guesses `(inferred)` and things you searched for but could not find `(not found)`. An AI that reads a confident wrong fact will build a wrong plan on top of it, so an honest gap is worth more than a pretty guess.
+3. **No secrets, ever.** Env var and config **names** and purpose only. Never values, keys, tokens, passwords, hostnames with credentials, or connection strings. These files get pasted into other AI tools.
+4. **Markdown only.** Diagrams are Mermaid code blocks. No HTML pages, images, PDFs or artifacts.
+5. **Repo-relative paths in backticks**, like `src/api/routes.ts`. They must exist. To mention a path you looked for and did not find, write it in backticks followed by `(not found)` on the same line, like `vite.config.ts (not found)`. The checker skips those.
+6. **No placeholders left behind.** No `TODO`, `TBD`, `<fill in>`, or template angle-brackets. If a section does not apply, keep its heading and write `Not applicable: <one-line reason>`.
+7. **Preserve human edits.** In incremental mode, keep text a person added by hand unless the code now proves it wrong (then fix it and mention it in the report).
+
+## Freshness stamp
+
+Put this at the very top of **both** docs, right under the H1 title. The HTML comment is for scripts; the visible lines are for readers. Keep the comment format exact so `scripts/repo_scan.py` can parse it.
+
+```markdown
+<!-- arch-doc-stamp: commit=<short-hash> branch=<branch> date=<YYYY-MM-DD> generator=update-arch-doc -->
+```
+
+Then a visible block. The two docs word it differently (see each guide), but both must show: last updated date, branch, short commit hash, commit message (first line, trimmed to ~72 chars), and a freshness rule saying the doc describes the repo exactly as of that commit, so anything committed later is not covered. If the folder is not a git repo, use `commit=none` and say so in the visible block.
 
 ## Workflow
 
-### Step 1: Check if `docs/PROJECT_ARCHITECTURE.md` Exists
+### Step 0. Scan and pick the mode
+
+Run the scanner, passing the repo path (it finds the git root itself, so no `cd` is needed):
 
 ```bash
-test -f docs/PROJECT_ARCHITECTURE.md && echo "EXISTS" || echo "NOT_FOUND"
+python3 "${CLAUDE_SKILL_DIR}/scripts/repo_scan.py" .
 ```
 
-Branch based on result:
+Tool habits for the whole run: read files with `Read`, search with `Grep` and `Glob`, and keep `Bash` for `git` and the two scripts. That is faster, and those calls are pre-approved in this skill's frontmatter, so the run is not interrupted by permission prompts.
 
-- **NOT_FOUND** -> Go to Step 2 (Full Generation)
-- **EXISTS** -> Go to Step 3 (Incremental Update)
+It prints: repo root, project name guess, branch, HEAD hash and message, today's date, dirty files, file counts per top-level folder (noise skipped), detected manifests/configs, a frontend/backend hint, and for each of the three files whether it exists, its stamped commit, whether that commit is still in history, and the list of files changed since it.
 
----
+If `python3` is missing, try `python`. If both are missing, get the same facts by hand with `git rev-parse`, `git log -1`, `git status --short`, `ls`, and by reading the stamp line of each doc.
 
-### Step 2: Full Generation (New Project)
+Pick a mode **per doc**:
 
-#### 2a: Gather Project Intelligence
+- **Full generation** when the doc is missing, has no stamp, its stamped commit is not in history, the arguments say `full`, or more than ~40% of tracked files changed since the stamp (a rewrite is cheaper and safer than many patches).
+- **Incremental update** otherwise. Read `references/incremental-update.md` before you start it.
+- **No changes** when the stamped commit equals HEAD and nothing relevant is dirty: only refresh the date in the stamp and the README line.
 
-Run these in parallel to understand the project:
+The README block is always regenerated from the two docs at the end (Step 4).
+
+### Step 1. Orient (full generation)
+
+- Read root files first: `README*`, every manifest and its **lock file** (for exact versions; if there is no lock file, use the manifest versions, say so once at the top of the Tech Stack section, and flag the missing lock file as a risk), `Dockerfile*`, `docker-compose*`, `Makefile`/`Taskfile`/`justfile`, CI config (`.github/workflows/`, `.gitlab-ci.yml`, etc.), `.env.example` (names only), linter/formatter configs, and existing `docs/`, `ARCHITECTURE*`, `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING*`.
+- Existing docs are hints. When they disagree with the code, trust the code and note the difference under Open Questions.
+- Decide the project shape from what you see: backend, frontend, full-stack, library, CLI, monorepo. This decides which mandatory sections get deep treatment (database architecture for backends; client data layer and design philosophy for frontends; both for full-stack).
+
+### Step 2. Explore in depth (full generation)
+
+Read the code, not just file names. You are a subagent, so you cannot launch further agents: read directly, and batch independent `Read`/`Grep`/`Glob` calls in parallel to go fast. For large repos, work area by area (each app/package, backend, frontend, data, infra) and keep short notes per area before writing.
+
+Collect, with real values: entry points; modules and their dependencies; every data store and every table/model with fields, types, constraints, indexes, relations; every route/command/event/export; auth mechanism, roles and permissions with stored values; 3-8 key flows traced through real files; external services; config and every env var name; build/test/deploy commands; dependencies with versions; conventions; frontend state, data fetching, routing, component and styling system; risks (TODO/FIXME clusters, dead code, missing tests, outdated deps).
+
+`references/architecture-doc.md` has the full checklist per section. Read it before writing.
+
+### Step 3. Write the two docs
+
+1. Write `docs/PROJECT_ARCHITECTURE.md` first, following `references/architecture-doc.md`. It is the source of truth.
+2. Then write `docs/PROJECT_OVERVIEW_FOR_HUMAN.md` from what you learned, following `references/human-overview-doc.md`. It must never contradict the architecture doc. It explains less, but more warmly.
+
+For big docs, write the skeleton with all headings first, then fill sections with `Edit`, so a long write never fails halfway.
+
+### Step 4. Update the README
+
+Follow `references/readme-block.md`. Work only between the `<!-- arch-docs:start -->` and `<!-- arch-docs:end -->` markers: rewrite the block in full generation, patch only changed lines in an incremental update. If the markers do not exist, insert the block (rules in the guide). If `README.md` does not exist, create a short, friendly one.
+
+### Step 5. Verify, fix, verify again
 
 ```bash
-# Root structure
-ls -la
-
-# Full directory tree (excluding vendor/node_modules/storage/.git)
-find . -type f \
-  -not -path '*/vendor/*' \
-  -not -path '*/node_modules/*' \
-  -not -path '*/.git/*' \
-  -not -path '*/storage/*' \
-  -not -path '*/.next/*' \
-  -not -path '*/dist/*' \
-  -not -path '*/build/*' \
-  | head -800
-
-# Git info
-git log --oneline -1
-git remote -v
+python3 "${CLAUDE_SKILL_DIR}/scripts/check_docs.py" .
 ```
 
-Also read key config files to identify the stack with versions:
+It checks: stamps present and matching HEAD, leftover placeholders, empty sections, secret-looking strings, backticked paths that do not exist, code blocks in the human doc other than Mermaid and shell commands, README markers and links. Fix every `ERROR`. Read each `WARN` and fix it unless it is a false alarm. Run it again until there are no errors.
 
-- `composer.json`, `package.json` (extract exact versions from these)
-- `artisan`, `vite.config.*`, `webpack.config.*`, `tsconfig.json`
-- `docker-compose.yml`, `.env.example`, `Makefile`
-- Read `README.md` if it exists for additional context.
+Then do the reader test yourself. Re-read `docs/PROJECT_ARCHITECTURE.md` as an AI that has **never seen the repo** and check it can answer:
 
-#### 2b: Deep Exploration
+- What does this system do, and how is it split up?
+- What exact routes, tables, fields, roles, env vars and commands exist?
+- How does a request or job travel through the system?
+- If I change X, what else could break? Where do I add a feature of type Y?
+- How do I run, test and deploy it?
 
-You MUST read every relevant file to extract real values. Do not summarize from file names alone.
+Re-read the human doc as a nervous first-week developer: is it clear, kind, honest, and fun? If either test fails, go back and read more code.
 
-**For every model:** Read the file to extract `$fillable`, `$casts`, `$hidden`, relationships, scopes, accessors, and traits.
+### Step 6. Report
 
-**For every migration:** Read to extract table columns, types, constraints, indexes, foreign keys, and JSON fields.
-
-**For every controller:** Read to extract method names, what they do, what request/resource classes they use.
-
-**For every route file:** Read to extract every registered route with HTTP method, URI, controller, middleware.
-
-**For auth/authorization:** Read policies, gates, middleware, guards, role/permission enums or configs.
-
-**For frontend:** Read component files, page modules, store definitions, router config, type definitions.
-
-**For config files:** Read to extract actual configuration values, service bindings, queue connections, cache drivers.
-
-**For packages:** Read `composer.json` and `package.json` to list every dependency with its purpose.
-
-**For CI/CD:** Read workflow files, Dockerfiles, deployment configs.
-
-Use the Agent tool with subagent_type=Explore for broad codebase exploration across multiple directories. Use parallel tool calls to read independent files simultaneously.
-
-#### 2c: Generate the Document
-
-Ensure the `docs/` directory exists:
-
-```bash
-mkdir -p docs
-```
-
-Then create `docs/PROJECT_ARCHITECTURE.md` following the document structure below. **Every section must contain actual values from the codebase.**
-
----
-
-## Document Structure (All 16 Sections)
-
-The generated document MUST include these sections in order. Adapt content to the actual project — skip sections only if the project genuinely lacks that layer (e.g., no frontend). Never use placeholder values.
-
-### 1. Project Overview and Goals
-
-```markdown
-# Project Architecture
-
-> Auto-generated by Claude Code. Last updated: YYYY-MM-DD
-> Last commit: `<full-short-hash>` - <commit message>
-
-## 1. Project Overview
-
-<What the project is, what problem it solves, who uses it, key business goals>
-```
-
-### 2. Tech Stack with Versions
-
-```markdown
-## 2. Tech Stack
-
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| Language | PHP | 8.x |
-| Framework | Laravel | 11.x |
-| Frontend | Vue.js / React / Inertia | x.x |
-| Database | MySQL / PostgreSQL | x.x |
-| Cache | Redis / Memcached | ... |
-| Queue | Redis / SQS / Database | ... |
-| Search | Meilisearch / Algolia | ... |
-| Testing | Pest / PHPUnit / Vitest | ... |
-| Build Tool | Vite / Webpack | x.x |
-| CSS | Tailwind CSS / Bootstrap | x.x |
-| Containerization | Docker / Laravel Sail | ... |
-| CI/CD | GitHub Actions / GitLab CI | ... |
-```
-
-Extract actual versions from `composer.json`, `package.json`, `composer.lock`, `package-lock.json`.
-
-### 3. Backend Architecture
-
-```markdown
-## 3. Backend Architecture
-
-### Directory Structure
-<Full backend directory tree with file counts and descriptions>
-
-### Layer Responsibilities
-<Describe each layer: Controllers, Services, Actions, Repositories, Models, Middleware, Requests, Resources, Events, Listeners, Jobs, Notifications, Policies>
-
-### Models / Entities
-<For EVERY model, list:>
-- Class name and namespace
-- Table name
-- Fillable attributes
-- Casts
-- Relationships (hasMany, belongsTo, morphTo, etc.) with target model
-- Scopes
-- Key accessors/mutators
-- Traits used
-
-### Controllers
-<For EVERY controller, list:>
-- Class name
-- Methods with brief description
-- Middleware applied
-- Request/Resource classes used
-
-### Services
-<List every service class and what it handles>
-
-### Middleware
-<List every middleware: name, what it does, where registered>
-
-### Form Requests / Validation
-<List request classes and their validation rules>
-
-### Error Handling
-<How errors are handled: exception handler customizations, custom exceptions, API error format>
-```
-
-### 4. Database Schema
-
-```markdown
-## 4. Database Schema
-
-### Table: `users`
-| Column | Type | Constraints | Notes |
-|--------|------|-------------|-------|
-| id | bigint unsigned | PK, auto-increment | |
-| name | varchar(255) | NOT NULL | |
-| email | varchar(255) | NOT NULL, UNIQUE | |
-| ... | ... | ... | ... |
-
-**Indexes:** `users_email_unique`
-**JSON Fields:** `preferences` - stores {theme, locale, notifications}
-
-<Repeat for EVERY table in the database, extracted from migrations>
-```
-
-### 5. Entity Relationship Map
-
-```markdown
-## 5. Entity Relationship Map
-
-<Text-based relationship diagram showing all model connections>
-
-User 1--N Post (hasMany/belongsTo)
-User 1--N Comment (hasMany/belongsTo)
-Post 1--N Comment (hasMany/belongsTo)
-Post N--N Tag (belongsToMany via post_tag)
-User 1--1 Profile (hasOne/belongsTo)
-...
-
-<Include polymorphic relationships, pivot tables, and through relationships>
-```
-
-### 6. Frontend Architecture
-
-```markdown
-## 6. Frontend Architecture
-
-### Directory Structure
-<Frontend directory tree with descriptions>
-
-### Component Hierarchy
-<Top-level layout -> page components -> shared components>
-
-### Page Modules
-<List every page/view with its route and purpose>
-
-### State Management
-<How state is managed: Vuex/Pinia/Redux/Zustand/Context, store structure>
-
-### Routing
-<Frontend router config: every route with component and guards>
-
-### Styling System
-<CSS framework, design tokens, theming approach>
-
-### Type Definitions
-<Key TypeScript interfaces/types used across the frontend>
-```
-
-### 7. All Routes / Endpoints
-
-```markdown
-## 7. Routes & Endpoints
-
-### Web Routes
-| Method | URI | Controller@Method | Middleware | Name | Purpose |
-|--------|-----|-------------------|------------|------|---------|
-| GET | / | HomeController@index | web | home | Landing page |
-| ... | ... | ... | ... | ... | ... |
-
-### API Routes
-| Method | URI | Controller@Method | Middleware | Name | Purpose |
-|--------|-----|-------------------|------------|------|---------|
-| GET | /api/v1/users | Api\UsersController@index | api,auth:sanctum | api.users.index | List users |
-| ... | ... | ... | ... | ... | ... |
-
-### Auth Routes
-<Authentication-related routes separately listed>
-```
-
-List EVERY route from `php artisan route:list` or by reading route files directly.
-
-### 8. Authentication & Authorization
-
-```markdown
-## 8. Authentication & Authorization
-
-### Auth System
-<How auth works: Sanctum/Passport/Fortify/Breeze/Jetstream, session vs token>
-
-### Roles & Permissions
-<List every role with its actual enum/string value>
-
-| Role | Value | Description |
-|------|-------|-------------|
-| admin | admin | Full system access |
-| ... | ... | ... |
-
-### Permission Matrix
-| Permission | admin | manager | user | guest |
-|------------|-------|---------|------|-------|
-| create_users | Y | Y | N | N |
-| ... | ... | ... | ... | ... |
-
-<Use actual permission values from the codebase>
-
-### Policies / Gates
-<List every policy class, what model it guards, and its methods>
-
-### Guards & Middleware
-<List auth guards and auth-related middleware>
-```
-
-### 9. Domain Workflows
-
-```markdown
-## 9. Domain Workflows
-
-### <Feature Name> (e.g., User Registration)
-1. User submits form -> `RegisterController@store`
-2. `RegisterRequest` validates input
-3. `UserService::create()` creates user record
-4. `Registered` event dispatched
-5. `SendVerificationEmail` listener queues email
-6. User receives verification link
-7. ...
-
-<Repeat for every major feature/workflow in the system. Show how data flows end-to-end through controllers, services, models, events, jobs, notifications.>
-```
-
-### 10. Key Architectural Patterns
-
-```markdown
-## 10. Architectural Patterns & Conventions
-
-### Multi-tenancy
-<How tenancy works if applicable: column-based, database-based, middleware>
-
-### Soft Deletes
-<Which models use soft deletes>
-
-### Caching Strategy
-<What is cached, cache drivers, TTLs, invalidation approach>
-
-### Queue System
-<Queue connections, which jobs are queued, retry policies>
-
-### Event System
-<Events and their listeners, event-driven patterns>
-
-### Observers
-<Model observers and what they handle>
-
-### Other Patterns
-<Repository pattern, Service pattern, Action classes, DTOs, Value Objects, etc.>
-```
-
-### 11. Development Workflow
-
-```markdown
-## 11. Development Workflow
-
-| Command | Description |
-|---------|-------------|
-| `php artisan serve` | Start dev server |
-| `npm run dev` | Start Vite dev server |
-| `php artisan test` | Run test suite |
-| `php artisan migrate` | Run migrations |
-| `composer format` | Format PHP code |
-| `npm run lint` | Lint frontend code |
-| `npm run build` | Production build |
-| ... | ... |
-
-<Extract actual commands from composer.json scripts, package.json scripts, Makefile targets>
-```
-
-### 12. Infrastructure
-
-```markdown
-## 12. Infrastructure
-
-### Docker / Containerization
-<Services defined in docker-compose.yml, Dockerfile details, Sail config>
-
-### CI/CD Pipeline
-<Steps in the CI/CD pipeline, what triggers it, deployment targets>
-
-### Environment Variables
-<List key environment variables from .env.example with descriptions>
-
-| Variable | Purpose | Example |
-|----------|---------|---------|
-| APP_NAME | Application name | MyApp |
-| DB_CONNECTION | Database driver | mysql |
-| ... | ... | ... |
-
-### Deployment
-<How the app is deployed: Forge, Vapor, Envoyer, custom scripts>
-```
-
-### 13. Installed Packages & Dependencies
-
-```markdown
-## 13. Dependencies
-
-### PHP Packages (composer.json)
-| Package | Version | Purpose |
-|---------|---------|---------|
-| laravel/framework | ^11.0 | Core framework |
-| spatie/laravel-permission | ^6.0 | Role & permission management |
-| ... | ... | ... |
-
-### Dev PHP Packages
-| Package | Version | Purpose |
-|---------|---------|---------|
-| pestphp/pest | ^2.0 | Testing framework |
-| ... | ... | ... |
-
-### NPM Packages (package.json)
-| Package | Version | Purpose |
-|---------|---------|---------|
-| vue | ^3.4 | Frontend framework |
-| ... | ... | ... |
-
-### Dev NPM Packages
-| Package | Version | Purpose |
-|---------|---------|---------|
-| vite | ^5.0 | Build tool |
-| ... | ... | ... |
-```
-
-### 14. Coding Conventions
-
-```markdown
-## 14. Coding Conventions & Guidelines
-
-<Project-specific conventions extracted from existing code patterns, .editorconfig, phpcs.xml, eslint configs, prettier configs, CLAUDE.md, or docs/ files>
-
-- Naming conventions for models, controllers, services
-- Code style rules
-- Git branch naming and commit message conventions
-- PR workflow
-```
-
-### 15. File Quick Reference
-
-```markdown
-## 15. File Quick Reference
-
-| Concept | File Path |
-|---------|-----------|
-| User model | `app/Models/User.php` |
-| Auth routes | `routes/auth.php` |
-| API routes | `routes/api.php` |
-| Main config | `config/app.php` |
-| Database config | `config/database.php` |
-| Auth config | `config/auth.php` |
-| ... | ... |
-```
-
-Map every important concept to its file path.
-
-### 16. Commit Metadata
-
-This is embedded in the document header (Section 1) as:
-```
-> Last updated: YYYY-MM-DD
-> Last commit: `<short-hash>` - <commit message>
-```
-
----
-
-### Step 3: Incremental Update (Existing Document)
-
-#### 3a: Extract Last Commit from Document
-
-Read `docs/PROJECT_ARCHITECTURE.md` and extract the commit hash from the header line:
+Print exactly this block and nothing else. Do not paste the documents into the chat.
 
 ```
-> Last commit: `abc1234` - some message
-```
+update-arch-doc ✅
 
-#### 3b: Get Current Commit and Diff
-
-```bash
-# Current commit
-git log --oneline -1
-
-# Changes since last documented commit
-git diff <last_commit>..HEAD --stat
-git diff <last_commit>..HEAD --name-status
-git log <last_commit>..HEAD --oneline
-```
-
-If the last commit hash is not found or invalid (e.g., the commit no longer exists), fall back to full regeneration (Step 2).
-
-#### 3c: Analyze Impact
-
-Based on the diff, determine which sections need updating. Read every changed file to understand the actual changes:
-
-- **New/modified models or migrations** -> Update sections 3 (Models), 4 (Schema), 5 (Entity Map)
-- **New/modified controllers or routes** -> Update sections 3 (Controllers), 7 (Routes)
-- **New/modified services, jobs, events** -> Update sections 3, 9 (Workflows), 10 (Patterns)
-- **Auth/permission changes** -> Update section 8
-- **Frontend changes** -> Update section 6
-- **Config or package changes** -> Update sections 2 (Tech Stack), 12 (Infrastructure), 13 (Dependencies)
-- **New files/directories** -> Update section 15 (File Reference), project structure
-- **Test changes** -> Update section 11 (Development Workflow)
-- **CI/CD or Docker changes** -> Update section 12
-
-#### 3d: Read Changed Files
-
-For every file listed in the diff, **read the file** to understand what actually changed. Do not guess from file names alone.
-
-#### 3e: Update the Document
-
-Use the Edit tool to update only the affected sections. Always update:
-
-1. The **Last updated** date to today
-2. The **Last commit** hash and message to the current HEAD
-3. Any sections affected by the changes — with real values from the changed files
-
-Do NOT rewrite sections that haven't changed. Preserve any manually-added notes or sections.
-
----
-
-## Rules
-
-- **Use actual values everywhere.** Real enum values, real permission matrices, real route paths, real column types. No placeholders, no TODOs, no "...".
-- **Be thorough.** Read every model, every migration, every controller, every route file. This doc must be self-contained.
-- **Be accurate.** Every claim must be verifiable in the codebase. Don't guess or infer — read the file.
-- **Use tables for structured data.** Tables are easier to scan than paragraphs for schemas, routes, permissions, packages.
-- **Respect existing content.** When updating, preserve manually-added notes or sections.
-- **Skip genuinely absent sections.** If the project has no frontend, no Docker, etc., omit those sections entirely.
-- **Include file counts.** Show approximate counts in directory trees for scale.
-- **No code dumps.** Describe structure and behavior, don't paste entire files.
-- **Always show the result.** After creating or updating, display a summary.
-
-## Output
-
-After completing, print:
-
-```
-Architecture Doc: docs/PROJECT_ARCHITECTURE.md
-
-  Status:    created | updated
-  Commit:    <short-hash> - <message>
+  Commit:    <short hash> - <message>
   Updated:   YYYY-MM-DD
-  Sections:  <count> sections documented
-  Changes:   <summary of what was added/modified> (only for updates)
+  Architecture:  docs/PROJECT_ARCHITECTURE.md        created | updated | re-stamped
+  Overview:      docs/PROJECT_OVERVIEW_FOR_HUMAN.md  created | updated | re-stamped
+  README:        README.md                            block added | block updated | created
+  Sections:  <n> of 21 filled in the architecture doc
+  Changes:   <1-3 lines; what changed and why. "first generation" for new docs>
+  Gaps:      <1-3 lines of unverified or missing items, or "none">
+  Next:      Review the diff, then commit the three files together.
 ```
+
+## Reference files
+
+- `references/architecture-doc.md` - template, section checklist and writing style for the AI document. Read before Step 3.
+- `references/human-overview-doc.md` - template, tone guide and examples for the human document. Read before Step 3.
+- `references/readme-block.md` - the managed README block and insertion rules. Read before Step 4.
+- `references/incremental-update.md` - how to map git changes to sections and patch safely. Read before any incremental update.
+- `scripts/repo_scan.py` - Step 0 scanner. `scripts/check_docs.py` - Step 5 checker. Both use only the Python standard library.
