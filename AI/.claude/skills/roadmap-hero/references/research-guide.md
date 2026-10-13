@@ -3,6 +3,7 @@
 How to research the goal, read the project, and size the work. Used in Create mode, Steps 2–4.
 
 ## Contents
+
 1. Why research first
 2. How to search
 3. Where to look, by type of change
@@ -56,7 +57,7 @@ Read in this order:
 While reading:
 - Note evidence as `path/to/file:line`.
 - Note patterns to follow (naming, folder layout, how styles and state are done).
-- Note what already works well — list it under "Already good — don't break".
+- Note what already works well — list it under "Already good - don't break".
 - Note what tests exist. Fewer tests = higher risk for the same change.
 - For a very big repo, an Explore subagent can find files faster. Read the important files yourself.
 
@@ -78,7 +79,7 @@ Rough guide:
 | 16+ files, or several areas | 8 |
 | Far more, or unclear | 13 → split |
 
-Risk goes up when files are shared, tests are missing, or the area is auth, payments, data, public API or core flow. Write the file count on each checklist item (`~6 files`).
+Risk goes up when files are shared, tests are missing, or the area is auth, payments, data, public API or core flow. The file count is a sizing tool for you, not a result for the reader: don't print it anywhere in the plan.
 
 ## 6. Recording what you found
 

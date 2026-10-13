@@ -3,6 +3,7 @@
 How to name, score, sort and flag tasks. Used in Create mode, Step 5 — and whenever a new task is added later.
 
 ## Contents
+
 1. IDs
 2. Priority
 3. Value (business value)
@@ -19,14 +20,16 @@ How to name, score, sort and flag tasks. Used in Create mode, Step 5 — and whe
 
 | Thing | Format | Example |
 |---|---|---|
-| Task, one checklist | `T-001`, `T-002`... | `T-004` |
-| Task, several checklists | Short UPPERCASE prefix per group + two digits | `SEO-01`, `A11Y-03`, `NAV-02` |
+| Task | 3 UPPERCASE letters + `-` + 3 digits | `SEO-001`, `NAV-012`, `ACC-003` |
 | Decision | `D-01`, `D-02`... | `D-02` |
 | Finding | `F-01`, `F-02`... | `F-05` |
 
-- Use one checklist when the plan is small or has one theme. Use several when the work falls into clear groups (by area, page, or kind of change).
-- Prefixes: 2–5 letters, easy to read (`SEO`, `A11Y`, `MOB`, `PERF`, `NAV`, `API`).
-- IDs are forever. Never reuse or renumber them — new tasks get the next free number, even if it means `SEO-12` sits above `SEO-03` after sorting.
+- Every task ID has exactly this shape, even when the plan has only one checklist. One fixed shape lines up neatly in the checklist, is easy to type ("work on NAV-004"), and never makes the reader wonder whether `SEO-1`, `SEO-01` and `SEO-001` are different things.
+- One prefix per checklist group. Pick 3 letters that read as a word or a clear short form: `SEO`, `ACC` (accessibility), `MOB`, `PRF` (performance), `NAV`, `API`, `SEC`, `PSH` (push), `SYC` (sync). For a single-checklist plan, take the prefix from the goal.
+- Numbers start at `001` in each group.
+- Decisions and findings keep their short `D-01` / `F-01` shape on purpose: they are not tasks, and the different shape stops anyone from asking the AI to "work on" a decision.
+- IDs are forever. Never reuse or renumber them. New tasks get the next free number, even if it means `SEO-012` sits above `SEO-003` after sorting.
+- Plans written before this format may use other shapes (`SEO-01`, `T-003`). Keep those IDs as they are; don't rename them.
 
 ## 2. Priority
 
@@ -40,7 +43,7 @@ Ideas that are "Won't do now" don't go in the checklist. They go in the **🅿�
 
 ## 3. Value (business value)
 
-Value = how much finishing this task moves us toward the big goal. Show it as stars plus a number.
+Value = how much finishing this task moves us toward the big goal. In Part 1 show it as stars only (the number goes in Part 2 → Scores).
 
 | Stars | Meaning |
 |---|---|
@@ -68,7 +71,7 @@ Use only 1, 2, 3, 5, 8. 13 is a signal to split.
 | 8 | Several days | High — core flow, data, auth, payments, public API |
 | 13 | Too big → split | Too dangerous → split |
 
-- Use the file count from the research step (see `research-guide.md` §5).
+- Use the sizing from the research step (see `research-guide.md` §5).
 - Raise Risk when: files are widely shared, tests are missing, the change is hard to undo, or users would notice a mistake right away.
 - Score honestly. Don't default to 3.
 - Any Risk of 5 or more needs a one-line reason in the Part 2 task block.
@@ -88,14 +91,14 @@ The human works top to bottom, so the list must make sense in that order.
 
 1. Inside each checklist, sort by **Value**, high to low.
 2. Ties: Must before Should before Could, then lower Effort first (quick wins rise).
-3. **Prerequisites:** if a task needs another task first, move the prerequisite to sit just above it, and write `Needs: X` on the later one. A list that can't be done top to bottom is broken.
-4. With several checklists, put the group with the highest-value tasks first, unless one group must come before another (then say why at the top of the group).
+3. **Prerequisites:** if a task needs another task first, move the prerequisite above it. When one prerequisite serves several tasks, it sits just above the first of them. While the prerequisite isn't done, the later task carries a `⛔ {ID}` tag (see §8); the full dependency list lives in Part 2 → Depends on / blocks. A list that can't be done top to bottom is broken.
+4. With several checklists, put the group whose best task has the highest Value first (on a tie, the group with more Musts), unless one group must come before another (then say why at the top of the group).
 
 The exact technical order (phases) also goes in Part 2 → Execution Order.
 
 ## 7. Confirm first
 
-Every task shows `🙋 Confirm first: Yes` or `No`. Set **Yes** when any of these is true:
+A task gets the 🙋 mark on its score line when any of these is true (no mark means no need to ask):
 - Risk is 5 or more
 - It touches auth, login, sessions or permissions
 - It touches payments or money
@@ -107,14 +110,22 @@ Every task shows `🙋 Confirm first: Yes` or `No`. Set **Yes** when any of thes
 - It adds or removes a library
 - It is hard to undo
 
-In Part 2, write the reason next to "Confirm first: Yes".
+In Part 2, write the reason next to "Confirm first: Yes", and "No" for everything else.
 
 ## 8. Status
 
-`TODO` · `DOING` · `BLOCKED` · `DONE` · `SKIPPED`
+Part 2 and the Execute rules use the words `TODO` · `DOING` · `BLOCKED` · `DONE` · `SKIPPED`. In Part 1 they show like this:
 
-- A task waiting on a PENDING decision, or on a dependency that isn't done, is `BLOCKED`.
-- `SKIPPED` always has a reason (e.g. "Split into SEO-09, SEO-10", "Not needed after D-02").
+| Status | In Part 1 |
+|---|---|
+| TODO | `- [ ]` and no tag |
+| DOING | `- [ ]` and `🚧 Doing` |
+| BLOCKED | `- [ ]` and `⛔ {what it waits for}`, e.g. `⛔ PUS-001, D-02` |
+| DONE | `- [x]` and no tag |
+| SKIPPED | `- [ ]` and `⏭️ Skipped: {reason}` |
+
+- A task waiting on a PENDING decision, or on a dependency that isn't done, is `BLOCKED`. Its tag lists only its own direct prerequisites and decisions that are still missing, not the ones those depend on, so it shrinks as things get done and disappears when nothing is left.
+- `SKIPPED` always has a reason (e.g. "split into SEO-009, SEO-010", "not needed after D-02").
 - Never delete a task.
 
 ## 9. Being honest
