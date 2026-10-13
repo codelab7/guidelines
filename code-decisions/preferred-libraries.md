@@ -17,6 +17,20 @@ Use these by default. If a project needs something else, confirm it first.
 
 The UI library (for example Mantine or MUI) is chosen per project.
 
+## React Native Libraries
+
+React Native apps are built on Expo. Install with `pnpm exec expo install <package>` so the version matches the SDK, and ask before adding any native library, because it can force a rebuild and block Expo Go.
+
+These React libraries apply as they are: Zustand, es-toolkit, date-fns, TanStack Query, React Hook Form with Zod, and react-i18next. The rest differ:
+
+1. [**Expo Router**](https://docs.expo.dev/router/introduction/) - File-based routing. It replaces TanStack Router.
+2. [**Expo SecureStore**](https://docs.expo.dev/versions/latest/sdk/securestore/) (`expo-secure-store`) - Tokens and other secrets. Never plain async storage.
+3. [**Phosphor Icons**](https://github.com/duongdev/phosphor-react-native) (`phosphor-react-native`) - System icons. It needs `react-native-svg`.
+4. [**Expo Localization**](https://docs.expo.dev/versions/latest/sdk/localization/) (`expo-localization`) - The device language, used with react-i18next when a project needs translations.
+5. [**Expo Image**](https://docs.expo.dev/versions/latest/sdk/image/) (`expo-image`) - Remote images, with caching.
+
+The styling system (StyleSheet with a theme file, NativeWind, or a UI kit) is chosen per project.
+
 ## Laravel Libraries
 
 Before the list, one company is worth knowing: [Spatie](https://spatie.be/). They build a large number of [packages](https://spatie.be/open-source/packages) and publish their own [guidelines](https://spatie.be/guidelines). Check their packages first before looking elsewhere.
