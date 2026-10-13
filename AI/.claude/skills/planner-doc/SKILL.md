@@ -1,6 +1,9 @@
 ---
-name: master-doc
+
+name: create-planner-doc
+
 description: Create or execute a "Master Doc" — one planning .md file in /docs with a human checklist (Task ID, business value, MoSCoW, Fibonacci effort/complexity/risk), decisions, findings and step-by-step task instructions. Use when asked to analyze a repo and create a master doc / master plan, or to work on tasks from an existing master doc.
+
 ---
 
 # Master Doc Skill
