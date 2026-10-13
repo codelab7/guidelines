@@ -2,8 +2,9 @@
 """Step 5 checker for the refresh-arch-doc skill.
 
 Checks the three outputs for stamps, leftover placeholders, empty sections,
-secret-looking strings, missing paths, non-command code in the human doc and
-the README managed block. Standard library only.
+secret-looking strings, missing paths, the architecture sections and signs of
+inventory, code/paths/README repeats in the human doc, and the README managed
+block. Standard library only.
 
 Usage: python3 check_docs.py [repo_path]
 Exit code 1 when there is at least one ERROR, else 0.
@@ -18,14 +19,16 @@ HUMAN = "docs/PROJECT_OVERVIEW_FOR_HUMAN.md"
 README = "README.md"
 STAMP_RE = re.compile(r"<!--\s*arch-doc-stamp:\s*commit=(\S+)\s+branch=(\S+)\s+date=(\S+)")
 ARCH_SECTIONS = [
-    "Summary", "Tech Stack", "Repository Structure", "System Architecture",
-    "Modules and Components", "Entry Points and Runtime", "Database Architecture",
-    "Frontend Data Layer", "Frontend Design Philosophy and UI System",
-    "API and Interface Surface", "Key Flows", "Authentication and Authorization",
-    "Configuration and Environment", "Build, Test, CI/CD, Deployment",
-    "Conventions and Patterns", "External Integrations", "Risks, Tech Debt, and Gaps",
-    "Where to Change What", "Dependencies", "Glossary", "Open Questions",
+    "Summary", "Tech Stack", "Repository Map", "System Wiring", "Request Lifecycle",
+    "Data Model", "Validation and Business Rules", "Authentication and Authorization",
+    "Frontend Wiring", "API Surface", "Key Flows", "Background Work and Integrations",
+    "Configuration", "Build, Test, Deploy", "Patterns and Recipes", "Risks and Gaps",
+    "Glossary", "Open Questions",
 ]
+ARCH_MANDATORY = {6, 9}           # Data Model, Frontend Wiring: fill or "Not applicable: <reason>"
+ARCH_API_SECTION = 10
+ARCH_BIG_TABLE_OK = {6, 13}       # data tables and env vars may be long
+CODE_NAME = re.compile(r"`[^`\s]*(::|->)[^`\s]*`|`[A-Za-z_][\w.]*\(\)`|`[A-Z]\w*\\[\w\\]+`")
 SECRET_PATTERNS = [
     (r"AKIA[0-9A-Z]{16}", "AWS access key"),
     (r"-----BEGIN [A-Z ]*PRIVATE KEY-----", "private key"),
@@ -43,7 +46,7 @@ TEMPLATE_TOKENS = re.compile(
     r"[0-9]-[0-9][^>]*|Module|Flow name|table_name|path|mermaid[^>]*|short tree[^>]*|"
     r"prerequisites[^>]*|known rough[^>]*|frontend:[^>]*|simple ER[^>]*)>")
 HTML_TAG = re.compile(r"^/?[a-zA-Z][a-zA-Z0-9-]*(\s[^>]*)?/?$")
-ALLOWED_HUMAN_FENCES = {"mermaid", "bash", "sh", "shell", "zsh", "console", "powershell", "pwsh", "cmd", "text"}
+SHELL_FENCES = {"bash", "sh", "shell", "zsh", "console", "powershell", "pwsh", "cmd"}
 DANGEROUS_CMDS = re.compile(
     r"rm\s+-rf|\bdrop\s+(table|database)\b|--force\b|reset\s+--hard|db:wipe|migrate:fresh|"
     r"migrate:reset|\bterraform\s+destroy|\bkubectl\s+delete|push\s+.*--force|deploy.*prod", re.I)
@@ -185,6 +188,9 @@ def check_arch(root, head):
         if i not in heads:
             err(ARCH, f"missing section heading '## {i}. {name}'")
             continue
+        if not heads[i][1].strip().startswith(name):
+            err(ARCH, f"section {i} is '{heads[i][1].strip()}' but should be '{name}'. "
+                      "An older template? Regenerate the doc fully")
         start = heads[i][0]
         later = [s for s, _ in heads.values() if s > start]
         appendix = text.find("\n## Appendix", start)
@@ -195,8 +201,20 @@ def check_arch(root, head):
         body = chunk.split("\n", 1)[1] if "\n" in chunk else ""
         if len(re.sub(r"\s", "", body)) > 20:
             filled += 1
-        if i in (7, 8, 9) and len(re.sub(r"\s", "", body)) <= 20:
+        if i in ARCH_MANDATORY and len(re.sub(r"\s", "", body)) <= 20:
             err(ARCH, f"section {i} ({name}) is mandatory: fill it or write 'Not applicable: <reason>'")
+        # inventory smells: very long tables outside data/env sections
+        rows = 0
+        longest = 0
+        for line in body.splitlines() + [""]:
+            if line.lstrip().startswith("|") and not re.match(r"^\s*\|[\s:|-]+\|\s*$", line):
+                rows += 1
+            else:
+                longest, rows = max(longest, rows), 0
+        if i == ARCH_API_SECTION and longest > 40:
+            warn(ARCH, f"section {i} has a {longest}-row table; that looks like one row per route. Group routes by resource")
+        elif i not in ARCH_BIG_TABLE_OK and i != ARCH_API_SECTION and longest > 60:
+            warn(ARCH, f"section {i} has a {longest}-row table; check it is wiring or contracts, not an inventory")
     toc = re.search(r"^## Table of Contents\s*\n(.+?)(?=\n## )", text, re.M | re.S)
     if toc:
         for num, name in re.findall(r"(\d+)\.\s+([^·\n]+)", toc.group(1)):
@@ -212,6 +230,12 @@ def check_arch(root, head):
         warn(ARCH, "missing '## Appendix: Update Log'")
     if re.search(EMOJI, re.sub(r"<!--.*?-->", "", text)):
         warn(ARCH, "emojis found; the AI doc should stay neutral")
+    code_names = CODE_NAME.findall(text)
+    if len(code_names) > 30:
+        warn(ARCH, f"{len(code_names)} function/method/class references in backticks; describe wiring and patterns, "
+                   "and name code only when it is part of a pattern to follow")
+    if not re.search(r"\*\*In short:\*\*", text):
+        warn(ARCH, "no '**In short:**' lines; start each section with one")
 
 
 def check_human(root, head):
@@ -221,19 +245,29 @@ def check_human(root, head):
         return
     text = open(path, encoding="utf-8", errors="ignore").read()
     prose, blocks = check_common(root, HUMAN, text, head)
+    readme_path = os.path.join(root, README)
+    readme = open(readme_path, encoding="utf-8", errors="ignore").read() if os.path.isfile(readme_path) else ""
+    readme_lines = {re.sub(r"\s+#.*$", "", l).strip() for l in readme.splitlines()}
     for lang, start, body in blocks:
+        if lang == "mermaid":
+            continue
         if lang == "":
-            err(HUMAN, f"line {start}: unlabelled code block. Label it mermaid, text (folder tree only) or bash")
-        elif lang == "text":
-            if re.search(r"[;{}]|=>|\bfunction\b|\bimport\b|\bclass\b|\bdef\b|\breturn\b", body):
-                err(HUMAN, f"line {start}: 'text' block looks like source code; text blocks are for folder trees only")
-        elif lang not in ALLOWED_HUMAN_FENCES:
-            err(HUMAN, f"line {start}: '{lang}' code block. Only Mermaid, a text folder tree and copy-safe shell commands are allowed")
-        if lang in ALLOWED_HUMAN_FENCES - {"mermaid", ""}:
+            err(HUMAN, f"line {start}: unlabelled code block. Only Mermaid diagrams belong here")
+        elif lang in SHELL_FENCES:
+            warn(HUMAN, f"line {start}: '{lang}' block. Setup and dev commands belong in the README; "
+                        "keep shell only if the product is a CLI and this shows how a user runs it")
             if DANGEROUS_CMDS.search(body):
                 warn(HUMAN, f"line {start}: command block contains something destructive; is it copy-safe?")
-            if re.search(r"<[A-Za-z_ -]+>", body):
-                warn(HUMAN, f"line {start}: command block has a <placeholder> that breaks when pasted")
+            dup = [l.strip() for l in body.splitlines()
+                   if l.strip() and re.sub(r"\s+#.*$", "", l).strip() in readme_lines]
+            if dup:
+                warn(HUMAN, f"line {start}: {len(dup)} command(s) repeat the README, e.g. '{dup[0][:60]}'. Link to the README instead")
+        else:
+            err(HUMAN, f"line {start}: '{lang}' code block. The human doc has no code; use Mermaid or plain words")
+    ticks = [(n, m.group(0)) for n, line in prose for m in re.finditer(r"`[^`]+`", line)]
+    if ticks:
+        warn(HUMAN, f"{len(ticks)} backticked item(s), e.g. line {ticks[0][0]} {ticks[0][1][:50]}. "
+                    "No code, paths or tech names here: rewrite in product words (bold is fine)")
     para, words = [], 0
     for n, line in prose + [(10 ** 9, "")]:
         is_text = line.strip() and not line.lstrip().startswith(("#", "|", "-", "*", ">", "<!--")) and not re.match(r"^\s*\d+\.", line)
@@ -244,11 +278,19 @@ def check_human(root, head):
             if words > 80:
                 warn(HUMAN, f"line {para[0]}: paragraph of {words} words; split it or use a list")
             para, words = [], 0
-        if len(EMOJI.findall(line)) > 3:
-            warn(HUMAN, f"line {n}: more than 3 emojis on one line; tone it down")
+        if not line.lstrip().startswith("|") and len(EMOJI.findall(line)) > 4:
+            warn(HUMAN, f"line {n}: more than 4 emojis on one line; keep them meaningful")
+    tables = len(re.findall(r"^\s*\|[\s:|-]*-{3,}[\s:|-]*\|\s*$", text, re.M))
+    diagrams = sum(1 for b in blocks if b[0] == "mermaid")
+    if diagrams < 3:
+        warn(HUMAN, f"only {diagrams} Mermaid diagram(s); add lifecycles and journeys (expect ~6-12)")
+    if tables < 3:
+        warn(HUMAN, f"only {tables} table(s); turn list-shaped content into tables")
     if "PROJECT_ARCHITECTURE.md" not in text:
-        warn(HUMAN, "no link to PROJECT_ARCHITECTURE.md")
-    print(f"INFO  {HUMAN}: {sum(1 for b in blocks if b[0]=='mermaid')} mermaid diagram(s), {len(EMOJI.findall(text))} emojis")
+        warn(HUMAN, "no link to PROJECT_ARCHITECTURE.md in 'For developers'")
+    if "README.md" not in text:
+        warn(HUMAN, "no link to README.md in 'For developers'")
+    print(f"INFO  {HUMAN}: {diagrams} mermaid diagram(s), {tables} table(s), {len(EMOJI.findall(text))} emojis")
 
 
 def check_readme(root, head):

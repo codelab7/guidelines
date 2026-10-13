@@ -4,19 +4,29 @@
     {
       "id": 1,
       "prompt": "/refresh-arch-doc",
-      "expected_output": "On a repo with no docs: creates docs/PROJECT_ARCHITECTURE.md (21 numbered sections, stamp, real routes/tables/env var names, Mermaid diagrams, no emojis), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (stamp, cheerful top-down guide, simple English, light emojis, only mermaid/text-tree/bash blocks) and inserts the managed block into README.md. check_docs.py passes with 0 errors.",
-      "files": []
+      "expected_output": "On a repo with no docs: creates docs/PROJECT_ARCHITECTURE.md (18 numbered sections with 'In short' lines, stamp, wiring and request lifecycle, full data model and enums, business rules table, grouped API surface, Patterns and Recipes with files to copy, no class/function inventory, no emojis), docs/PROJECT_OVERVIEW_FOR_HUMAN.md (stamp, fun emoji-rich 'how it works' guide for anyone, many tables and diagrams, no code, paths or setup commands, ends with a 'For developers' pointer to README and the architecture doc) and inserts the managed block into README.md. check_docs.py passes with 0 errors.",
+      "files": [],
+      "assertions": [
+        "check_docs.py reports 0 errors",
+        "Architecture doc has the 18 section headings in order",
+        "Architecture doc has fewer than 30 function/method/class references in backticks",
+        "Architecture doc section 10 has no table longer than 40 rows",
+        "Architecture doc section 15 has a pattern catalogue with an 'Example to copy' column and at least one end-to-end recipe",
+        "Human doc has no code blocks except Mermaid and no backticks",
+        "Human doc has at least 6 Mermaid diagrams and 5 tables",
+        "Human doc links to README.md and PROJECT_ARCHITECTURE.md"
+      ]
     },
     {
       "id": 2,
       "prompt": "we just merged the comments feature, can you refresh the architecture docs so I can paste them into my Claude project?",
-      "expected_output": "Incremental update: both stamps move to HEAD, only affected sections change (database, API, flows, dependencies, glossary), a row is added to the Update Log, README block stamp line updated, human edits preserved, no commit made.",
+      "expected_output": "Incremental update: both stamps move to HEAD, only affected sections change (6 Data Model, 10 API Surface, 11 Key Flows, 15 Recipes if steps changed, 17 Glossary; human doc building blocks and how-to-use rows for the new comments feature), a row is added to the Update Log, README block stamp line updated, human edits preserved, no inventory added, no commit made.",
       "files": []
     },
     {
       "id": 3,
       "prompt": "/refresh-arch-doc full",
-      "expected_output": "Full regeneration of both docs even though they exist and are recent; README block rewritten between markers only; rest of README untouched.",
+      "expected_output": "Full regeneration of both docs even though they exist and are recent. The human doc covers every feature and rule from hand-written product docs in docs/ (e.g. a PROJECT_GUIDELINES.md) without repeating README setup; the report's Gaps line says which hand-written docs are now fully covered. README block rewritten between markers only; rest of README untouched.",
       "files": []
     }
   ]

@@ -22,29 +22,35 @@ The two docs may carry different stamps (for example, someone regenerated only o
 
 Open each changed file and read the diff and the surrounding code. Never infer the change from the file name. For deleted or renamed files, search both docs for the old path and fix every mention.
 
+Hand-written product docs in `docs/` (the ones the human doc absorbs) count as changes too: if one changed, check the human doc still covers everything in it.
+
 ## 3. Map changes to sections
 
 | Change in... | Architecture doc sections | Human doc sections |
 |--------------|---------------------------|--------------------|
-| Models, schema, migrations, seeds | 7 Database, 5 Modules, 18 Cheat sheet | 🗄️ The data |
-| Routes, controllers, handlers, CLI commands, GraphQL, events | 10 API, 11 Key Flows | 🔄 How things flow (if a main journey changed) |
-| Services, jobs, listeners, workers, schedulers | 5 Modules, 6 Entry Points, 11 Key Flows, 15 Conventions | 🧱 Building blocks (if a new block appeared) |
-| Auth, roles, permissions, policies, guards | 12 Auth | 🔄 flows if login changed |
-| Frontend state, stores, API clients, router | 8 Frontend Data Layer, 5 Modules | 🗄️ The data |
-| Components, styles, tokens, theme, design system | 9 Design Philosophy | 🎨 Design philosophy |
-| Manifests, lock files | 2 Tech Stack, 19 Dependencies | 🛠️ Run it (if versions or commands changed) |
-| Config files, `.env.example` | 13 Configuration | 🛠️ Run it (if setup steps changed) |
-| CI, Docker, infra, deploy scripts | 14 Build/Deploy | 🛠️ Run it |
-| New or removed folders/apps/packages | 3 Structure, 4 System Architecture, 18 Cheat sheet | 📁 Code organization, 🧱 Building blocks |
-| Tests | 14 Build/Deploy, 17 Risks | ⚠️ Honest corner (if coverage story changed) |
-| External SDKs or API clients | 16 External Integrations, 13 Config | 🗺️ Big picture |
-| TODO/FIXME added or removed | 17 Risks | ⚠️ Honest corner |
+| Models, schema, migrations, seeds | 6 Data Model, 15 Recipes (if the steps changed) | 🧱 Building blocks, 🔍 Up close (if a user-visible thing or rule changed) |
+| Enums, statuses, lifecycles | 6.4 Enums, 7 Business Rules | 🔍 Up close (state diagrams) |
+| Validation, form requests, DTOs | 7 Validation and Business Rules, 10 API conventions | 🔍 Up close / ⚠️ Good to know (if a rule or limit changed) |
+| Routes, controllers, handlers, CLI commands, events | 10 API Surface, 11 Key Flows, 5 Request Lifecycle (if a layer changed) | 🔄 How things work, 🧭 How to use it (if a journey changed) |
+| Middleware, request pipeline | 5 Request Lifecycle, 8.4 | Usually none |
+| Services, jobs, listeners, workers, schedulers, mail | 12 Background Work, 11 Key Flows | 🔄 How things work (if users notice it) |
+| Auth, roles, permissions, policies, guards | 8 Auth | 🔐 Who can do what |
+| Frontend state, API client, router, offline | 9 Frontend Wiring | 📱 Where it works (offline/install), 🧭 How to use it (new screens) |
+| Components, pages, styles, theme | 9 Frontend Wiring (UI system) | 🧭 How to use it (if a screen was added or removed) |
+| Manifests, lock files | 2 Tech Stack (key libraries only) | None |
+| Config files, `.env.example` | 13 Configuration | None |
+| CI, Docker, infra, deploy scripts | 14 Build, Test, Deploy | None |
+| New or removed folders/apps/packages | 3 Repository Map, 4 System Wiring | 🗺️ Big picture (if a new app or outside service appeared) |
+| A new pattern repeated in 3+ places, or a `CLAUDE.md`/`AGENTS.md` rule change | 15 Patterns and Recipes | None |
+| Tests | 14 Build, Test, Deploy, 16 Risks | None |
+| External SDKs or API clients | 12 Integrations, 13 Configuration | 🗺️ Big picture, 📱 Where it works |
+| Bugs fixed or found, TODO/FIXME added or removed | 16 Risks and Gaps | ⚠️ Good to know (if users notice it) |
 
-The human doc changes far less often. Update it only when a change alters something a newcomer would notice: a new building block, a changed journey, new setup steps, a new main entity, a new rough edge. Otherwise only its stamp changes.
+The human doc changes less often. Update it only when something a **user** would notice changed: a new feature or screen, a changed rule or limit, a new role or permission, a new journey, a fixed or new bug. Pure code changes (refactors, new libraries, CI) never touch it. Otherwise only its stamp changes.
 
-- A new **domain** table or model (something a user or the business would name, like `comments` or `invoices`) always counts, even if it has no UI yet. Join tables, log tables and framework tables do not.
-- Always refresh numbers that drift with any file change, even in unmapped sections: file counts in section 3 and in the human code tree, counts of routes or tables quoted in the summaries.
+- A new **domain** table or model (something a user or the business would name, like `comments` or `invoices`) always counts for both docs, even if it has no UI yet (in the human doc, mark it 🚧). Join tables, log tables and framework tables only touch section 6.
 - If the Table of Contents wording does not match the headings, fix it while you are there.
+- While patching, apply the golden rule (architecture guide section 2): don't add inventory, and if a section you touch has drifted into inventory, compress it.
 
 ## 4. Patch
 
@@ -58,4 +64,4 @@ The human doc changes far less often. Update it only when a change alters someth
 
 ## 5. When to switch to a full rewrite
 
-Stop patching and regenerate the doc fully if: the stamped commit is not in history (rebased or squashed), more than ~40% of tracked files changed, the architecture style changed (for example a monolith split into services), or the existing doc does not follow the current template headings.
+Stop patching and regenerate the doc fully if: the stamped commit is not in history (rebased or squashed), more than ~40% of tracked files changed, the architecture style changed (for example a monolith split into services), or the existing doc does not follow the current template headings (for example a doc written by an older version of this skill).
