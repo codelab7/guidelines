@@ -15,8 +15,8 @@ The root `README.md` belongs to the humans who wrote it. You own **only** the te
    - right after the first paragraph that follows the H1 title (or right after the H1 if there is no paragraph),
    - never inside a code block, table, or HTML section,
    - and leave one blank line before and after it.
-3. **No README** → create one with: an H1 with the project name, one friendly sentence about what it is (from the docs), then the block, then a short "Quick start" with 2-4 copy-safe commands from the human doc. Keep the whole file under ~40 lines.
-4. Do not touch badges, licenses, contributor lists or any other human section, even if they look outdated. If something outside the block now looks wrong, mention it under `Gaps` in the report instead.
+3. **No README** → create one with: an H1 with the project name, one friendly sentence about what it is (from the docs), then the block, then a short "Quick start" with 2-4 copy-safe commands taken from the repo's real scripts (package.json, Makefile, composer.json...). Keep the whole file under ~40 lines. Setup lives in the README, never in the human doc, so this is the one place a new developer finds it.
+4. Do not touch badges, licenses, contributor lists or any other human section, even if they look outdated. If something outside the block now looks wrong, mention it under `Gaps` in the report instead. Typical cases: the README points readers to a hand-written product doc that the human doc now fully covers, or its setup steps disagree with the code.
 
 ## Style
 
@@ -28,16 +28,16 @@ Light, cheerful, short. A couple of emojis, not a parade. 8-15 lines. It must st
 <!-- arch-docs:start -->
 ## 📚 Project Docs
 
-New here? Start with the friendly guide, then dive deeper when you're ready. 🚀
+Want to understand the product? Start with the friendly guide. Building on it? This README gets you running, and the architecture doc shows how it's wired. 🚀
 
 | Doc | Best for |
 |-----|----------|
-| 👋 [Project Overview for Humans](docs/PROJECT_OVERVIEW_FOR_HUMAN.md) | Your first day: what this is, how it's built, how to run it |
-| 🤖 [Project Architecture](docs/PROJECT_ARCHITECTURE.md) | Full technical reference. Paste it into an AI chat to plan features with real context |
+| 👋 [How It Works](docs/PROJECT_OVERVIEW_FOR_HUMAN.md) | Anyone: what it does, how to use it, the rules behind it |
+| 🤖 [Project Architecture](docs/PROJECT_ARCHITECTURE.md) | AI tools and developers: wiring, data, rules and patterns. Paste it into an AI chat to plan features with real context |
 
 **At a glance:** <one line: what the project is> · <main stack, e.g. "Laravel 11 + Vue 3 + MySQL 8"> · <shape, e.g. "monolith with a queue worker">
 
-🟢 Docs last refreshed on **<YYYY-MM-DD>** for commit `<short-hash>` (`<branch>`). Code changed since? Run `/update-arch-doc` to refresh them.
+🟢 Docs last refreshed on **<YYYY-MM-DD>** for commit `<short-hash>` (`<branch>`). Code changed since? Run `/refresh-arch-doc` to refresh them.
 <!-- arch-docs:end -->
 ```
 
