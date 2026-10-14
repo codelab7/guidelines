@@ -1,23 +1,38 @@
 # src/utils - Shared Helpers
 
-Everything shared that is not a component, a hook, or an API call. Read this folder before writing any helper. The one you need often already exists.
+Shared pure helper functions, constants shared across features, and validation helpers.
+
+## Structure
+
+```text
+utils/
+  number.utils.ts       number and currency formatting
+  date.utils.ts         dates, built on date-fns
+  validation.utils.ts   the single home for validation helpers
+  constants.utils.ts    constants shared across features
+```
+
+- Group by topic and name the file for what it handles. Every file ends in `.utils.ts`.
+- One topic per file. A file that needs "and" to describe it is two files.
 
 ## Rules
 
-- Group by topic and name the file for what it handles: `date.ts`, `number.ts`, `validation.ts`, `storage.ts`, `notifications.ts`.
-- One topic per file. A file that needs "and" to describe it is two files.
-- No React, no hooks, no component state, no JSX.
-- Export named functions. No default export.
-- A helper used by one feature only stays in that feature's folder, as `{feature}-utils.ts`.
+- Before you write a helper, check es-toolkit, date-fns, and the list below. Write a new one only when none of them covers it. A library helper always beats hand-written code. Never lodash.
+- Pure functions only: same input, same output, no side effects.
+- `validation.utils.ts` is the single home for validation helpers. When the project uses Zod, it holds the shared schema pieces - phone, email, money - that the schemas in `src/schemas/` combine. Otherwise each helper is a pure function returning a boolean or a simple typed result.
+- Never duplicate a validation rule anywhere else in the codebase.
+- Named exports. No default export.
 
-## Keeping It From Becoming A Dump
+## Boundaries
 
-This folder holds two kinds of code, and mixing them inside one file is how it rots.
+- Follow the `utils/` row in the import table in `src/CLAUDE.md`.
+- No React, no hooks, no component state, no JSX. Anything that needs them goes in `hooks/`.
+- No native API. Storage, notifications, permissions, and similar side effects go in `device/`.
+- Not here: a helper or constant used by one feature stays in that feature's `*-utils.ts` or `*-constants.ts`.
 
-- **Pure helpers** - same input, same output, no side effects. Formatting, parsing, validation, calculation.
-- **Platform integrations** - storage, notifications, permissions, analytics, deep links. These do have side effects, and they wrap a native API behind a small typed function.
+## Existing Helpers
 
-Keep the two in separate files. A pure helper file must stay pure, so it can be tested with no mocks and no native runtime.
+Read this list before writing a helper or a constant. When you add, rename, or remove one, or change its arguments or return value, update this list in the same change.
 
-- `validation.ts` is the single home for validation helpers. Each is a pure function returning a boolean or a simple typed result. Never redefine a validation rule in a component.
-- An integration file exposes what the app needs, not the whole native API. The rest of the app should never import the native module directly.
+| File | Exports | What they do |
+|------|---------|--------------|

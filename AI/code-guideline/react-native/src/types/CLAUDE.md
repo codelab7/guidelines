@@ -1,22 +1,40 @@
 # src/types - Shared Types
 
-## api.interface.ts
+Types shared across features: what the backend returns, the enums it sends, and the `ApiError` type.
 
-- The contract for everything the backend returns.
-- Change it only when the backend response changes. It is not a scratch file.
-- Keep structures shared by several endpoints at the root of the file.
+## Structure
+
+```text
+types/
+  api.interface.ts   every backend response type, plus ApiError
+  general.enum.ts    enums that come from the backend and are used across features
+```
+
+- `api.interface.ts` stays one file. Keep structures shared by several endpoints at the top.
+- When the backend publishes an OpenAPI schema, generate `api.interface.ts` from it. Never edit a generated file by hand.
+
+## Rules
+
+### Writing Types
+
+- `interface` for object shapes, `type` for unions and helper types.
+- Never a TypeScript `enum`. Use a `const` object with a derived union type:
+
+  ```ts
+  export const InvoiceStatus = { Draft: 'draft', Paid: 'paid' } as const;
+  export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus];
+  ```
+
 - Mirror the backend's actual response, not its documentation.
+- Type the route params of a screen where the screen reads them, not here.
 
-## general.enum.ts
+### Changing a Backend Type
 
-- Enums that come from the backend and are used across features.
-- Extend it only when the backend introduces a new enum.
+- Change `api.interface.ts` only when the user says the backend changed, or a real response shows the mismatch. Never edit a backend type to make a TypeScript error go away.
+- An installed app does not update with the backend. Treat a removed or renamed field as a breaking change and tell the user, because older app versions still call the same API.
+- Extend `general.enum.ts` only when the backend introduces a new enum.
 
-## Naming
+## Boundaries
 
-- A component's props type is named `Props` and stays in the component's own file.
-- A form's field type is `{Module}Fillable` - `ContactFillable`, `InvoiceFillable`.
-
-## Data Shape
-
-- A screen holds only the data it actually uses. Map an API response to what the screen needs instead of passing the raw payload down.
+- Follow the `types/` row in the import table in `src/CLAUDE.md`.
+- Not here: a props type, or a type used only inside one feature. It stays in the file that uses it.

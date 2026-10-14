@@ -63,4 +63,3 @@ Decisions we haven't settled yet. Work through these and add the answer to the m
 
 - [ ] ESLint and Prettier: which preset is enforced, and whether typecheck and lint run in CI.
 - [ ] Frontend testing: there are no tests for now, and the agent must not add a test setup. Revisit when a project needs tests.
-- [ ] `react-native/` still uses `components/{feature}/` and `components/specific/`. Decide whether to align it with `components/features/{feature}/` and the merged `shared/`.
