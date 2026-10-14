@@ -46,6 +46,8 @@ If the base is `dev` because no parent was found, check that `dev` exists on ori
 
 Stop if the current branch is `main`, `master`, or the same as the base.
 
+**Confirm the base (create only).** Before you go on, show the user the base you picked and how you found it (parent branch or default `dev`), and ask them to confirm it or name another branch. If they name another branch, check that it exists on origin with the same `ls-remote` command, then use it. Why: a wrong base is merged into the branch in step 3, which brings unrelated commits into the PR. Skip this when updating an open PR: its base is already set.
+
 ### 3. Sync with base
 
 Note the current commit (`git rev-parse HEAD`) before you merge. Step 6 needs it to find who wrote the branch.
@@ -85,7 +87,7 @@ git log --no-merges --format='%h %s' origin/<base>..HEAD
 git diff --stat origin/<base>...HEAD
 ```
 
-Read the full diff of the important files when the commit messages are not enough. Then write the title and body (see "PR title and body" below) into a temp file outside the repo (`mktemp`).
+Read the full diff of the important files when the commit messages are not enough. Then write the title and body from scratch, for a new PR and for an open one alike. Never keep the old title or body because it looks fine: the branch may have changed since it was written, so it must match the current diff and follow the rules. Write them (see "PR title and body" below) into a temp file outside the repo (`mktemp`).
 
 **Assignee.** The author of the branch's own commits. Count authors with:
 
@@ -119,7 +121,7 @@ gh pr edit --title "<title>" --body-file <file> --add-assignee <login> [--add-la
 ```
 
 - **Push is rejected:** stop and tell the user. Never force-push. Never skip hooks.
-- **Update, title and body:** rewrite them, but keep every image or video already in the body exactly as it is. A Screenshots section that has media stays untouched.
+- **Update, title and body:** always replace them with the ones from step 6, even when the old ones look close. The only thing you keep is media: every image or video already in the body stays exactly as it is, and a Screenshots section that has media stays untouched.
 - **Update, labels:** add the labels from step 6. Remove any of the five managed labels that are on the PR (from step 2) but no longer fit.
 - **Create:** the PR is always a draft. **Update:** keep the PR in its current state.
 
@@ -129,7 +131,7 @@ Fill it from what the commands printed. Do not query the PR again. Then restore 
 
 ```
 PR:       <url> (draft created | updated)
-Branch:   <branch> → <base> (existing PR | parent branch | default dev)
+Branch:   <branch> → <base> (existing PR | parent branch | default dev | chosen by user)
 Sync:     up to date | merged | conflicts resolved in <files>
 Format:   <N> files | no changes | skipped, no command
 Types:    passed | fixed | skipped, no command
