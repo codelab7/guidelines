@@ -3,7 +3,6 @@ name: pr-ship
 description: Sync with the base branch, format, type-check and push the current branch, then create a draft GitHub PR or update the open one. Run it with /pr-ship when the branch is ready for review.
 disable-model-invocation: true
 model: sonnet
-context: fork
 ---
 
 # PR Ship
