@@ -28,11 +28,11 @@ Use what Astro builds in before adding a library: `astro:assets` for images, the
 3. [**@astrojs/sitemap**](https://docs.astro.build/en/guides/integrations-guide/sitemap/) - The sitemap.
 4. [**@astrojs/mdx**](https://docs.astro.build/en/guides/integrations-guide/mdx/) - Components inside Markdown content.
 5. [**schema-dts**](https://github.com/google/schema-dts) - Types for JSON-LD structured data, from Google. Types only, so nothing ships.
-6. [**Preact**](https://preactjs.com/) through `@astrojs/preact` - The islands framework, only when a component needs real browser state. React's API at a fraction of the size.
+6. [**Preact**](https://preactjs.com/) through `@astrojs/preact`, or [**Svelte**](https://svelte.dev/) through `@astrojs/svelte` - The islands framework, picked per project, only when a component needs real browser state. Preact keeps React's API at a fraction of the size. Svelte ships the least JavaScript. Never both in one project.
 7. [**nanostores**](https://github.com/nanostores/nanostores) - State shared between islands, only when two islands need it. Astro's recommended choice.
 8. [**astro-embed**](https://astro-embed.netlify.app/) - YouTube and Vimeo embeds that load the player only on click.
 9. [**Embla Carousel**](https://www.embla-carousel.com/) - Carousels, only when CSS scroll-snap is not enough. Small and framework-free.
-10. [**Motion**](https://motion.dev/) - Animations that CSS can't do, using its plain JavaScript API. Only for sections below the fold.
+10. [**Motion**](https://motion.dev/) - Scroll and sequence animations, using its plain JavaScript API. Small transitions stay in CSS. Never on the hero or anything above the fold.
 11. [**Pagefind**](https://pagefind.app/) - Site search built at build time, only when the site needs search.
 12. [**@astrojs/rss**](https://docs.astro.build/en/recipes/rss/) - The RSS feed, when the site has a blog.
 13. [**date-fns**](https://date-fns.org/) and [**es-toolkit**](https://es-toolkit.dev/) - Dates and helpers, same as React.

@@ -20,6 +20,7 @@ assets/
 
 ### Rendering
 
+- Astro processes every image at build time with sharp. No image CDN.
 - Every image goes through `<Image>` or `<Picture>` from `astro:assets`. Never a plain `<img>` pointing into `public/`.
 - Large visuals - the hero, screenshots, photos - use `<Picture>` with AVIF and WebP. Small images use `<Image>`.
 - Give every image responsive sizes - the `layout` prop or `widths` with `sizes` - so a phone never downloads a desktop image.
@@ -32,6 +33,7 @@ assets/
 - Commit source images at no more than twice their largest display width.
 - Product screenshots come from the current product, with realistic sample data and no personal data.
 - An SVG used as an icon or logo is imported as a component, so it is inlined and can take `currentColor`.
+- A logo or illustration that doesn't work on a dark background gets a dark version, switched with the theme.
 
 ### Video
 
@@ -45,7 +47,4 @@ assets/
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Image processing** - at build time with Astro (sharp), or on request with Cloudflare Images. Build time is free and simple. Cloudflare Images helps when there are thousands of images. Default: build time.
-  - Decision:  build time.
+None yet.

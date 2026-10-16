@@ -17,6 +17,7 @@ src/content/
   faqs.yaml
 ```
 
+- Content lives in Markdown, MDX, YAML, and JSON files in git. No CMS.
 - A folder of Markdown or MDX files uses the `glob()` loader. A single YAML or JSON file of many small entries uses the `file()` loader.
 - The file name is the entry's slug, and the slug is its URL. Name it in `kebab-case` with the words people search for.
 
@@ -38,6 +39,7 @@ src/content/
 ### Writing Content
 
 - The entry's `title` is the page's `h1`, rendered by the layout. The body starts at `h2`. Never an `h1` inside the body.
+- The voice is clear, friendly, and confident. Project-specific details of the voice live in `docs/PROJECT_GUIDELINES.md`.
 - Lead with what the reader gets. Short paragraphs of two to four sentences, a subheading every few paragraphs, and lists where they help scanning.
 - Use the page's main keyword naturally in the title, the description, the first paragraph, and one subheading. Never stuff keywords.
 - Link to two or three related pages with descriptive link text.
@@ -49,6 +51,7 @@ src/content/
 
 - Use `.md` by default. Switch an entry to `.mdx` only when it needs a component.
 - MDX entries use components from `components/ui/` only, such as `Callout`. No islands in MDX unless the user approved it.
+- Code blocks use Astro's built-in Shiki highlighting. No extra code block library.
 
 ## Boundaries
 
@@ -64,11 +67,4 @@ Read this list before adding a collection or an entry. When you add, rename, or 
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Content editing** - Markdown and MDX in git, edited by developers, or a CMS for non-developers (a git-based one such as Keystatic, or a hosted one such as Sanity or Storyblok). Default: Markdown and MDX in git.
-  - Decision: Markdown and MDX in git.
-- [ ] **Code blocks** - the built-in Shiki highlighting, or Expressive Code (copy button, file names, line markers) for a technical blog. Default: built-in Shiki.
-  - Decision: built-in Shiki
-- [ ] **Brand voice** - the tone of the copy: who we speak to, words we use and avoid. Default: clear, friendly, and confident. Write it in `docs/PROJECT_GUIDELINES.md` when decided.
-  - Decision: go with default.
+None yet.

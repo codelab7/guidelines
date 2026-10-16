@@ -37,6 +37,12 @@ Each primitive gets these right once, so no caller has to.
 - Tap targets are at least 44 by 44px on touch screens.
 - `Icon` is `aria-hidden="true"` unless it carries meaning on its own. An icon-only button requires an `aria-label` prop.
 - `Section` takes the `id` used for anchor links and the `aria-labelledby` of its heading.
+- Every primitive works in light and dark mode, through tokens only.
+
+### Style Guide
+
+- `pages/styleguide.astro` shows every primitive with every variant, and every section. It is `noindex` and left out of the sitemap.
+- A new primitive or variant is added to the style guide in the same change.
 
 ## Boundaries
 
@@ -52,7 +58,4 @@ Read this list before adding a primitive. When you add or remove one, or change 
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Style guide page** - a `noindex` page that shows every primitive and section with its variants, so design drift is easy to spot. Default: yes, at `/styleguide`, left out of the sitemap.
-  - Decision: yes, Go with styleguide.
+None yet.

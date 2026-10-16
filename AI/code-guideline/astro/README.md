@@ -71,4 +71,4 @@ Decisions we haven't settled yet that don't belong to one folder. Work through t
 - [ ] ESLint and Prettier: which preset is enforced, and whether `astro check`, lint, and build run in CI before every deploy.
 - [ ] Testing: there are no tests for now. Decide whether to add a small Playwright smoke test and Lighthouse CI with the budgets from the root `CLAUDE.md`.
 - [ ] Deploys: who deploys, from which branch, and whether pull requests get a preview URL (kept out of search with `noindex`).
-- [ ] Consent: whether any market the site serves needs a cookie banner. Not needed with the default cookie-free analytics.
+- [ ] Consent: a project on Google Analytics 4 that serves visitors in the EU or UK needs a cookie banner wired to Consent Mode. Decide how the banner is built and where it lives. Cloudflare Web Analytics needs none.

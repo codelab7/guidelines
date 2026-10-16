@@ -32,9 +32,12 @@ Fill this in for the project. The defaults below are for a new project.
 - Content: Astro content collections, written in Markdown and MDX (`@astrojs/mdx`).
 - Images: `astro:assets` (`<Image>`, `<Picture>`). Fonts: Astro's built-in fonts API, self-hosted.
 - Icons: `astro-icon` with the Iconify Phosphor set (`@iconify-json/ph`).
-- Interactivity: HTML and CSS first, then a `<script>`, then a Preact island. See `src/CLAUDE.md`.
+- Interactivity: HTML and CSS first, then a `<script>`, then an island. See `src/CLAUDE.md`.
+- Islands framework: Preact or Svelte. Pick one per project and name it here. Never mix the two in one project.
+- Animation: CSS for small transitions, Motion (`motion`) for scroll and sequence animations.
+- Forms: submit to our own API or to a connected third-party form service. See `src/CLAUDE.md`.
 - SEO: `@astrojs/sitemap`, the project's own `Seo.astro`, and `schema-dts` for typed JSON-LD.
-- Analytics: Cloudflare Web Analytics.
+- Analytics: Cloudflare Web Analytics or Google Analytics 4. Pick one per project and name it here. See `src/layouts/CLAUDE.md`.
 - Helpers: date-fns and es-toolkit.
 - Tests: none yet.
 
@@ -108,7 +111,8 @@ These files sit at the project root, so their rules live here.
 - `astro.config.mjs`:
   - `site` holds the production URL, for example `https://example.com`. The canonical URLs, the sitemap, and the share image URLs are all built from it. Never hardcode the domain anywhere else.
   - `output` stays `'static'`. Never set `export const prerender = false` on a page.
-  - `trailingSlash` and `build.format` match the URL format in Open Decisions below, and every internal link, canonical, and sitemap entry uses the same format.
+  - URLs have no trailing slash: `trailingSlash: 'never'` and `build.format: 'file'`. Every internal link, canonical URL, and sitemap entry uses `/pricing`, never `/pricing/`. Only the home page URL ends in `/`.
+  - Astro's built-in CSP support is on. See `public/CLAUDE.md`.
   - Never use the `redirects` option. On a static build it writes meta-refresh HTML pages instead of real 301s. Redirects go in `public/_redirects`.
   - Prefetch is on, so links to internal pages load before the click.
   - Adding an integration needs the user's approval.
@@ -117,7 +121,7 @@ These files sit at the project root, so their rules live here.
   - No `main` entry while the site is fully static.
   - Only the production domain may be indexed. Turn off the `workers.dev` URL and preview URLs for production, or serve them with `X-Robots-Tag: noindex`.
 - `tsconfig.json` extends `astro/tsconfigs/strict` and defines the `@/*` alias for `src/*`.
-- Environment variables go through Astro's `astro:env` schema in `astro.config.mjs`. A static site rarely needs one. Never put a secret in a `PUBLIC_` variable or in client code.
+- Environment variables go through Astro's `astro:env` schema in `astro.config.mjs`. A static site needs few: typically the form endpoint and the analytics ID, both public. Never put a secret in a `PUBLIC_` variable or in client code.
 - Never run `pnpm deploy` or `wrangler deploy` unless the user asks.
 
 ## Codebase Architecture
@@ -138,15 +142,5 @@ These files sit at the project root, so their rules live here.
 
 Write the answer after `Decision:`. Until an item is decided, follow its default. Once decided, fold the answer into the rules above and delete the item.
 
-- [ ] **Islands framework** - the UI framework for the few components that need to run in the browser. Preact (React-like API at about 4 KB), React (familiar, but about 45 KB more JavaScript), Svelte (smallest output, a different syntax), or none (vanilla `<script>` only). Default: Preact.
-  - Decision: Preact or Slevte
-- [ ] **Styling approach** - Tailwind CSS v4 with tokens in `@theme`, or Astro's scoped `<style>` blocks with CSS custom properties. Default: Tailwind CSS v4.
-  - Decision: Tailwind CSS v4
-- [ ] **URL format** - no trailing slash (`/pricing`, with `trailingSlash: 'never'` and `build.format: 'file'`) or a trailing slash (`/pricing/`, with `trailingSlash: 'always'` and `build.format: 'directory'`). Pick once. Changing it later means redirecting every URL. Default: no trailing slash.
-  - Decision: no trailing slash
-- [ ] **Forms** - how a contact, demo, or newsletter form submits on a static site. A third-party form service, a small Cloudflare Worker endpoint added to this project, or Astro on-demand rendering for that one route. Protect any form with Cloudflare Turnstile. Default: no forms - calls to action link to the product's sign-up page.
-  - Decision: I don't fully understand the question. So, Generally we use API to collect those or if thirdparty then we'll connect it.
-- [ ] **Analytics** - Cloudflare Web Analytics (free, no cookies), Plausible or Fathom (paid, no cookies), or Google Analytics 4 (needs a consent banner and adds weight). Default: Cloudflare Web Analytics.
-  - Decision: Google Analytics 4 or Claoudflare Web Analytics.
 - [ ] **Targets** - confirm the numbers in Targets above, or set your own. Default: as written.
   - Decision: 

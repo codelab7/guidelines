@@ -19,8 +19,10 @@ pages/
     [slug].astro          /blog/{slug} - one post
   legal/[slug].astro      privacy policy, terms
   404.astro               the not-found page
+  styleguide.astro        the team's style guide, noindex
   rss.xml.ts              the RSS feed, only if the site has a blog
   robots.txt.ts           robots.txt, built from the site URL
+  llms.txt.ts             llms.txt, a plain-text guide to the site for AI tools
 ```
 
 - A `.astro` file is a page. A `.ts` file is a build-time endpoint that writes a file such as `robots.txt` or `rss.xml`.
@@ -33,7 +35,7 @@ pages/
 - A URL is short, lowercase, `kebab-case`, and describes the page in words people search for: `/use-cases/customer-onboarding`, not `/uc/1` or `/page?id=7`.
 - No dates, IDs, or file extensions in page URLs.
 - A published URL is permanent. When a page moves or is removed, add a 301 in `public/_redirects` in the same change. Never leave a dead link.
-- Follow the URL format (trailing slash or not) set in the root `CLAUDE.md`, in every link.
+- No trailing slash: link to `/pricing`, never `/pricing/`. See the root `CLAUDE.md`.
 
 ### The Page Role
 
@@ -54,9 +56,15 @@ pages/
 ### Special Pages
 
 - `404.astro` uses the normal layout, is `noindex`, and helps the visitor on: links to the home page and the main sections. Cloudflare serves it with a real 404 status.
-- `robots.txt.ts` allows crawling and points to the sitemap URL built from `Astro.site`. To keep a page out of search, mark it `noindex`. Never block it in `robots.txt` - a blocked page can still be indexed, and its `noindex` is never seen.
-- A page meant only for the team, such as a style guide, is `noindex` and left out of the sitemap.
+- `robots.txt.ts` allows crawling, including AI crawlers, and points to the sitemap URL built from `Astro.site`. To keep a page out of search, mark it `noindex`. Never block it in `robots.txt` - a blocked page can still be indexed, and its `noindex` is never seen.
+- `llms.txt.ts` builds `/llms.txt`. Its rules are in `components/seo/CLAUDE.md`.
+- `styleguide.astro` is for the team: `noindex` and left out of the sitemap. Its rules are in `components/ui/CLAUDE.md`.
 - Never redirect with a meta refresh or JavaScript. Redirects belong in `public/_redirects`.
+
+### Search and Feeds
+
+- No site search until the blog or docs pass about 30 pages. Then propose Pagefind to the user.
+- When the site has a blog, `rss.xml.ts` publishes its feed with `@astrojs/rss`, and the head links to it.
 
 ## Boundaries
 
@@ -72,9 +80,4 @@ Read this list to find the page for a URL without opening files. When you add, r
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Site search** - Pagefind (static search built at build time, loads only when used) or no search. Default: no search until the blog or docs pass about 30 pages.
-  - Decision: Go with defaults.
-- [ ] **RSS feed** - publish `rss.xml` for the blog and changelog with `@astrojs/rss`. Default: yes, when the site has a blog.
-  - Decision: yes when the site has a blog.
+None yet.

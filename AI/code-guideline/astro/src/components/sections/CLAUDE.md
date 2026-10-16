@@ -33,12 +33,15 @@ sections/
 - On a phone, the order is headline, the benefit, the call to action, then the visual. Never push the call to action below a large image.
 - At most one primary call to action per section. The hero may add one secondary action.
 - Alternate background variants between sections so the page has rhythm, and keep the vertical spacing from the `Section` scale.
+- Every section works in light and dark mode. A background image or illustration that doesn't fit dark mode gets a dark version.
+- A new section or variant is added to the `/styleguide` page in the same change.
 - Keep the hero short enough that the headline and the primary call to action are visible on a 360 by 640 screen without scrolling.
 
 ### Speed
 
+- The hero visual is an optimized static image, screenshot, or illustration. No hero video.
 - The hero's main image is usually the page's LCP element. Give it `loading="eager"` and `fetchpriority="high"`. Every other image stays lazy, which is the default.
-- Content is visible without JavaScript. A reveal-on-scroll animation only enhances content that is already there.
+- Scroll and sequence animations use Motion through `src/scripts/reveal.ts`, and only below the fold. Content is visible without JavaScript. `scripts/CLAUDE.md` says how the start state is set.
 - Interactivity follows the ladder in `src/CLAUDE.md`. An FAQ uses `<details>`. A monthly or yearly pricing switch is CSS or a small `<script>`, not an island.
 
 ### Proof Is Real
@@ -59,9 +62,4 @@ Read this list before building a section. When you add, rename, or remove one, o
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Hero media** - a static image or screenshot, a short muted looping video, or an illustration. Video looks alive but costs LCP and data on mobile. Default: an optimized static image.
-  - Decision: an optimized static image.
-- [ ] **Scroll animations** - none, CSS only (scroll-driven animations where supported), or the Motion library for sequences. Default: CSS only, and only on sections below the fold.
-  - Decision: motion library for sequences.
+None yet.

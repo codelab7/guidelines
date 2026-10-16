@@ -7,7 +7,8 @@ Small TypeScript modules that add behaviour to Astro components in the browser: 
 ```text
 scripts/
   mobile-nav.ts       opens and closes the mobile navigation dialog
-  reveal.ts           adds a class when a marked element scrolls into view
+  reveal.ts           scroll and sequence animations, built on Motion
+  theme.ts            the theme toggle: light, dark, or system
   copy-code.ts        the copy button on code blocks
 ```
 
@@ -25,8 +26,16 @@ scripts/
 - Use `IntersectionObserver` instead of scroll listeners. Mark scroll and touch listeners `passive`.
 - Respect `prefers-reduced-motion`.
 - Pass data from the component through `data-*` attributes. `define:vars` turns a script inline and unbundled, so avoid it.
-- `is:inline` only for a tiny script that must run before the first paint. Nothing else.
-- If the site uses `<ClientRouter />`, set up again on the `astro:page-load` event.
+- `is:inline` only for a tiny script that must run before the first paint: the theme script in `BaseLayout`. Nothing else.
+- The site uses native page transitions, not `<ClientRouter />`, so scripts run fresh on every page load.
+
+### Animations with Motion
+
+- Use Motion's plain JavaScript API from `motion` (`animate`, `inView`, `scroll`, `stagger`). Never a framework-specific Motion package.
+- Mark animated elements with `data-*` attributes, such as `data-reveal`.
+- The script sets the start state right before it observes an element. Without JavaScript the content is simply visible. Never hide content in CSS while waiting for a script.
+- Never animate the LCP element or anything above the fold on load.
+- Under `prefers-reduced-motion: reduce`, skip the animation and show the end state.
 
 ## Boundaries
 

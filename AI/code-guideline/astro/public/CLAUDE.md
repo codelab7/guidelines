@@ -26,7 +26,8 @@ public/
 
 ### _headers
 
-- Every response gets the security headers: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, a `Permissions-Policy` that turns off what the site doesn't use, and `Strict-Transport-Security`.
+- Every response gets the security headers: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, a `Permissions-Policy` that turns off what the site doesn't use, and `Strict-Transport-Security: max-age=31536000; includeSubDomains` without `preload`.
+- The Content Security Policy comes from Astro's built-in CSP support, which hashes the site's own scripts and styles. Allow the chosen analytics' domains in it, and each new third party the user approves.
 - Files under `/_astro/*` have hashed names, so they get `Cache-Control: public, max-age=31536000, immutable`.
 - HTML pages keep a short cache, so a deploy shows up at once.
 - Check the header file format in Cloudflare's static assets docs before changing it.
@@ -40,9 +41,4 @@ public/
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Content Security Policy** - Astro's built-in CSP support (it hashes the site's own scripts and styles), a hand-written CSP in `_headers`, or none. A CSP blocks injected scripts but must list every third party. Default: Astro's built-in CSP support, once the analytics script is settled.
-  - Decision: Astro's built-in CSP support, once the analytics script is settled.
-- [ ] **HSTS preload** - add `preload` to `Strict-Transport-Security` and submit the domain to the browser preload list. It is hard to undo and covers every subdomain. Default: no preload.
-  - Decision: no preload
+None yet.

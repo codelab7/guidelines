@@ -102,6 +102,7 @@ Content that search engines must read is never rendered only in the browser.
 - Keep spacing, typography, and icons consistent with the rest of the site.
 - Icons come from the icon set in the root `CLAUDE.md` Stack, through `components/ui/Icon.astro`. Never mix icon sets.
 - Stay minimal unless the user asks for more. White space and clear hierarchy beat decoration.
+- Every new UI works in both light and dark mode. Check both. See `styles/CLAUDE.md`.
 
 ### Accessibility
 
@@ -115,6 +116,7 @@ Content that search engines must read is never rendered only in the browser.
 - Motion supports the message - it guides the eye or confirms an action. It never decorates for its own sake.
 - Animate only `transform` and `opacity`.
 - Respect `prefers-reduced-motion`: remove movement, keep at most a fade.
+- Small transitions are CSS. Scroll and sequence animations use Motion through a module in `src/scripts/`. See `scripts/CLAUDE.md`.
 - Content is visible without JavaScript and without the animation. Never start the LCP element, such as the hero headline or image, at `opacity: 0`.
 
 ### Copy
@@ -123,6 +125,16 @@ Content that search engines must read is never rendered only in the browser.
 - Copy lives in the page or in a content entry, and is passed to sections as props. A reusable component never holds marketing copy.
 - Lead with the visitor's benefit, then how the product delivers it. Short sentences, short paragraphs.
 - A call to action says what happens next: "Start free trial", not "Submit".
+
+### Forms
+
+- The site has no server code. A form submits to our own API or to a connected third-party form service, chosen per project.
+- The endpoint URL comes from a `PUBLIC_` variable in the `astro:env` schema. Never hardcode it.
+- Write the form as plain HTML with `action` and `method`, so it still submits without JavaScript where the endpoint allows it. A `<script>` from `src/scripts/` adds the in-place submit, the pending state, and the success and error messages.
+- Every field has a visible `<label>`, the right `type` and `autocomplete`, and native validation. Show each error next to its field.
+- Protect every public form against spam with Cloudflare Turnstile, or with the third-party service's own protection.
+- Ask for as few fields as the goal needs, and link the privacy policy next to the submit button.
+- When a form posts to our own API, tell the user the API must allow the site's origin (CORS).
 
 ### Libraries
 
@@ -155,7 +167,7 @@ What each kind of code may import. Each folder's `CLAUDE.md` names its own row. 
 | `components/ui/` | `utils/`, `scripts/` |
 | `components/islands/` | `utils/` (browser-safe helpers only), the island framework, and approved island libraries. Never a `.astro` file |
 | Content entries (MDX) | `components/ui/` only |
-| `scripts/` | `utils/` (browser-safe helpers only) |
+| `scripts/` | `utils/` (browser-safe helpers only), `motion`, and other approved browser libraries |
 | `utils/` | `data/`, `astro:content` (in `content.ts` only) |
 | `data/`, `i18n/` | nothing |
 

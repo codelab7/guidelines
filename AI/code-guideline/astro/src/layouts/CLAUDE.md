@@ -22,7 +22,11 @@ layouts/
 - `BaseLayout.astro` is the only file that writes `<html>`, `<head>`, and `<body>`.
 - It sets the `lang` attribute, the charset, and the viewport, then renders `<Seo>` from `components/seo/` with the page's SEO data.
 - It loads `src/styles/global.css` and the fonts through Astro's fonts API, preloading only the font used above the fold.
-- It loads the analytics script and nothing else from a third party, unless the user approved it.
+- Before the first paint, a tiny `is:inline` script in the head sets the theme, so the page never flashes the wrong one. See `src/styles/CLAUDE.md`.
+- It loads the project's analytics, and nothing else from a third party unless the user approved it:
+  - Cloudflare Web Analytics: its one deferred beacon script.
+  - Google Analytics 4: `gtag.js` loaded `async`, with Consent Mode. No Google Tag Manager container unless the user approves it. When the site serves visitors in the EU or UK, analytics waits for consent.
+  - The analytics ID comes from a `PUBLIC_` variable in `astro:env`, and analytics runs on the production domain only.
 - The first focusable element in `<body>` is a skip link to `#main`.
 
 ### Every Layout
@@ -33,6 +37,12 @@ layouts/
 - When the page passes a `breadcrumbs` trail, the layout renders `Breadcrumbs` from `components/seo/` at the top of `<main>`.
 - Structure only. No copy beyond the chrome, and no data fetching. The page passes in everything the layout shows.
 - Keep the layout file short. When a part grows, move it to `components/site/`.
+
+### Page Transitions
+
+- Pages use the browser's native cross-document view transitions: `@view-transition { navigation: auto; }` in `global.css`, inside the reduced-motion query. Browsers without support simply load the page.
+- No `<ClientRouter />`.
+- Give `view-transition-name` only to elements that appear on both pages, such as the header, and keep each name unique on a page.
 
 ### ArticleLayout
 
@@ -57,7 +67,4 @@ Read this list before adding a layout. When you add, rename, or remove a layout,
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Page transitions** - none, the browser's native cross-document view transitions (one CSS rule, no JavaScript, ignored by browsers without support), or Astro's `<ClientRouter />` (smoother, but ships a router and needs scripts to re-run on every navigation). Default: native cross-document view transitions.
-  - Decision: native cross-document view transitions.
+None yet.

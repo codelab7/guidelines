@@ -16,6 +16,7 @@ styles/
 ### Tokens
 
 - Every design value is a token in `@theme`: the brand and neutral color scales, the semantic colors (success, warning, danger), the font families, the type scale, the radius, and the shadows. Use Tailwind's spacing scale and breakpoints unless the user asks otherwise.
+- Start with one brand color, a neutral gray scale, and a single variable sans-serif font. Ask the user for the brand's colors and fonts. Never invent a palette.
 - Font family tokens point at the CSS variables that Astro's fonts API defines.
 - A token change changes the whole site. It needs the user's approval.
 - Check every text and background color pair against WCAG AA before adding it.
@@ -33,6 +34,16 @@ styles/
 - `scroll-padding-top` equal to the sticky header's height.
 - Smooth scrolling, transitions, and animations only inside `@media (prefers-reduced-motion: no-preference)`.
 - The prose styles for article bodies come from `@tailwindcss/typography`, themed with the tokens.
+- `@view-transition { navigation: auto; }` inside the no-preference reduced-motion query, for the native page transitions in `layouts/CLAUDE.md`.
+
+### Dark Mode
+
+- The site follows the visitor's system setting by default. The theme toggle in the header lets them pick light, dark, or system, and the choice is kept in `localStorage`.
+- A tiny `is:inline` script in `BaseLayout` sets `data-theme` on `<html>` before the first paint, so the page never flashes the wrong theme.
+- Every color token has a light and a dark value. The dark values are set once, under `[data-theme="dark"]`, so components use the same semantic tokens (`bg-surface`, `text-muted`) in both themes and rarely need a `dark:` class.
+- Tailwind's `dark:` variant follows `data-theme` through a `@custom-variant` in `global.css`.
+- Set `color-scheme` to match the theme, so form controls and scrollbars follow it.
+- Check contrast in both themes.
 
 ### Everything Else
 
@@ -45,9 +56,4 @@ styles/
 
 ## Open Decisions
 
-Write the answer after `Decision:`. Until an item is decided, follow its default.
-
-- [ ] **Brand tokens** - the brand colors, the neutral palette, the fonts, and the radius style. Default: one brand color, a neutral gray scale, and a single variable sans-serif font. Ask before inventing a palette.
-  - Decision: Go with Default. Ask before inventing a palette.
-- [ ] **Dark mode** - light only, following the system setting, or a toggle. Default: light only, with every color still going through a token so dark mode can be added later.
-  - Decision: following the system setting on default. and toggle.
+None yet.
