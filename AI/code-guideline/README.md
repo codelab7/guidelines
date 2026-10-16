@@ -12,6 +12,7 @@ The full rules. These are written for AI assistants to follow, not as a tutorial
 | [PHP_LARAVEL_GUIDELINE.md](PHP_LARAVEL_GUIDELINE.md) | Laravel + PHP: the layer responsibilities, plus an index of which `laravel/` folder file owns each rule. |
 | [REACT_GUIDELINE.md](REACT_GUIDELINE.md) | React + TypeScript: the component roles, plus an index of which `react/` and `laravel-react/` folder file owns each rule. |
 | [REACT_NATIVE_GUIDELINE.md](REACT_NATIVE_GUIDELINE.md) | React Native on Expo: the screen/section/widget roles, what mobile adds, plus an index of which `react-native/` folder file owns each rule. |
+| [ASTRO_GUIDELINE.md](ASTRO_GUIDELINE.md) | Astro public website, SEO first and static on Cloudflare: how a page is built, plus an index of which `astro/` folder file owns each rule. |
 
 The general guideline is the base spec. The framework guidelines build on it, so an agent always follows the general one plus the framework one matching the code it is editing.
 
@@ -25,6 +26,7 @@ Folder trees of `CLAUDE.md` files to copy into a new project. Each stack has its
 | [react/](react/) | A standalone React app (Vite, CRA, or similar) |
 | [laravel-react/](laravel-react/) | Laravel with Inertia and React in one project |
 | [react-native/](react-native/) | A React Native app on Expo with `expo-router` |
+| [astro/](astro/) | A static Astro website (marketing site, product pages, blog) on Cloudflare Workers |
 
 Each one has its own `README.md` describing what each file covers.
 
@@ -45,6 +47,6 @@ To pull a shared document into a file, use an import line instead of copying the
 
 ## Status
 
-All four templates are complete: every folder file is written, and the three framework specs (`PHP_LARAVEL_GUIDELINE.md`, `REACT_GUIDELINE.md`, `REACT_NATIVE_GUIDELINE.md`) are indexes pointing at them.
+All five templates are complete: every folder file is written, and the four framework specs (`PHP_LARAVEL_GUIDELINE.md`, `REACT_GUIDELINE.md`, `REACT_NATIVE_GUIDELINE.md`, `ASTRO_GUIDELINE.md`) are indexes pointing at them. The `astro/` files also end with an `Open Decisions` section, each item carrying the default to follow until it is decided.
 
-Open questions are tracked as a checklist at the bottom of each template's `README.md`: [laravel/](laravel/README.md), [react/](react/README.md), [laravel-react/](laravel-react/README.md), and [react-native/](react-native/README.md).
+Open questions are tracked as a checklist at the bottom of each template's `README.md`: [laravel/](laravel/README.md), [react/](react/README.md), [laravel-react/](laravel-react/README.md), [react-native/](react-native/README.md), and [astro/](astro/README.md).
