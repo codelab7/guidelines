@@ -55,4 +55,4 @@ Read this list before adding a primitive. When you add or remove one, or change 
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Style guide page** - a `noindex` page that shows every primitive and section with its variants, so design drift is easy to spot. Default: yes, at `/styleguide`, left out of the sitemap.
-  - Decision:
+  - Decision: yes, Go with styleguide.

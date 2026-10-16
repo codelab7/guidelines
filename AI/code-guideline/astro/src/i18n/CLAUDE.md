@@ -29,6 +29,6 @@ i18n/
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Languages** - which languages the site launches with. Default: English only, and this folder stays unused.
-  - Decision:
+  - Decision: we'll keep this folder only if we use multi langauge. otherwise we'll remove it.
 - [ ] **Translated slugs** - keep the same slug in every language (`/de/pricing`) or translate it (`/de/preise`). Translated slugs rank slightly better locally but are harder to maintain. Default: same slug.
-  - Decision:
+  - Decision: same slug.

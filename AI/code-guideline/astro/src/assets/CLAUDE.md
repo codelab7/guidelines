@@ -48,4 +48,4 @@ assets/
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Image processing** - at build time with Astro (sharp), or on request with Cloudflare Images. Build time is free and simple. Cloudflare Images helps when there are thousands of images. Default: build time.
-  - Decision: 
+  - Decision:  build time.

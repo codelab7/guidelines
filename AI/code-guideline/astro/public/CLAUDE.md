@@ -43,6 +43,6 @@ public/
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Content Security Policy** - Astro's built-in CSP support (it hashes the site's own scripts and styles), a hand-written CSP in `_headers`, or none. A CSP blocks injected scripts but must list every third party. Default: Astro's built-in CSP support, once the analytics script is settled.
-  - Decision:
+  - Decision: Astro's built-in CSP support, once the analytics script is settled.
 - [ ] **HSTS preload** - add `preload` to `Strict-Transport-Security` and submit the domain to the browser preload list. It is hard to undo and covers every subdomain. Default: no preload.
-  - Decision:
+  - Decision: no preload

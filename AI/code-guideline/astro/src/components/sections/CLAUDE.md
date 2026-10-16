@@ -62,6 +62,6 @@ Read this list before building a section. When you add, rename, or remove one, o
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Hero media** - a static image or screenshot, a short muted looping video, or an illustration. Video looks alive but costs LCP and data on mobile. Default: an optimized static image.
-  - Decision:
+  - Decision: an optimized static image.
 - [ ] **Scroll animations** - none, CSS only (scroll-driven animations where supported), or the Motion library for sequences. Default: CSS only, and only on sections below the fold.
-  - Decision:
+  - Decision: motion library for sequences.

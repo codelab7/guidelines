@@ -63,8 +63,8 @@ Read this list before adding a component. When you add, rename, or remove one, o
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Share images** - one designed default image plus a hand-made override per page, or images generated at build time for every page (with `satori`). Default: the default image plus optional overrides.
-  - Decision:
+  - Decision: default image plus optional overrides.
 - [ ] **AI crawlers and answer engines** - allow AI crawlers such as GPTBot and ClaudeBot in `robots.txt`, block them, and whether to publish an `llms.txt` summary. Default: allow them, no `llms.txt`.
-  - Decision:
+  - Decision: allow them and also add llms.txt
 - [ ] **Title format** - `Page Title | Brand` or `Page Title - Brand`, and the home page title. Default: `Page Title | Brand`, and `Brand - Tagline` on the home page.
-  - Decision:
+  - Decision: Go with Default

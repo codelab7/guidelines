@@ -67,8 +67,8 @@ Read this list before adding a collection or an entry. When you add, rename, or 
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Content editing** - Markdown and MDX in git, edited by developers, or a CMS for non-developers (a git-based one such as Keystatic, or a hosted one such as Sanity or Storyblok). Default: Markdown and MDX in git.
-  - Decision:
+  - Decision: Markdown and MDX in git.
 - [ ] **Code blocks** - the built-in Shiki highlighting, or Expressive Code (copy button, file names, line markers) for a technical blog. Default: built-in Shiki.
-  - Decision:
+  - Decision: built-in Shiki
 - [ ] **Brand voice** - the tone of the copy: who we speak to, words we use and avoid. Default: clear, friendly, and confident. Write it in `docs/PROJECT_GUIDELINES.md` when decided.
-  - Decision:
+  - Decision: go with default.

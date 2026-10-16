@@ -60,6 +60,6 @@ Read this list before adding a part. When you add, rename, or remove one, update
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Navigation depth** - simple links, dropdowns per group, or a mega menu. Default: simple links, with dropdowns only for Features and Use Cases if they grow past five pages.
-  - Decision:
+  - Decision: hybrid. for small list, use dropdwons per group. otherwise go with megamenu.
 - [ ] **Announcement bar** - used for launches and offers, or not at all. Default: not used.
-  - Decision:
+  - Decision: depend on website.

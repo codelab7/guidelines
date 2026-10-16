@@ -37,4 +37,4 @@ Read this list before adding a constant. When you add, rename, or remove a file 
 Write the answer after `Decision:`. Until an item is decided, follow its default.
 
 - [ ] **Pricing source** - a content collection (`src/content/pricing.yaml`), a constant here, or fetched from the billing system at build time. Default: a content collection.
-  - Decision:
+  - Decision: based on project. hard to tell at this point.
